@@ -1,0 +1,23 @@
+package com.thomashan.coup;
+
+public class DrawnCard {
+    private final Card card;
+    private final Deck deck;
+
+    private DrawnCard(Card card, Deck deck) {
+        this.card = card;
+        this.deck = deck;
+    }
+
+    public Card getCard() {
+        return card;
+    }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public static DrawnCard of(Card card, Deck deck) {
+        return new DrawnCard(card, deck);
+    }
+}
