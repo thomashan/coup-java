@@ -2,16 +2,17 @@ package com.thomashan.coup;
 
 import org.junit.jupiter.api.Test;
 
-import static com.thomashan.coup.Actions.ASSASSINATE;
-import static com.thomashan.coup.Actions.COUP;
-import static com.thomashan.coup.Actions.EXCHANGE;
-import static com.thomashan.coup.Actions.INCOME;
-import static com.thomashan.coup.Actions.STEAL;
-import static com.thomashan.coup.Actions.TAX;
+import static com.thomashan.coup.Action.ASSASSINATE;
+import static com.thomashan.coup.Action.COUP;
+import static com.thomashan.coup.Action.EXCHANGE;
+import static com.thomashan.coup.Action.FOREIGN_AID;
+import static com.thomashan.coup.Action.INCOME;
+import static com.thomashan.coup.Action.STEAL;
+import static com.thomashan.coup.Action.TAX;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class ActionsTest {
+class ActionTest {
     @Test
     public void testIsAllowable_ReturnsFalse_AssassinateWithLessThanThreeCoins() {
         assertFalse(ASSASSINATE.isAllowable(2));
@@ -89,7 +90,22 @@ class ActionsTest {
 
     @Test
     public void testIsAllowable_ReturnsFalse_IncomeWithMoreThan10Coins() {
-        assertFalse(INCOME.isAllowable(10));
+        assertFalse(INCOME.isAllowable(11));
+    }
+
+    @Test
+    public void testIsAllowable_ReturnsTrue_ForeignAidLessThan10Coins() {
+        assertTrue(FOREIGN_AID.isAllowable(9));
+    }
+
+    @Test
+    public void testIsAllowable_ReturnsFalse_ForeignAidWith10Coins() {
+        assertFalse(FOREIGN_AID.isAllowable(10));
+    }
+
+    @Test
+    public void testIsAllowable_ReturnsFalse_ForeignAidWithMoreThan10Coins() {
+        assertFalse(FOREIGN_AID.isAllowable(11));
     }
 
     @Test
@@ -104,6 +120,6 @@ class ActionsTest {
 
     @Test
     public void testIsAllowable_ReturnsFalse_CoupWithMoreThanSevenCoins() {
-        assertTrue(COUP.isAllowable(7));
+        assertTrue(COUP.isAllowable(8));
     }
 }
