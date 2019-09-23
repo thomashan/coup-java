@@ -10,9 +10,17 @@ public interface Deck {
     Deck shuffle();
 
     /**
-     * Return the drawn card and remove from the deck.
+     * Return the drawn card and the new deck with drawn card removed.
      *
-     * @return DrawnCard which has the drawn card and the new Deck.
+     * @return DrawnCard which has the drawn card and the new Deck with drawn card removed.
      */
     DrawnCard draw();
+
+    /**
+     * Return the new deck with the card added.
+     *
+     * @param card The card to add to the deck.
+     * @return Deck the new deck with the card added.
+     */
+    Deck add(Card card);
 }

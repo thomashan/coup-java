@@ -68,4 +68,12 @@ public class StandardDeck implements Deck {
 
         return DrawnCard.of(removedCard, new StandardDeck(cards));
     }
+
+    @Override
+    public Deck add(Card card) {
+        List<Card> newCards = new ArrayList<>(cards);
+        newCards.add(card);
+
+        return new StandardDeck(newCards);
+    }
 }

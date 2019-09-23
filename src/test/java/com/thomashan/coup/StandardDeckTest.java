@@ -56,4 +56,12 @@ class StandardDeckTest {
 
         assertEquals(14, drawnCard.getDeck().getCards().size());
     }
+
+    @Test
+    public void testAdd_AddANewCardToDeck() {
+        Deck newDeck = deck.add(AMBASSADOR);
+
+        assertEquals(16, newDeck.getCards().size());
+        assertEquals(4, newDeck.getCards().stream().filter(card -> card == AMBASSADOR).count());
+    }
 }
