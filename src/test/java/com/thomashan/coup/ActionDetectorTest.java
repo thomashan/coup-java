@@ -6,12 +6,9 @@ import static com.thomashan.coup.Action.ASSASSINATE;
 import static com.thomashan.coup.Action.EXCHANGE;
 import static com.thomashan.coup.Action.STEAL;
 import static com.thomashan.coup.Action.TAX;
-
-import static com.thomashan.coup.BlockAction.BLOCK_STEAL;
-import static com.thomashan.coup.BlockAction.BLOCK_FOREIGN_AID;
 import static com.thomashan.coup.BlockAction.BLOCK_ASSASSINATE;
-
-
+import static com.thomashan.coup.BlockAction.BLOCK_FOREIGN_AID;
+import static com.thomashan.coup.BlockAction.BLOCK_STEAL;
 import static com.thomashan.coup.Card.AMBASSADOR;
 import static com.thomashan.coup.Card.ASSASSIN;
 import static com.thomashan.coup.Card.CAPTAIN;

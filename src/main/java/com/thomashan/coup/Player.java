@@ -5,10 +5,10 @@ public class Player {
     private final PlayerCard playerCard1;
     private final PlayerCard playerCard2;
 
-    private Player(PlayerCard playerCard1, PlayerCard playerCard2, int coins) {
+    private Player(int coins, PlayerCard playerCard1, PlayerCard playerCard2) {
+        this.coins = coins;
         this.playerCard1 = playerCard1;
         this.playerCard2 = playerCard2;
-        this.coins = coins;
     }
 
     public boolean isActive() {
@@ -27,7 +27,7 @@ public class Player {
         return playerCard2;
     }
 
-    public static Player of(PlayerCard playerCard1, PlayerCard playerCard2) {
-        return new Player(playerCard1, playerCard2, 2);
+    public static Player of(Card card1, Card card2) {
+        return new Player(2, PlayerCard.of(card1), PlayerCard.of(card2));
     }
 }
