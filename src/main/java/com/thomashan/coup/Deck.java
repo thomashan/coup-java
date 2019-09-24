@@ -7,6 +7,8 @@ public interface Deck {
 
     List<Card> getCards();
 
+    int getNumberOfCards();
+
     Deck shuffle();
 
     /**

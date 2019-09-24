@@ -48,6 +48,11 @@ public class StandardDeck implements Deck {
     }
 
     @Override
+    public int getNumberOfCards() {
+        return cards.size();
+    }
+
+    @Override
     public Card getTopOfDeck() {
         return cards.get(cards.size() - 1);
     }
