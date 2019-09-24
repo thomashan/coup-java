@@ -13,7 +13,7 @@ import static com.thomashan.coup.Card.DUKE;
 public class StandardDeck implements Deck {
     private final List<Card> cards;
 
-    public StandardDeck() {
+    private StandardDeck() {
         List<Card> initialDeck = new ArrayList<>();
         initialDeck.add(DUKE);
         initialDeck.add(DUKE);
@@ -75,5 +75,9 @@ public class StandardDeck implements Deck {
         newCards.add(card);
 
         return new StandardDeck(newCards);
+    }
+
+    public static Deck create() {
+        return new StandardDeck();
     }
 }

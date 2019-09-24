@@ -11,10 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 class StandardDeckTest {
-    private Deck deck = new StandardDeck();
+    private Deck deck = StandardDeck.create();
 
     @Test
-    public void testNullConstructor_ThreeOfEachCard() {
+    public void testCreate_ThreeOfEachCard() {
         assertEquals(3, deck.getCards().stream().filter(card -> card == AMBASSADOR).count());
         assertEquals(3, deck.getCards().stream().filter(card -> card == ASSASSIN).count());
         assertEquals(3, deck.getCards().stream().filter(card -> card == CAPTAIN).count());
@@ -23,13 +23,13 @@ class StandardDeckTest {
     }
 
     @Test
-    public void testNullConstructor_InitialSizeIs15() {
+    public void testCreate_InitialSizeIs15() {
         assertEquals(15, deck.getCards().size());
     }
 
     @Test
     public void testNullConstructor_IsRandom() {
-        Deck otherDeck = new StandardDeck();
+        Deck otherDeck = StandardDeck.create();
 
         assertNotEquals(deck.getCards(), otherDeck.getCards());
     }
