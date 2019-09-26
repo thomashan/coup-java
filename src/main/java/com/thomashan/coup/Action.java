@@ -2,24 +2,34 @@ package com.thomashan.coup;
 
 import java.util.Optional;
 
+import static com.thomashan.coup.BlockAction.BLOCK_ASSASSINATE;
+import static com.thomashan.coup.BlockAction.BLOCK_FOREIGN_AID;
+import static com.thomashan.coup.BlockAction.BLOCK_STEAL;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
 public enum Action {
-    ASSASSINATE(of(3), of(10)),
-    TAX(empty(), of(10)),
-    STEAL(empty(), of(10)),
-    EXCHANGE(empty(), of(10)),
-    INCOME(empty(), of(10)),
-    FOREIGN_AID(empty(), of(10)),
-    COUP(of(7), empty());
+    ASSASSINATE(of(3), of(10), true, of(BLOCK_ASSASSINATE)),
+    TAX(empty(), of(10), true, empty()),
+    STEAL(empty(), of(10), true, of(BLOCK_STEAL)),
+    EXCHANGE(empty(), of(10), true, empty()),
+    INCOME(empty(), of(10), false, empty()),
+    FOREIGN_AID(empty(), of(10), true, of(BLOCK_FOREIGN_AID)),
+    COUP(of(7), empty(), false, empty());
 
     private final Optional<Integer> minimumCoins;
     private final Optional<Integer> maximumCoins;
+    private final boolean challengeable;
+    private final Optional<BlockAction> blockAction;
 
-    Action(Optional<Integer> minimumCoins, Optional<Integer> maximumCoins) {
+    Action(Optional<Integer> minimumCoins,
+           Optional<Integer> maximumCoins,
+           boolean challengeable,
+           Optional<BlockAction> blockAction) {
         this.minimumCoins = minimumCoins;
         this.maximumCoins = maximumCoins;
+        this.challengeable = challengeable;
+        this.blockAction = blockAction;
     }
 
     public Optional<Integer> getMinimumCoins() {
@@ -28,6 +38,18 @@ public enum Action {
 
     public Optional<Integer> getMaximumCoins() {
         return maximumCoins;
+    }
+
+    public boolean isChallengeable() {
+        return challengeable;
+    }
+
+    public boolean isBlockable() {
+        return blockAction.isPresent();
+    }
+
+    public Optional<BlockAction> getBlockAction() {
+        return blockAction;
     }
 
     public boolean isAllowable(int coins) {
