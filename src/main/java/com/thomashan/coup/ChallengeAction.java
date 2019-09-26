@@ -1,6 +1,16 @@
 package com.thomashan.coup;
 
-public enum ChallengeAction {
+public enum ChallengeAction implements Action {
     CHALLENGE,
-    ALLOW
+    ALLOW;
+
+    @Override
+    public boolean isChallengeable() {
+        return false;
+    }
+
+    @Override
+    public boolean isBlockable() {
+        return false;
+    }
 }

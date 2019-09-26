@@ -15,6 +15,14 @@ public class Player {
         this.playerCard2 = playerCard2;
     }
 
+    public Player revealCard1() {
+        return new Player(coins, playerCard1.reveal(), playerCard2);
+    }
+
+    public Player revealCard2() {
+        return new Player(coins, playerCard1, playerCard2.reveal());
+    }
+
     public boolean isActive() {
         return playerCard1.isHidden() && playerCard2.isHidden();
     }

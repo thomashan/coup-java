@@ -8,7 +8,7 @@ import static com.thomashan.coup.BlockAction.BLOCK_STEAL;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
-public enum MainAction {
+public enum MainAction implements Action {
     ASSASSINATE(of(3), of(10), true, of(BLOCK_ASSASSINATE)),
     TAX(empty(), of(10), true, empty()),
     STEAL(empty(), of(10), true, of(BLOCK_STEAL)),
@@ -40,10 +40,12 @@ public enum MainAction {
         return maximumCoins;
     }
 
+    @Override
     public boolean isChallengeable() {
         return challengeable;
     }
 
+    @Override
     public boolean isBlockable() {
         return blockAction.isPresent();
     }

@@ -7,7 +7,10 @@ import java.util.stream.Stream;
 
 import static com.thomashan.coup.ChallengeAction.CHALLENGE;
 import static com.thomashan.coup.TurnAction.ACTION;
+import static com.thomashan.coup.TurnAction.BLOCK_ACTION;
 import static com.thomashan.coup.TurnAction.CHALLENGE_ACTION;
+import static com.thomashan.coup.TurnAction.CHALLENGE_BLOCK;
+import static com.thomashan.coup.TurnAction.REVEAL_CHALLENGE;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
@@ -54,10 +57,15 @@ public class StandardTurn implements Turn {
         return getCurrentTurnPlayer().getAllowableMainActions();
     }
 
+
     @Override
-    public Turn attemptAction(MainAction mainAction) {
+    public Turn attemptMainAction(MainAction mainAction) {
         if (turnAction != ACTION) {
             throw new IllegalArgumentException("We expect you to perform " + turnAction.getDescription());
+        }
+
+        if (!getCurrentTurnPlayer().getAllowableMainActions().contains(mainAction)) {
+            throw new IllegalArgumentException("You can't perform " + mainAction + ".You can perform the following actions " + getCurrentTurnPlayer().getAllowableMainActions());
         }
 
         if (mainAction.isChallengeable()) {
@@ -68,27 +76,51 @@ public class StandardTurn implements Turn {
     }
 
     @Override
-    public Turn attemptBlockAction(BlockAction blockAction) {
-        return new StandardTurn(players, turnNumber, CHALLENGE_ACTION);
+    public Turn attemptBlock(BlockAction blockAction) {
+        return new StandardTurn(players, turnNumber, CHALLENGE_BLOCK);
     }
 
     @Override
-    public Turn challengeAction(List<PlayerChallengeAction> playerChallengeActions) {
+    public Turn challengeMainAction(List<PlayerChallengeAction> playerChallengeActions) {
         if (turnAction != CHALLENGE_ACTION) {
             throw new IllegalArgumentException("We expect you to perform " + turnAction.getDescription());
         }
 
-        Supplier<Stream<PlayerChallengeAction>> challengeActionsSupplier = () -> playerChallengeActions.stream().filter(a -> a.getChallengeAction() == CHALLENGE);
-//        Stream<PlayerChallengeAction> challengeActions = challengeActionsSupplier.get().count();
+        Supplier<Stream<PlayerChallengeAction>> challengeActionsSupplier = () -> playerChallengeActions
+                .stream()
+                .filter(a -> a.getChallengeAction() == CHALLENGE);
+
+        if (challengeActionsSupplier.get().count() == 0) {
+            if (action.get().isBlockable()) {
+                return new StandardTurn(players, turnNumber, action.get(), BLOCK_ACTION);
+            }
+
+            return new StandardTurn(players, turnNumber + 1, ACTION);
+        }
+
+        return new StandardTurn(players, turnNumber, REVEAL_CHALLENGE);
+    }
+
+    @Override
+    public Turn reveal() {
+        return new StandardTurn(players, turnNumber + 1, ACTION);
+    }
+
+    @Override
+    public Turn challengeBlock(List<PlayerChallengeAction> playerChallengeActions) {
+        if (turnAction != CHALLENGE_BLOCK) {
+            throw new IllegalArgumentException("We expect you to perform " + turnAction.getDescription());
+        }
+
+        Supplier<Stream<PlayerChallengeAction>> challengeActionsSupplier = () -> playerChallengeActions
+                .stream()
+                .filter(a -> a.getChallengeAction() == CHALLENGE);
 
         if (challengeActionsSupplier.get().count() == 0) {
             return new StandardTurn(players, turnNumber + 1, ACTION);
         }
 
-//        challengeActionsSupplier.get().findAny().get()
-
-        return null;
-
+        return new StandardTurn(players, turnNumber, REVEAL_CHALLENGE);
     }
 
     public static Turn create(Players players) {

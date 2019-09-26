@@ -12,9 +12,13 @@ public interface Turn {
 
     List<MainAction> getAllowableActions();
 
-    Turn attemptAction(MainAction mainAction);
+    Turn attemptMainAction(MainAction mainAction);
 
-    Turn attemptBlockAction(BlockAction blockAction);
+    Turn attemptBlock(BlockAction blockAction);
 
-    Turn challengeAction(List<PlayerChallengeAction> playerChallengeActions);
+    Turn challengeMainAction(List<PlayerChallengeAction> playerChallengeActions);
+
+    Turn challengeBlock(List<PlayerChallengeAction> playerChallengeActions);
+
+    Turn reveal();
 }

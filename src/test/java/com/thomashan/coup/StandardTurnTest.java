@@ -13,11 +13,11 @@ class StandardTurnTest {
 
     @Test
     public void testAttemptAction_Income_CannotBeChallenged() {
-        assertEquals(1, turn.attemptAction(INCOME).getTurnNumber());
+        assertEquals(1, turn.attemptMainAction(INCOME).getTurnNumber());
     }
 
     @Test
     public void testAttemptAction_Coup_CannotBeChallenged() {
-        assertEquals(1, turn.attemptAction(COUP).getTurnNumber());
+        assertEquals(1, turn.attemptMainAction(COUP).getTurnNumber());
     }
 }
