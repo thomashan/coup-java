@@ -2,10 +2,10 @@ package com.thomashan.coup;
 
 import org.junit.jupiter.api.Test;
 
-import static com.thomashan.coup.Action.ASSASSINATE;
-import static com.thomashan.coup.Action.EXCHANGE;
-import static com.thomashan.coup.Action.STEAL;
-import static com.thomashan.coup.Action.TAX;
+import static com.thomashan.coup.MainAction.ASSASSINATE;
+import static com.thomashan.coup.MainAction.EXCHANGE;
+import static com.thomashan.coup.MainAction.STEAL;
+import static com.thomashan.coup.MainAction.TAX;
 import static com.thomashan.coup.BlockAction.BLOCK_ASSASSINATE;
 import static com.thomashan.coup.BlockAction.BLOCK_FOREIGN_AID;
 import static com.thomashan.coup.BlockAction.BLOCK_STEAL;
@@ -18,7 +18,7 @@ import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class ActionDetectorTest {
+class MainActionDetectorTest {
     @Test
     public void testIsBluff_ReturnsFalse_Assassinate_HasAssassin() {
         assertFalse(ActionDetector.isBluff(ASSASSINATE, singletonList(ASSASSIN)));

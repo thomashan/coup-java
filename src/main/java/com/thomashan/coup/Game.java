@@ -9,7 +9,7 @@ public class Game {
     private final Players players;
     private final int numberOfPlayers;
     private final Deck deck;
-    private final List<Action> actionHistory;
+    private final List<MainAction> actionHistory;
 
     private Game(Deck deck, Players players) {
         this.numberOfPlayers = 0;
@@ -57,7 +57,7 @@ public class Game {
         return numberOfPlayers;
     }
 
-    public List<Action> getActionHistory() {
+    public List<MainAction> getActionHistory() {
         return actionHistory;
     }
 

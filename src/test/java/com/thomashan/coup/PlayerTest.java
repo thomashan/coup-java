@@ -4,14 +4,14 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static com.thomashan.coup.Action.ASSASSINATE;
-import static com.thomashan.coup.Action.COUP;
-import static com.thomashan.coup.Action.EXCHANGE;
-import static com.thomashan.coup.Action.FOREIGN_AID;
-import static com.thomashan.coup.Action.INCOME;
-import static com.thomashan.coup.Action.STEAL;
-import static com.thomashan.coup.Action.TAX;
 import static com.thomashan.coup.Card.AMBASSADOR;
+import static com.thomashan.coup.MainAction.ASSASSINATE;
+import static com.thomashan.coup.MainAction.COUP;
+import static com.thomashan.coup.MainAction.EXCHANGE;
+import static com.thomashan.coup.MainAction.FOREIGN_AID;
+import static com.thomashan.coup.MainAction.INCOME;
+import static com.thomashan.coup.MainAction.STEAL;
+import static com.thomashan.coup.MainAction.TAX;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -59,37 +59,37 @@ class PlayerTest {
 
     @Test
     public void testGetAllowableActions_ReturnsCorrectActions_PlayerWith2Coins() {
-        assertIterableEquals(Arrays.asList(TAX, STEAL, EXCHANGE, INCOME, FOREIGN_AID), createPlayer(2).getAllowableActions());
+        assertIterableEquals(Arrays.asList(TAX, STEAL, EXCHANGE, INCOME, FOREIGN_AID), createPlayer(2).getAllowableMainActions());
     }
 
     @Test
     public void testGetAllowableActions_ReturnsCorrectActions_PlayerWith3Coins() {
-        assertIterableEquals(Arrays.asList(ASSASSINATE, TAX, STEAL, EXCHANGE, INCOME, FOREIGN_AID), createPlayer(3).getAllowableActions());
+        assertIterableEquals(Arrays.asList(ASSASSINATE, TAX, STEAL, EXCHANGE, INCOME, FOREIGN_AID), createPlayer(3).getAllowableMainActions());
     }
 
     @Test
     public void testGetAllowableActions_ReturnsCorrectActions_PlayerWith6Coins() {
-        assertIterableEquals(Arrays.asList(ASSASSINATE, TAX, STEAL, EXCHANGE, INCOME, FOREIGN_AID), createPlayer(6).getAllowableActions());
+        assertIterableEquals(Arrays.asList(ASSASSINATE, TAX, STEAL, EXCHANGE, INCOME, FOREIGN_AID), createPlayer(6).getAllowableMainActions());
     }
 
     @Test
     public void testGetAllowableActions_ReturnsCorrectActions_PlayerWith7Coins() {
-        assertIterableEquals(Arrays.asList(ASSASSINATE, TAX, STEAL, EXCHANGE, INCOME, FOREIGN_AID, COUP), createPlayer(7).getAllowableActions());
+        assertIterableEquals(Arrays.asList(ASSASSINATE, TAX, STEAL, EXCHANGE, INCOME, FOREIGN_AID, COUP), createPlayer(7).getAllowableMainActions());
     }
 
     @Test
     public void testGetAllowableActions_ReturnsCorrectActions_PlayerWith9Coins() {
-        assertIterableEquals(Arrays.asList(ASSASSINATE, TAX, STEAL, EXCHANGE, INCOME, FOREIGN_AID, COUP), createPlayer(9).getAllowableActions());
+        assertIterableEquals(Arrays.asList(ASSASSINATE, TAX, STEAL, EXCHANGE, INCOME, FOREIGN_AID, COUP), createPlayer(9).getAllowableMainActions());
     }
 
     @Test
     public void testGetAllowableActions_ReturnsCoup_PlayerWith10Coins() {
-        assertIterableEquals(Arrays.asList(COUP), createPlayer(10).getAllowableActions());
+        assertIterableEquals(Arrays.asList(COUP), createPlayer(10).getAllowableMainActions());
     }
 
     @Test
     public void testGetAllowableActions_ReturnsCoup_PlayerWith11Coins() {
-        assertIterableEquals(Arrays.asList(COUP), createPlayer(11).getAllowableActions());
+        assertIterableEquals(Arrays.asList(COUP), createPlayer(11).getAllowableMainActions());
     }
 
     private Player createPlayer(int coins) {

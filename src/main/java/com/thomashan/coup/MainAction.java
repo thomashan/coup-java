@@ -8,7 +8,7 @@ import static com.thomashan.coup.BlockAction.BLOCK_STEAL;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
-public enum Action {
+public enum MainAction {
     ASSASSINATE(of(3), of(10), true, of(BLOCK_ASSASSINATE)),
     TAX(empty(), of(10), true, empty()),
     STEAL(empty(), of(10), true, of(BLOCK_STEAL)),
@@ -22,10 +22,10 @@ public enum Action {
     private final boolean challengeable;
     private final Optional<BlockAction> blockAction;
 
-    Action(Optional<Integer> minimumCoins,
-           Optional<Integer> maximumCoins,
-           boolean challengeable,
-           Optional<BlockAction> blockAction) {
+    MainAction(Optional<Integer> minimumCoins,
+               Optional<Integer> maximumCoins,
+               boolean challengeable,
+               Optional<BlockAction> blockAction) {
         this.minimumCoins = minimumCoins;
         this.maximumCoins = maximumCoins;
         this.challengeable = challengeable;
