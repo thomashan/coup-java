@@ -6,7 +6,7 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import static com.thomashan.coup.ChallengeAction.CHALLENGE;
-import static com.thomashan.coup.TurnAction.ACTION;
+import static com.thomashan.coup.TurnAction.MAIN_ACTION;
 import static com.thomashan.coup.TurnAction.BLOCK_ACTION;
 import static com.thomashan.coup.TurnAction.CHALLENGE_ACTION;
 import static com.thomashan.coup.TurnAction.CHALLENGE_BLOCK;
@@ -25,7 +25,7 @@ public class StandardTurn implements Turn {
     }
 
     private StandardTurn(Players players, int turnNumber) {
-        this(players, turnNumber, ACTION);
+        this(players, turnNumber, MAIN_ACTION);
     }
 
     private StandardTurn(Players players, int turnNumber, TurnAction turnAction) {
@@ -60,7 +60,7 @@ public class StandardTurn implements Turn {
 
     @Override
     public Turn attemptMainAction(MainAction mainAction) {
-        if (turnAction != ACTION) {
+        if (turnAction != MAIN_ACTION) {
             throw new IllegalArgumentException("We expect you to perform " + turnAction.getDescription());
         }
 
@@ -72,7 +72,7 @@ public class StandardTurn implements Turn {
             return new StandardTurn(players, turnNumber, mainAction, CHALLENGE_ACTION);
         }
 
-        return new StandardTurn(players, turnNumber + 1, ACTION);
+        return new StandardTurn(players, turnNumber + 1, MAIN_ACTION);
     }
 
     @Override
@@ -95,7 +95,7 @@ public class StandardTurn implements Turn {
                 return new StandardTurn(players, turnNumber, action.get(), BLOCK_ACTION);
             }
 
-            return new StandardTurn(players, turnNumber + 1, ACTION);
+            return new StandardTurn(players, turnNumber + 1, MAIN_ACTION);
         }
 
         return new StandardTurn(players, turnNumber, REVEAL_CHALLENGE);
@@ -103,7 +103,7 @@ public class StandardTurn implements Turn {
 
     @Override
     public Turn reveal() {
-        return new StandardTurn(players, turnNumber + 1, ACTION);
+        return new StandardTurn(players, turnNumber + 1, MAIN_ACTION);
     }
 
     @Override
@@ -117,7 +117,7 @@ public class StandardTurn implements Turn {
                 .filter(a -> a.getChallengeAction() == CHALLENGE);
 
         if (challengeActionsSupplier.get().count() == 0) {
-            return new StandardTurn(players, turnNumber + 1, ACTION);
+            return new StandardTurn(players, turnNumber + 1, MAIN_ACTION);
         }
 
         return new StandardTurn(players, turnNumber, REVEAL_CHALLENGE);

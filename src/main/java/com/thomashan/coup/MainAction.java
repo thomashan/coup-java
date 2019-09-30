@@ -5,6 +5,9 @@ import java.util.Optional;
 import static com.thomashan.coup.BlockAction.BLOCK_ASSASSINATE;
 import static com.thomashan.coup.BlockAction.BLOCK_FOREIGN_AID;
 import static com.thomashan.coup.BlockAction.BLOCK_STEAL;
+import static com.thomashan.coup.TurnAction.BLOCK_ACTION;
+import static com.thomashan.coup.TurnAction.CHALLENGE_ACTION;
+import static com.thomashan.coup.TurnAction.COMPLETED;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
@@ -48,6 +51,18 @@ public enum MainAction implements Action {
     @Override
     public boolean isBlockable() {
         return blockAction.isPresent();
+    }
+
+    public TurnAction getNextTurnAction() {
+        if (challengeable) {
+            return CHALLENGE_ACTION;
+        }
+
+        if (isBlockable()) {
+            return BLOCK_ACTION;
+        }
+
+        return COMPLETED;
     }
 
     public Optional<BlockAction> getBlockAction() {

@@ -13,20 +13,35 @@ public class PlayerAction {
     private static final List<MainAction> actionRequiresTarget = Arrays.asList(ASSASSINATE, STEAL, COUP);
     private final MainAction mainAction;
     private final Player player;
+    private final TurnAction turnAction;
     private final Optional<Player> target;
+    private final Optional<List<ChallengeAction>> challengeActions;
+    private final Optional<BlockAction> blockAction;
+    private final Optional<List<ChallengeAction>> blockChallengeActions;
 
     private PlayerAction(Player player, MainAction mainAction, Player target) {
-        checkPreconditionsTargetRequired(player, mainAction, target);
+        checkPreconditions(player, mainAction, target);
+
         this.player = player;
         this.mainAction = mainAction;
-        this.target = Optional.of(target);
+        this.turnAction = mainAction.getNextTurnAction();
+        this.challengeActions = empty();
+        this.blockAction = empty();
+        this.blockChallengeActions = empty();
+
+        if (target != null) {
+            this.target = Optional.of(target);
+        } else {
+            this.target = empty();
+        }
     }
 
-    private PlayerAction(Player player, MainAction mainAction) {
-        checkPreconditionsNoTarget(player, mainAction);
-        this.player = player;
-        this.mainAction = mainAction;
-        this.target = empty();
+    private void checkPreconditions(Player player, MainAction mainAction, Player target) {
+        if (target != null) {
+            checkPreconditionsTargetRequired(player, mainAction, target);
+        } else {
+            checkPreconditionsNoTarget(player, mainAction);
+        }
     }
 
     private void checkPreconditionsNoTarget(Player player, MainAction mainAction) {
@@ -85,7 +100,7 @@ public class PlayerAction {
     }
 
     public static PlayerAction of(Player player, MainAction mainAction) {
-        return new PlayerAction(player, mainAction);
+        return new PlayerAction(player, mainAction, null);
     }
 
     public static PlayerAction of(Player player, MainAction mainAction, Player target) {
