@@ -1,13 +1,15 @@
-package com.thomashan.coup;
+package com.thomashan.coup.action;
+
+import com.thomashan.coup.TurnAction;
 
 import java.util.Optional;
 
-import static com.thomashan.coup.BlockActionType.BLOCK_ASSASSINATE;
-import static com.thomashan.coup.BlockActionType.BLOCK_FOREIGN_AID;
-import static com.thomashan.coup.BlockActionType.BLOCK_STEAL;
 import static com.thomashan.coup.TurnAction.BLOCK_ACTION;
 import static com.thomashan.coup.TurnAction.CHALLENGE_ACTION;
 import static com.thomashan.coup.TurnAction.COMPLETED;
+import static com.thomashan.coup.action.BlockActionType.BLOCK_ASSASSINATE;
+import static com.thomashan.coup.action.BlockActionType.BLOCK_FOREIGN_AID;
+import static com.thomashan.coup.action.BlockActionType.BLOCK_STEAL;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 

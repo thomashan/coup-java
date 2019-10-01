@@ -11,10 +11,14 @@ public class StandardPlayers implements Players {
     }
 
     private StandardPlayers(List<Player> players, Player player) {
-        List playerList = new ArrayList<>(players);
+        List<Player> playerList = new ArrayList<>(players);
         playerList.add(player);
 
         this.players = playerList;
+    }
+
+    public static Players create() {
+        return new StandardPlayers();
     }
 
     @Override
@@ -30,9 +34,5 @@ public class StandardPlayers implements Players {
     @Override
     public Players addPlayer(Player player) {
         return new StandardPlayers(players, player);
-    }
-
-    public static Players create() {
-        return new StandardPlayers();
     }
 }

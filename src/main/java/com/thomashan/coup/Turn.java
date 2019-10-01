@@ -1,5 +1,9 @@
 package com.thomashan.coup;
 
+import com.thomashan.coup.action.BlockActionType;
+import com.thomashan.coup.action.MainActionType;
+import com.thomashan.coup.action.PlayerChallengeAction;
+
 import java.util.List;
 
 /**

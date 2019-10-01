@@ -2,8 +2,8 @@ package com.thomashan.coup;
 
 import org.junit.jupiter.api.Test;
 
-import static com.thomashan.coup.MainActionType.COUP;
-import static com.thomashan.coup.MainActionType.INCOME;
+import static com.thomashan.coup.action.MainActionType.COUP;
+import static com.thomashan.coup.action.MainActionType.INCOME;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class StandardTurnTest {

@@ -1,19 +1,21 @@
-package com.thomashan.coup;
+package com.thomashan.coup.action;
+
+import com.thomashan.coup.Card;
 
 import java.util.List;
 
-import static com.thomashan.coup.BlockActionType.BLOCK_ASSASSINATE;
-import static com.thomashan.coup.BlockActionType.BLOCK_FOREIGN_AID;
-import static com.thomashan.coup.BlockActionType.BLOCK_STEAL;
 import static com.thomashan.coup.Card.AMBASSADOR;
 import static com.thomashan.coup.Card.ASSASSIN;
 import static com.thomashan.coup.Card.CAPTAIN;
 import static com.thomashan.coup.Card.CONTESSA;
 import static com.thomashan.coup.Card.DUKE;
-import static com.thomashan.coup.MainActionType.ASSASSINATE;
-import static com.thomashan.coup.MainActionType.EXCHANGE;
-import static com.thomashan.coup.MainActionType.STEAL;
-import static com.thomashan.coup.MainActionType.TAX;
+import static com.thomashan.coup.action.BlockActionType.BLOCK_ASSASSINATE;
+import static com.thomashan.coup.action.BlockActionType.BLOCK_FOREIGN_AID;
+import static com.thomashan.coup.action.BlockActionType.BLOCK_STEAL;
+import static com.thomashan.coup.action.MainActionType.ASSASSINATE;
+import static com.thomashan.coup.action.MainActionType.EXCHANGE;
+import static com.thomashan.coup.action.MainActionType.STEAL;
+import static com.thomashan.coup.action.MainActionType.TAX;
 
 public class ActionDetector {
     private ActionDetector() {
@@ -33,11 +35,7 @@ public class ActionDetector {
             return true;
         }
 
-        if (mainActionType == TAX && !cards.contains(DUKE)) {
-            return true;
-        }
-
-        return false;
+        return mainActionType == TAX && !cards.contains(DUKE);
     }
 
     public static boolean isBluff(BlockActionType blockActionType, List<Card> cards) {
@@ -51,10 +49,6 @@ public class ActionDetector {
             }
         }
 
-        if (blockActionType == BLOCK_FOREIGN_AID && !cards.contains(DUKE)) {
-            return true;
-        }
-
-        return false;
+        return blockActionType == BLOCK_FOREIGN_AID && !cards.contains(DUKE);
     }
 }

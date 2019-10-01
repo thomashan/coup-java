@@ -1,5 +1,7 @@
 package com.thomashan.coup;
 
+import com.thomashan.coup.action.MainActionType;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,6 +43,10 @@ public class Game {
         this.deck = game.getDeck();
     }
 
+    public static Game create(int numberOfPlayers) {
+        return new Game(numberOfPlayers);
+    }
+
     private Game createPlayer(Deck deck, Players players) {
         DrawnCard drawnCard1 = deck.draw();
         Deck newDeck = drawnCard1.getDeck();
@@ -71,9 +77,5 @@ public class Game {
 
     public Deck getDeck() {
         return deck;
-    }
-
-    public static Game create(int numberOfPlayers) {
-        return new Game(numberOfPlayers);
     }
 }

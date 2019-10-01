@@ -14,6 +14,10 @@ public class PlayerCard {
         this.shown = shown;
     }
 
+    public static PlayerCard of(Card card) {
+        return new PlayerCard(card);
+    }
+
     public Card getCard() {
         return card;
     }
@@ -28,9 +32,5 @@ public class PlayerCard {
 
     public PlayerCard reveal() {
         return new PlayerCard(card, true);
-    }
-
-    public static PlayerCard of(Card card) {
-        return new PlayerCard(card);
     }
 }

@@ -1,5 +1,7 @@
 package com.thomashan.coup;
 
+import com.thomashan.coup.action.MainActionType;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,6 +15,10 @@ public class Player {
         this.coins = coins;
         this.playerCard1 = playerCard1;
         this.playerCard2 = playerCard2;
+    }
+
+    public static Player of(Card card1, Card card2) {
+        return new Player(2, PlayerCard.of(card1), PlayerCard.of(card2));
     }
 
     public Player revealCard1() {
@@ -75,9 +81,5 @@ public class Player {
         return Arrays.stream(MainActionType.values())
                 .filter(action -> action.isAllowable(getCoins()))
                 .collect(Collectors.toList());
-    }
-
-    public static Player of(Card card1, Card card2) {
-        return new Player(2, PlayerCard.of(card1), PlayerCard.of(card2));
     }
 }

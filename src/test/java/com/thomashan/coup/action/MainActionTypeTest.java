@@ -1,14 +1,14 @@
-package com.thomashan.coup;
+package com.thomashan.coup.action;
 
 import org.junit.jupiter.api.Test;
 
-import static com.thomashan.coup.MainActionType.ASSASSINATE;
-import static com.thomashan.coup.MainActionType.COUP;
-import static com.thomashan.coup.MainActionType.EXCHANGE;
-import static com.thomashan.coup.MainActionType.FOREIGN_AID;
-import static com.thomashan.coup.MainActionType.INCOME;
-import static com.thomashan.coup.MainActionType.STEAL;
-import static com.thomashan.coup.MainActionType.TAX;
+import static com.thomashan.coup.action.MainActionType.ASSASSINATE;
+import static com.thomashan.coup.action.MainActionType.COUP;
+import static com.thomashan.coup.action.MainActionType.EXCHANGE;
+import static com.thomashan.coup.action.MainActionType.FOREIGN_AID;
+import static com.thomashan.coup.action.MainActionType.INCOME;
+import static com.thomashan.coup.action.MainActionType.STEAL;
+import static com.thomashan.coup.action.MainActionType.TAX;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 

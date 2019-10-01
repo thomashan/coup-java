@@ -1,11 +1,12 @@
-package com.thomashan.coup;
+package com.thomashan.coup.action;
 
+import com.thomashan.coup.Player;
 import org.junit.jupiter.api.Test;
 
-import static com.thomashan.coup.MainActionType.ASSASSINATE;
-import static com.thomashan.coup.MainActionType.COUP;
-import static com.thomashan.coup.MainActionType.STEAL;
 import static com.thomashan.coup.PlayerBuilder.build;
+import static com.thomashan.coup.action.MainActionType.ASSASSINATE;
+import static com.thomashan.coup.action.MainActionType.COUP;
+import static com.thomashan.coup.action.MainActionType.STEAL;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

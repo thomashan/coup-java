@@ -1,4 +1,4 @@
-package com.thomashan.coup;
+package com.thomashan.coup.action;
 
 public interface ActionType {
     boolean isChallengeable();

@@ -1,12 +1,15 @@
-package com.thomashan.coup;
+package com.thomashan.coup.action;
+
+import com.thomashan.coup.Player;
+import com.thomashan.coup.TurnAction;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.thomashan.coup.MainActionType.ASSASSINATE;
-import static com.thomashan.coup.MainActionType.COUP;
-import static com.thomashan.coup.MainActionType.STEAL;
+import static com.thomashan.coup.action.MainActionType.ASSASSINATE;
+import static com.thomashan.coup.action.MainActionType.COUP;
+import static com.thomashan.coup.action.MainActionType.STEAL;
 import static java.util.Optional.empty;
 
 public class PlayerAction {
@@ -34,6 +37,14 @@ public class PlayerAction {
         } else {
             this.target = empty();
         }
+    }
+
+    public static PlayerAction of(Player player, MainActionType mainActionType) {
+        return new PlayerAction(player, mainActionType, null);
+    }
+
+    public static PlayerAction of(Player player, MainActionType mainActionType, Player target) {
+        return new PlayerAction(player, mainActionType, target);
     }
 
     private void checkPreconditions(Player player, MainActionType mainActionType, Player target) {
@@ -97,13 +108,5 @@ public class PlayerAction {
 
     public Optional<Player> getTarget() {
         return target;
-    }
-
-    public static PlayerAction of(Player player, MainActionType mainActionType) {
-        return new PlayerAction(player, mainActionType, null);
-    }
-
-    public static PlayerAction of(Player player, MainActionType mainActionType, Player target) {
-        return new PlayerAction(player, mainActionType, target);
     }
 }

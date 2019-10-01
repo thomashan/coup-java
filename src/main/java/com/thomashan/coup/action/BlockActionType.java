@@ -1,8 +1,9 @@
-package com.thomashan.coup;
+package com.thomashan.coup.action;
 
-public enum ChallengeActionType implements ActionType {
-    CHALLENGE,
-    ALLOW;
+public enum BlockActionType implements ActionType {
+    BLOCK_ASSASSINATE,
+    BLOCK_STEAL,
+    BLOCK_FOREIGN_AID;
 
     @Override
     public boolean isChallengeable() {

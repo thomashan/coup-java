@@ -1,4 +1,6 @@
-package com.thomashan.coup;
+package com.thomashan.coup.action;
+
+import com.thomashan.coup.Player;
 
 public class PlayerChallengeAction {
     private final Player player;
@@ -9,15 +11,15 @@ public class PlayerChallengeAction {
         this.challengeActionType = challengeActionType;
     }
 
+    public static PlayerChallengeAction of(Player player, ChallengeActionType challengeActionType) {
+        return new PlayerChallengeAction(player, challengeActionType);
+    }
+
     public Player getPlayer() {
         return player;
     }
 
     public ChallengeActionType getChallengeActionType() {
         return challengeActionType;
-    }
-
-    public static PlayerChallengeAction of(Player player, ChallengeActionType challengeActionType) {
-        return new PlayerChallengeAction(player, challengeActionType);
     }
 }

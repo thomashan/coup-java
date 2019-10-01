@@ -43,6 +43,10 @@ public class StandardDeck implements Deck {
         cards = cardsToShuffle;
     }
 
+    public static Deck create() {
+        return new StandardDeck();
+    }
+
     private int getLastCardIndex() {
         return cards.size() - 1;
     }
@@ -80,9 +84,5 @@ public class StandardDeck implements Deck {
         newCards.add(card);
 
         return new StandardDeck(newCards);
-    }
-
-    public static Deck create() {
-        return new StandardDeck();
     }
 }

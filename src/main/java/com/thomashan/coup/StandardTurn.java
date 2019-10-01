@@ -1,16 +1,20 @@
 package com.thomashan.coup;
 
+import com.thomashan.coup.action.BlockActionType;
+import com.thomashan.coup.action.MainActionType;
+import com.thomashan.coup.action.PlayerChallengeAction;
+
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import static com.thomashan.coup.ChallengeActionType.CHALLENGE;
 import static com.thomashan.coup.TurnAction.BLOCK_ACTION;
 import static com.thomashan.coup.TurnAction.CHALLENGE_ACTION;
 import static com.thomashan.coup.TurnAction.CHALLENGE_BLOCK;
 import static com.thomashan.coup.TurnAction.MAIN_ACTION;
 import static com.thomashan.coup.TurnAction.REVEAL_CHALLENGE;
+import static com.thomashan.coup.action.ChallengeActionType.CHALLENGE;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
@@ -42,6 +46,10 @@ public class StandardTurn implements Turn {
         this.turnAction = turnAction;
     }
 
+    public static Turn create(Players players) {
+        return new StandardTurn(players);
+    }
+
     @Override
     public int getTurnNumber() {
         return turnNumber;
@@ -56,7 +64,6 @@ public class StandardTurn implements Turn {
     public List<MainActionType> getAllowableActions() {
         return getCurrentTurnPlayer().getAllowableMainActions();
     }
-
 
     @Override
     public Turn attemptMainAction(MainActionType mainActionType) {
@@ -121,9 +128,5 @@ public class StandardTurn implements Turn {
         }
 
         return new StandardTurn(players, turnNumber, REVEAL_CHALLENGE);
-    }
-
-    public static Turn create(Players players) {
-        return new StandardTurn(players);
     }
 }

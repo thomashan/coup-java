@@ -3,15 +3,16 @@ package com.thomashan.coup;
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
+import java.util.Collections;
 
-import static com.thomashan.coup.MainActionType.ASSASSINATE;
-import static com.thomashan.coup.MainActionType.COUP;
-import static com.thomashan.coup.MainActionType.EXCHANGE;
-import static com.thomashan.coup.MainActionType.FOREIGN_AID;
-import static com.thomashan.coup.MainActionType.INCOME;
-import static com.thomashan.coup.MainActionType.STEAL;
-import static com.thomashan.coup.MainActionType.TAX;
 import static com.thomashan.coup.PlayerBuilder.build;
+import static com.thomashan.coup.action.MainActionType.ASSASSINATE;
+import static com.thomashan.coup.action.MainActionType.COUP;
+import static com.thomashan.coup.action.MainActionType.EXCHANGE;
+import static com.thomashan.coup.action.MainActionType.FOREIGN_AID;
+import static com.thomashan.coup.action.MainActionType.INCOME;
+import static com.thomashan.coup.action.MainActionType.STEAL;
+import static com.thomashan.coup.action.MainActionType.TAX;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -84,11 +85,11 @@ class PlayerTest {
 
     @Test
     public void testGetAllowableActions_ReturnsCoup_PlayerWith10Coins() {
-        assertIterableEquals(Arrays.asList(COUP), build(10).getAllowableMainActions());
+        assertIterableEquals(Collections.singletonList(COUP), build(10).getAllowableMainActions());
     }
 
     @Test
     public void testGetAllowableActions_ReturnsCoup_PlayerWith11Coins() {
-        assertIterableEquals(Arrays.asList(COUP), build(11).getAllowableMainActions());
+        assertIterableEquals(Collections.singletonList(COUP), build(11).getAllowableMainActions());
     }
 }

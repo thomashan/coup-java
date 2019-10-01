@@ -1,19 +1,19 @@
-package com.thomashan.coup;
+package com.thomashan.coup.action;
 
 import org.junit.jupiter.api.Test;
 
-import static com.thomashan.coup.BlockActionType.BLOCK_ASSASSINATE;
-import static com.thomashan.coup.BlockActionType.BLOCK_FOREIGN_AID;
-import static com.thomashan.coup.BlockActionType.BLOCK_STEAL;
 import static com.thomashan.coup.Card.AMBASSADOR;
 import static com.thomashan.coup.Card.ASSASSIN;
 import static com.thomashan.coup.Card.CAPTAIN;
 import static com.thomashan.coup.Card.CONTESSA;
 import static com.thomashan.coup.Card.DUKE;
-import static com.thomashan.coup.MainActionType.ASSASSINATE;
-import static com.thomashan.coup.MainActionType.EXCHANGE;
-import static com.thomashan.coup.MainActionType.STEAL;
-import static com.thomashan.coup.MainActionType.TAX;
+import static com.thomashan.coup.action.BlockActionType.BLOCK_ASSASSINATE;
+import static com.thomashan.coup.action.BlockActionType.BLOCK_FOREIGN_AID;
+import static com.thomashan.coup.action.BlockActionType.BLOCK_STEAL;
+import static com.thomashan.coup.action.MainActionType.ASSASSINATE;
+import static com.thomashan.coup.action.MainActionType.EXCHANGE;
+import static com.thomashan.coup.action.MainActionType.STEAL;
+import static com.thomashan.coup.action.MainActionType.TAX;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
