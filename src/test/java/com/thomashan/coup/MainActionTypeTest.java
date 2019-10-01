@@ -2,17 +2,17 @@ package com.thomashan.coup;
 
 import org.junit.jupiter.api.Test;
 
-import static com.thomashan.coup.MainAction.ASSASSINATE;
-import static com.thomashan.coup.MainAction.COUP;
-import static com.thomashan.coup.MainAction.EXCHANGE;
-import static com.thomashan.coup.MainAction.FOREIGN_AID;
-import static com.thomashan.coup.MainAction.INCOME;
-import static com.thomashan.coup.MainAction.STEAL;
-import static com.thomashan.coup.MainAction.TAX;
+import static com.thomashan.coup.MainActionType.ASSASSINATE;
+import static com.thomashan.coup.MainActionType.COUP;
+import static com.thomashan.coup.MainActionType.EXCHANGE;
+import static com.thomashan.coup.MainActionType.FOREIGN_AID;
+import static com.thomashan.coup.MainActionType.INCOME;
+import static com.thomashan.coup.MainActionType.STEAL;
+import static com.thomashan.coup.MainActionType.TAX;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class MainActionTest {
+class MainActionTypeTest {
     @Test
     public void testIsAllowable_ReturnsFalse_AssassinateWithLessThanThreeCoins() {
         assertFalse(ASSASSINATE.isAllowable(2));

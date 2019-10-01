@@ -4,13 +4,13 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 
-import static com.thomashan.coup.MainAction.ASSASSINATE;
-import static com.thomashan.coup.MainAction.COUP;
-import static com.thomashan.coup.MainAction.EXCHANGE;
-import static com.thomashan.coup.MainAction.FOREIGN_AID;
-import static com.thomashan.coup.MainAction.INCOME;
-import static com.thomashan.coup.MainAction.STEAL;
-import static com.thomashan.coup.MainAction.TAX;
+import static com.thomashan.coup.MainActionType.ASSASSINATE;
+import static com.thomashan.coup.MainActionType.COUP;
+import static com.thomashan.coup.MainActionType.EXCHANGE;
+import static com.thomashan.coup.MainActionType.FOREIGN_AID;
+import static com.thomashan.coup.MainActionType.INCOME;
+import static com.thomashan.coup.MainActionType.STEAL;
+import static com.thomashan.coup.MainActionType.TAX;
 import static com.thomashan.coup.PlayerBuilder.build;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;

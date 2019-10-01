@@ -2,10 +2,6 @@ package com.thomashan.coup;
 
 import org.junit.jupiter.api.Test;
 
-import static com.thomashan.coup.MainAction.ASSASSINATE;
-import static com.thomashan.coup.MainAction.EXCHANGE;
-import static com.thomashan.coup.MainAction.STEAL;
-import static com.thomashan.coup.MainAction.TAX;
 import static com.thomashan.coup.BlockAction.BLOCK_ASSASSINATE;
 import static com.thomashan.coup.BlockAction.BLOCK_FOREIGN_AID;
 import static com.thomashan.coup.BlockAction.BLOCK_STEAL;
@@ -14,6 +10,10 @@ import static com.thomashan.coup.Card.ASSASSIN;
 import static com.thomashan.coup.Card.CAPTAIN;
 import static com.thomashan.coup.Card.CONTESSA;
 import static com.thomashan.coup.Card.DUKE;
+import static com.thomashan.coup.MainActionType.ASSASSINATE;
+import static com.thomashan.coup.MainActionType.EXCHANGE;
+import static com.thomashan.coup.MainActionType.STEAL;
+import static com.thomashan.coup.MainActionType.TAX;
 import static java.util.Collections.singletonList;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

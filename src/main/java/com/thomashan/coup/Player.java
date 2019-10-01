@@ -71,8 +71,8 @@ public class Player {
         return new Player(this.coins - 2, playerCard1, playerCard2);
     }
 
-    public List<MainAction> getAllowableMainActions() {
-        return Arrays.stream(MainAction.values())
+    public List<MainActionType> getAllowableMainActions() {
+        return Arrays.stream(MainActionType.values())
                 .filter(action -> action.isAllowable(getCoins()))
                 .collect(Collectors.toList());
     }

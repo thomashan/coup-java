@@ -6,10 +6,10 @@ import java.util.function.Supplier;
 import java.util.stream.Stream;
 
 import static com.thomashan.coup.ChallengeAction.CHALLENGE;
-import static com.thomashan.coup.TurnAction.MAIN_ACTION;
 import static com.thomashan.coup.TurnAction.BLOCK_ACTION;
 import static com.thomashan.coup.TurnAction.CHALLENGE_ACTION;
 import static com.thomashan.coup.TurnAction.CHALLENGE_BLOCK;
+import static com.thomashan.coup.TurnAction.MAIN_ACTION;
 import static com.thomashan.coup.TurnAction.REVEAL_CHALLENGE;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
@@ -17,7 +17,7 @@ import static java.util.Optional.of;
 public class StandardTurn implements Turn {
     private final Players players;
     private final int turnNumber;
-    private final Optional<MainAction> action;
+    private final Optional<MainActionType> action;
     private final TurnAction turnAction;
 
     private StandardTurn(Players players) {
@@ -35,10 +35,10 @@ public class StandardTurn implements Turn {
         this.turnAction = turnAction;
     }
 
-    private StandardTurn(Players players, int turnNumber, MainAction mainAction, TurnAction turnAction) {
+    private StandardTurn(Players players, int turnNumber, MainActionType mainActionType, TurnAction turnAction) {
         this.players = players;
         this.turnNumber = turnNumber;
-        this.action = of(mainAction);
+        this.action = of(mainActionType);
         this.turnAction = turnAction;
     }
 
@@ -53,23 +53,23 @@ public class StandardTurn implements Turn {
     }
 
     @Override
-    public List<MainAction> getAllowableActions() {
+    public List<MainActionType> getAllowableActions() {
         return getCurrentTurnPlayer().getAllowableMainActions();
     }
 
 
     @Override
-    public Turn attemptMainAction(MainAction mainAction) {
+    public Turn attemptMainAction(MainActionType mainActionType) {
         if (turnAction != MAIN_ACTION) {
             throw new IllegalArgumentException("We expect you to perform " + turnAction.getDescription());
         }
 
-        if (!getCurrentTurnPlayer().getAllowableMainActions().contains(mainAction)) {
-            throw new IllegalArgumentException("You can't perform " + mainAction + ".You can perform the following actions " + getCurrentTurnPlayer().getAllowableMainActions());
+        if (!getCurrentTurnPlayer().getAllowableMainActions().contains(mainActionType)) {
+            throw new IllegalArgumentException("You can't perform " + mainActionType + ".You can perform the following actions " + getCurrentTurnPlayer().getAllowableMainActions());
         }
 
-        if (mainAction.isChallengeable()) {
-            return new StandardTurn(players, turnNumber, mainAction, CHALLENGE_ACTION);
+        if (mainActionType.isChallengeable()) {
+            return new StandardTurn(players, turnNumber, mainActionType, CHALLENGE_ACTION);
         }
 
         return new StandardTurn(players, turnNumber + 1, MAIN_ACTION);

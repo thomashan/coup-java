@@ -11,7 +11,7 @@ import static com.thomashan.coup.TurnAction.COMPLETED;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
-public enum MainAction implements Action {
+public enum MainActionType implements Action {
     ASSASSINATE(of(3), of(10), true, of(BLOCK_ASSASSINATE)),
     TAX(empty(), of(10), true, empty()),
     STEAL(empty(), of(10), true, of(BLOCK_STEAL)),
@@ -25,10 +25,10 @@ public enum MainAction implements Action {
     private final boolean challengeable;
     private final Optional<BlockAction> blockAction;
 
-    MainAction(Optional<Integer> minimumCoins,
-               Optional<Integer> maximumCoins,
-               boolean challengeable,
-               Optional<BlockAction> blockAction) {
+    MainActionType(Optional<Integer> minimumCoins,
+                   Optional<Integer> maximumCoins,
+                   boolean challengeable,
+                   Optional<BlockAction> blockAction) {
         this.minimumCoins = minimumCoins;
         this.maximumCoins = maximumCoins;
         this.challengeable = challengeable;

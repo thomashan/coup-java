@@ -4,14 +4,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.thomashan.coup.MainAction.ASSASSINATE;
-import static com.thomashan.coup.MainAction.COUP;
-import static com.thomashan.coup.MainAction.STEAL;
+import static com.thomashan.coup.MainActionType.ASSASSINATE;
+import static com.thomashan.coup.MainActionType.COUP;
+import static com.thomashan.coup.MainActionType.STEAL;
 import static java.util.Optional.empty;
 
 public class PlayerAction {
-    private static final List<MainAction> actionRequiresTarget = Arrays.asList(ASSASSINATE, STEAL, COUP);
-    private final MainAction mainAction;
+    private static final List<MainActionType> actionRequiresTarget = Arrays.asList(ASSASSINATE, STEAL, COUP);
+    private final MainActionType mainActionType;
     private final Player player;
     private final TurnAction turnAction;
     private final Optional<Player> target;
@@ -19,12 +19,12 @@ public class PlayerAction {
     private final Optional<BlockAction> blockAction;
     private final Optional<List<ChallengeAction>> blockChallengeActions;
 
-    private PlayerAction(Player player, MainAction mainAction, Player target) {
-        checkPreconditions(player, mainAction, target);
+    private PlayerAction(Player player, MainActionType mainActionType, Player target) {
+        checkPreconditions(player, mainActionType, target);
 
         this.player = player;
-        this.mainAction = mainAction;
-        this.turnAction = mainAction.getNextTurnAction();
+        this.mainActionType = mainActionType;
+        this.turnAction = mainActionType.getNextTurnAction();
         this.challengeActions = empty();
         this.blockAction = empty();
         this.blockChallengeActions = empty();
@@ -36,29 +36,29 @@ public class PlayerAction {
         }
     }
 
-    private void checkPreconditions(Player player, MainAction mainAction, Player target) {
+    private void checkPreconditions(Player player, MainActionType mainActionType, Player target) {
         if (target != null) {
-            checkPreconditionsTargetRequired(player, mainAction, target);
+            checkPreconditionsTargetRequired(player, mainActionType, target);
         } else {
-            checkPreconditionsNoTarget(player, mainAction);
+            checkPreconditionsNoTarget(player, mainActionType);
         }
     }
 
-    private void checkPreconditionsNoTarget(Player player, MainAction mainAction) {
-        if (actionRequiresTarget.contains(mainAction)) {
+    private void checkPreconditionsNoTarget(Player player, MainActionType mainActionType) {
+        if (actionRequiresTarget.contains(mainActionType)) {
             throw new IllegalArgumentException("Action cannot specify target");
         }
 
-        actionAllowed(mainAction, player);
+        actionAllowed(mainActionType, player);
     }
 
-    private void checkPreconditionsTargetRequired(Player player, MainAction mainAction, Player target) {
-        if (!actionRequiresTarget.contains(mainAction)) {
+    private void checkPreconditionsTargetRequired(Player player, MainActionType mainActionType, Player target) {
+        if (!actionRequiresTarget.contains(mainActionType)) {
             throw new IllegalArgumentException("Action requires a target");
         }
 
-        actionAllowed(mainAction, player);
-        actionAllowedByTarget(mainAction, target);
+        actionAllowed(mainActionType, player);
+        actionAllowedByTarget(mainActionType, target);
         playerNotSameAsTarget(player, target);
         targetActive(target);
     }
@@ -75,14 +75,14 @@ public class PlayerAction {
         }
     }
 
-    private void actionAllowed(MainAction mainAction, Player player) {
-        if (!mainAction.isAllowable(player.getCoins())) {
+    private void actionAllowed(MainActionType mainActionType, Player player) {
+        if (!mainActionType.isAllowable(player.getCoins())) {
             throw new IllegalArgumentException("The action is not allowed");
         }
     }
 
-    private void actionAllowedByTarget(MainAction mainAction, Player target) {
-        if (mainAction == STEAL && target.getCoins() == 0) {
+    private void actionAllowedByTarget(MainActionType mainActionType, Player target) {
+        if (mainActionType == STEAL && target.getCoins() == 0) {
             throw new IllegalArgumentException("The action is not allowed");
         }
     }
@@ -91,19 +91,19 @@ public class PlayerAction {
         return player;
     }
 
-    public MainAction getMainAction() {
-        return mainAction;
+    public MainActionType getMainActionType() {
+        return mainActionType;
     }
 
     public Optional<Player> getTarget() {
         return target;
     }
 
-    public static PlayerAction of(Player player, MainAction mainAction) {
-        return new PlayerAction(player, mainAction, null);
+    public static PlayerAction of(Player player, MainActionType mainActionType) {
+        return new PlayerAction(player, mainActionType, null);
     }
 
-    public static PlayerAction of(Player player, MainAction mainAction, Player target) {
-        return new PlayerAction(player, mainAction, target);
+    public static PlayerAction of(Player player, MainActionType mainActionType, Player target) {
+        return new PlayerAction(player, mainActionType, target);
     }
 }

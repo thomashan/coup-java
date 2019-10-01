@@ -10,9 +10,9 @@ public interface Turn {
 
     Player getCurrentTurnPlayer();
 
-    List<MainAction> getAllowableActions();
+    List<MainActionType> getAllowableActions();
 
-    Turn attemptMainAction(MainAction mainAction);
+    Turn attemptMainAction(MainActionType mainActionType);
 
     Turn attemptBlock(BlockAction blockAction);
 
