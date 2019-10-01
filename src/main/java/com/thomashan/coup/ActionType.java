@@ -1,6 +1,6 @@
 package com.thomashan.coup;
 
-public interface Action {
+public interface ActionType {
     boolean isChallengeable();
 
     boolean isBlockable();

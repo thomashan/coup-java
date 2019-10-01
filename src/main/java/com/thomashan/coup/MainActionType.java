@@ -11,7 +11,7 @@ import static com.thomashan.coup.TurnAction.COMPLETED;
 import static java.util.Optional.empty;
 import static java.util.Optional.of;
 
-public enum MainActionType implements Action {
+public enum MainActionType implements ActionType {
     ASSASSINATE(of(3), of(10), true, of(BLOCK_ASSASSINATE)),
     TAX(empty(), of(10), true, empty()),
     STEAL(empty(), of(10), true, of(BLOCK_STEAL)),

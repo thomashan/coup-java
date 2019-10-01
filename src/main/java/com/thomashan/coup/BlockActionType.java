@@ -1,6 +1,6 @@
 package com.thomashan.coup;
 
-public enum BlockActionType implements Action {
+public enum BlockActionType implements ActionType {
     BLOCK_ASSASSINATE,
     BLOCK_STEAL,
     BLOCK_FOREIGN_AID;
