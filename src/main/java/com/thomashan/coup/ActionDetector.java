@@ -2,9 +2,9 @@ package com.thomashan.coup;
 
 import java.util.List;
 
-import static com.thomashan.coup.BlockAction.BLOCK_ASSASSINATE;
-import static com.thomashan.coup.BlockAction.BLOCK_FOREIGN_AID;
-import static com.thomashan.coup.BlockAction.BLOCK_STEAL;
+import static com.thomashan.coup.BlockActionType.BLOCK_ASSASSINATE;
+import static com.thomashan.coup.BlockActionType.BLOCK_FOREIGN_AID;
+import static com.thomashan.coup.BlockActionType.BLOCK_STEAL;
 import static com.thomashan.coup.Card.AMBASSADOR;
 import static com.thomashan.coup.Card.ASSASSIN;
 import static com.thomashan.coup.Card.CAPTAIN;
@@ -40,18 +40,18 @@ public class ActionDetector {
         return false;
     }
 
-    public static boolean isBluff(BlockAction blockAction, List<Card> cards) {
-        if (blockAction == BLOCK_ASSASSINATE && !cards.contains(CONTESSA)) {
+    public static boolean isBluff(BlockActionType blockActionType, List<Card> cards) {
+        if (blockActionType == BLOCK_ASSASSINATE && !cards.contains(CONTESSA)) {
             return true;
         }
 
-        if (blockAction == BLOCK_STEAL) {
+        if (blockActionType == BLOCK_STEAL) {
             if (!cards.contains(AMBASSADOR) && !cards.contains(CAPTAIN)) {
                 return true;
             }
         }
 
-        if (blockAction == BLOCK_FOREIGN_AID && !cards.contains(DUKE)) {
+        if (blockActionType == BLOCK_FOREIGN_AID && !cards.contains(DUKE)) {
             return true;
         }
 

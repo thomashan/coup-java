@@ -2,9 +2,9 @@ package com.thomashan.coup;
 
 import java.util.Optional;
 
-import static com.thomashan.coup.BlockAction.BLOCK_ASSASSINATE;
-import static com.thomashan.coup.BlockAction.BLOCK_FOREIGN_AID;
-import static com.thomashan.coup.BlockAction.BLOCK_STEAL;
+import static com.thomashan.coup.BlockActionType.BLOCK_ASSASSINATE;
+import static com.thomashan.coup.BlockActionType.BLOCK_FOREIGN_AID;
+import static com.thomashan.coup.BlockActionType.BLOCK_STEAL;
 import static com.thomashan.coup.TurnAction.BLOCK_ACTION;
 import static com.thomashan.coup.TurnAction.CHALLENGE_ACTION;
 import static com.thomashan.coup.TurnAction.COMPLETED;
@@ -23,12 +23,12 @@ public enum MainActionType implements Action {
     private final Optional<Integer> minimumCoins;
     private final Optional<Integer> maximumCoins;
     private final boolean challengeable;
-    private final Optional<BlockAction> blockAction;
+    private final Optional<BlockActionType> blockAction;
 
     MainActionType(Optional<Integer> minimumCoins,
                    Optional<Integer> maximumCoins,
                    boolean challengeable,
-                   Optional<BlockAction> blockAction) {
+                   Optional<BlockActionType> blockAction) {
         this.minimumCoins = minimumCoins;
         this.maximumCoins = maximumCoins;
         this.challengeable = challengeable;
@@ -65,7 +65,7 @@ public enum MainActionType implements Action {
         return COMPLETED;
     }
 
-    public Optional<BlockAction> getBlockAction() {
+    public Optional<BlockActionType> getBlockAction() {
         return blockAction;
     }
 

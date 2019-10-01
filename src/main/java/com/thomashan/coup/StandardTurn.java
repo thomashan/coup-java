@@ -76,7 +76,7 @@ public class StandardTurn implements Turn {
     }
 
     @Override
-    public Turn attemptBlock(BlockAction blockAction) {
+    public Turn attemptBlock(BlockActionType blockActionType) {
         return new StandardTurn(players, turnNumber, CHALLENGE_BLOCK);
     }
 

@@ -2,9 +2,9 @@ package com.thomashan.coup;
 
 import org.junit.jupiter.api.Test;
 
-import static com.thomashan.coup.BlockAction.BLOCK_ASSASSINATE;
-import static com.thomashan.coup.BlockAction.BLOCK_FOREIGN_AID;
-import static com.thomashan.coup.BlockAction.BLOCK_STEAL;
+import static com.thomashan.coup.BlockActionType.BLOCK_ASSASSINATE;
+import static com.thomashan.coup.BlockActionType.BLOCK_FOREIGN_AID;
+import static com.thomashan.coup.BlockActionType.BLOCK_STEAL;
 import static com.thomashan.coup.Card.AMBASSADOR;
 import static com.thomashan.coup.Card.ASSASSIN;
 import static com.thomashan.coup.Card.CAPTAIN;

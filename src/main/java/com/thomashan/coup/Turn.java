@@ -14,7 +14,7 @@ public interface Turn {
 
     Turn attemptMainAction(MainActionType mainActionType);
 
-    Turn attemptBlock(BlockAction blockAction);
+    Turn attemptBlock(BlockActionType blockActionType);
 
     Turn challengeMainAction(List<PlayerChallengeAction> playerChallengeActions);
 

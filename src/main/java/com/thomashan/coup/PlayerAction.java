@@ -16,7 +16,7 @@ public class PlayerAction {
     private final TurnAction turnAction;
     private final Optional<Player> target;
     private final Optional<List<ChallengeActionType>> challengeActions;
-    private final Optional<BlockAction> blockAction;
+    private final Optional<BlockActionType> blockAction;
     private final Optional<List<ChallengeActionType>> blockChallengeActions;
 
     private PlayerAction(Player player, MainActionType mainActionType, Player target) {
