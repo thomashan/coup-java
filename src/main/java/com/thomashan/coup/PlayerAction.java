@@ -15,9 +15,9 @@ public class PlayerAction {
     private final Player player;
     private final TurnAction turnAction;
     private final Optional<Player> target;
-    private final Optional<List<ChallengeAction>> challengeActions;
+    private final Optional<List<ChallengeActionType>> challengeActions;
     private final Optional<BlockAction> blockAction;
-    private final Optional<List<ChallengeAction>> blockChallengeActions;
+    private final Optional<List<ChallengeActionType>> blockChallengeActions;
 
     private PlayerAction(Player player, MainActionType mainActionType, Player target) {
         checkPreconditions(player, mainActionType, target);

@@ -1,6 +1,6 @@
 package com.thomashan.coup;
 
-public enum ChallengeAction implements Action {
+public enum ChallengeActionType implements Action {
     CHALLENGE,
     ALLOW;
 

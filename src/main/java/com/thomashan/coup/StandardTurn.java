@@ -5,7 +5,7 @@ import java.util.Optional;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import static com.thomashan.coup.ChallengeAction.CHALLENGE;
+import static com.thomashan.coup.ChallengeActionType.CHALLENGE;
 import static com.thomashan.coup.TurnAction.BLOCK_ACTION;
 import static com.thomashan.coup.TurnAction.CHALLENGE_ACTION;
 import static com.thomashan.coup.TurnAction.CHALLENGE_BLOCK;
@@ -88,7 +88,7 @@ public class StandardTurn implements Turn {
 
         Supplier<Stream<PlayerChallengeAction>> challengeActionsSupplier = () -> playerChallengeActions
                 .stream()
-                .filter(a -> a.getChallengeAction() == CHALLENGE);
+                .filter(a -> a.getChallengeActionType() == CHALLENGE);
 
         if (challengeActionsSupplier.get().count() == 0) {
             if (action.get().isBlockable()) {
@@ -114,7 +114,7 @@ public class StandardTurn implements Turn {
 
         Supplier<Stream<PlayerChallengeAction>> challengeActionsSupplier = () -> playerChallengeActions
                 .stream()
-                .filter(a -> a.getChallengeAction() == CHALLENGE);
+                .filter(a -> a.getChallengeActionType() == CHALLENGE);
 
         if (challengeActionsSupplier.get().count() == 0) {
             return new StandardTurn(players, turnNumber + 1, MAIN_ACTION);

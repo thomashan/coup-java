@@ -2,22 +2,22 @@ package com.thomashan.coup;
 
 public class PlayerChallengeAction {
     private final Player player;
-    private final ChallengeAction challengeAction;
+    private final ChallengeActionType challengeActionType;
 
-    private PlayerChallengeAction(Player player, ChallengeAction challengeAction) {
+    private PlayerChallengeAction(Player player, ChallengeActionType challengeActionType) {
         this.player = player;
-        this.challengeAction = challengeAction;
+        this.challengeActionType = challengeActionType;
     }
 
     public Player getPlayer() {
         return player;
     }
 
-    public ChallengeAction getChallengeAction() {
-        return challengeAction;
+    public ChallengeActionType getChallengeActionType() {
+        return challengeActionType;
     }
 
-    public static PlayerChallengeAction of(Player player, ChallengeAction challengeAction) {
-        return new PlayerChallengeAction(player, challengeAction);
+    public static PlayerChallengeAction of(Player player, ChallengeActionType challengeActionType) {
+        return new PlayerChallengeAction(player, challengeActionType);
     }
 }
