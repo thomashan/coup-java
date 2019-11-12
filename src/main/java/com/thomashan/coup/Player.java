@@ -2,6 +2,7 @@ package com.thomashan.coup;
 
 import com.thomashan.coup.action.MainActionType;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -35,6 +36,19 @@ public class Player {
 
     public int getCoins() {
         return coins;
+    }
+
+    public List<Card> getActiveCards() {
+        List<Card> cards = new ArrayList<>();
+
+        if (playerCard1.isHidden()) {
+            cards.add(playerCard1.getCard());
+        }
+        if (playerCard2.isHidden()) {
+            cards.add(playerCard2.getCard());
+        }
+
+        return cards;
     }
 
     public PlayerCard getPlayerCard1() {

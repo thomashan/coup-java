@@ -1,6 +1,11 @@
-package com.thomashan.coup.action;
+package com.thomashan.coup.action.state;
 
 import com.thomashan.coup.Player;
+import com.thomashan.coup.Players;
+import com.thomashan.coup.action.Action;
+import com.thomashan.coup.action.ActionType;
+import com.thomashan.coup.action.BlockActionType;
+import com.thomashan.coup.action.ChallengeActionType;
 
 import java.util.Collections;
 import java.util.List;
@@ -9,21 +14,28 @@ import java.util.Optional;
 import static java.util.Optional.empty;
 
 public class CompletedState implements ActionState {
+    private final Players players;
     private final Player player;
-    private final MainActionType mainActionType;
+    private final List<Action> actionHistory;
 
-    private CompletedState(Player player, MainActionType mainActionType) {
+    private CompletedState(Players players, Player player, List<Action> actionHistory) {
+        this.players = players;
         this.player = player;
-        this.mainActionType = mainActionType;
+        this.actionHistory = actionHistory;
     }
 
-    public static CompletedState of(Player player, MainActionType mainActionType) {
-        return new CompletedState(player, mainActionType);
+    public static CompletedState of(Players players, Player player, List<Action> actionHistory) {
+        return new CompletedState(players, player, actionHistory);
     }
 
     @Override
-    public Optional<MainActionType> getMainActionType() {
-        return Optional.of(mainActionType);
+    public List<Action> getActionHistory() {
+        return actionHistory;
+    }
+
+    @Override
+    public Players getPlayers() {
+        return players;
     }
 
     @Override
@@ -32,7 +44,13 @@ public class CompletedState implements ActionState {
     }
 
     @Override
+    public List<Player> getActionablePlayers() {
+        return Collections.emptyList();
+    }
+
+    @Override
     public Optional<Player> getTarget() {
+        // FIXME: should carry target from previous states
         return empty();
     }
 
@@ -75,4 +93,6 @@ public class CompletedState implements ActionState {
     public List<ActionType> getAllowableActionTypes() {
         return Collections.emptyList();
     }
+
+
 }

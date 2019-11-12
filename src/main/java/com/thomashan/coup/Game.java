@@ -1,81 +1,25 @@
 package com.thomashan.coup;
 
-import com.thomashan.coup.action.MainActionType;
+import com.thomashan.coup.action.Action;
 
-import java.util.ArrayList;
 import java.util.List;
 
-public class Game {
-    private static final int MINIMUM_PLAYERS = 2;
-    private static final int MAXIMUM_PLAYERS = 6;
-    private final Players players;
-    private final int numberOfPlayers;
-    private final Deck deck;
-    private final List<MainActionType> actionHistory;
+public interface Game {
+    boolean isComplete();
 
-    private Game(Deck deck, Players players) {
-        this.numberOfPlayers = 0;
-        this.deck = deck;
-        this.players = players;
-        this.actionHistory = null;
-    }
+    int getNumberOfPlayers();
 
-    private Game(int numberOfPlayers) {
-        if (numberOfPlayers < MINIMUM_PLAYERS) {
-            throw new IllegalArgumentException("You need at least " + MINIMUM_PLAYERS + " players");
-        }
+    List<List<Action>> getActionHistory();
 
-        if (numberOfPlayers > MAXIMUM_PLAYERS) {
-            throw new IllegalArgumentException("Maximum of " + MAXIMUM_PLAYERS + " players");
-        }
+    Turn getTurn();
 
-        Deck initialDeck = StandardDeck.create();
-        Players players = StandardPlayers.create();
-        Game game = new Game(initialDeck, players);
+    Players getPlayers();
 
-        for (int i = 0; i < numberOfPlayers; i++) {
-            game = createPlayer(game.getDeck(), game.getPlayers());
-        }
+    Deck getDeck();
 
-        this.numberOfPlayers = numberOfPlayers;
-        this.actionHistory = new ArrayList<>();
-        this.players = game.getPlayers();
-        this.deck = game.getDeck();
-    }
+    Game action(Action action);
 
-    public static Game create(int numberOfPlayers) {
-        return new Game(numberOfPlayers);
-    }
-
-    private Game createPlayer(Deck deck, Players players) {
-        DrawnCard drawnCard1 = deck.draw();
-        Deck newDeck = drawnCard1.getDeck();
-        Card card1 = drawnCard1.getCard();
-
-        DrawnCard drawnCard2 = newDeck.draw();
-        newDeck = drawnCard2.getDeck();
-        Card card2 = drawnCard2.getCard();
-
-        return new Game(newDeck, players.addPlayer(Player.of(card1, card2)));
-    }
-
-    public int getNumberOfPlayers() {
-        return numberOfPlayers;
-    }
-
-    public List<MainActionType> getActionHistory() {
-        return actionHistory;
-    }
-
-    public int getTurn() {
-        return actionHistory.size() % numberOfPlayers;
-    }
-
-    public Players getPlayers() {
-        return players;
-    }
-
-    public Deck getDeck() {
-        return deck;
+    static Game create(int numberOfPlayers) {
+        return StandardGame.create(numberOfPlayers);
     }
 }

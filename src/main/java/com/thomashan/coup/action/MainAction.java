@@ -6,7 +6,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.thomashan.coup.action.MainActionType.*;
+import static com.thomashan.coup.action.MainActionType.ASSASSINATE;
+import static com.thomashan.coup.action.MainActionType.COUP;
+import static com.thomashan.coup.action.MainActionType.STEAL;
 import static java.util.Optional.empty;
 
 public class MainAction implements Action<MainActionType> {

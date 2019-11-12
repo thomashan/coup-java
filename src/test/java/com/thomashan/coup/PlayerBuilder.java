@@ -4,7 +4,12 @@ import static com.thomashan.coup.Card.AMBASSADOR;
 
 public class PlayerBuilder {
     public static Player build(boolean active) {
-        return build().revealCard1().revealCard2();
+        Player player = build();
+        if (active) {
+            return player;
+        }
+
+        return player.revealCard1().revealCard2();
     }
 
     public static Player build() {

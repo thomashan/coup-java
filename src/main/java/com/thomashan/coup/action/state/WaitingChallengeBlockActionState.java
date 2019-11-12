@@ -1,33 +1,39 @@
-package com.thomashan.coup.action;
+package com.thomashan.coup.action.state;
 
 import com.thomashan.coup.Player;
+import com.thomashan.coup.Players;
+import com.thomashan.coup.action.Action;
+import com.thomashan.coup.action.ActionType;
+import com.thomashan.coup.action.BlockActionType;
+import com.thomashan.coup.action.ChallengeAction;
+import com.thomashan.coup.action.ChallengeActionType;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static java.util.Optional.empty;
 
-public class WaitingBlockActionState implements ActionState<BlockAction> {
-    private final Player player;
-    private final MainActionType mainActionType;
-
-    private WaitingBlockActionState(Player player, MainActionType mainActionType) {
-        this.player = player;
-        this.mainActionType = mainActionType;
-    }
-
-    public static WaitingBlockActionState of(Player player, MainActionType mainActionType) {
-        return new WaitingBlockActionState(player, mainActionType);
+public class WaitingChallengeBlockActionState implements ActionState<ChallengeAction> {
+    @Override
+    public List<Action> getActionHistory() {
+        return null;
     }
 
     @Override
-    public Optional<MainActionType> getMainActionType() {
-        return Optional.of(mainActionType);
+    public Players getPlayers() {
+        return null;
     }
 
     @Override
     public Player getPlayer() {
-        return player;
+        return null;
+    }
+
+    @Override
+    public List<Player> getActionablePlayers() {
+        // FIXME: return all player apart from the player that performed the block
+        return null;
     }
 
     @Override
@@ -66,12 +72,12 @@ public class WaitingBlockActionState implements ActionState<BlockAction> {
     }
 
     @Override
-    public ActionState performAction(BlockAction action) {
+    public WaitingRevealCardState performAction(ChallengeAction action) {
         return null;
     }
 
     @Override
     public List<ActionType> getAllowableActionTypes() {
-        return null;
+        return Arrays.asList(ChallengeActionType.values());
     }
 }

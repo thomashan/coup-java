@@ -1,8 +1,17 @@
-package com.thomashan.coup.action;
+package com.thomashan.coup.action.state;
 
+import com.thomashan.collection.CollectionUtil;
 import com.thomashan.coup.Player;
+import com.thomashan.coup.Players;
+import com.thomashan.coup.action.Action;
+import com.thomashan.coup.action.ActionType;
+import com.thomashan.coup.action.BlockActionType;
+import com.thomashan.coup.action.ChallengeActionType;
+import com.thomashan.coup.action.MainAction;
+import com.thomashan.coup.action.MainActionType;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -10,20 +19,34 @@ import java.util.stream.Collectors;
 import static java.util.Optional.empty;
 
 public class WaitingMainActionState implements ActionState<MainAction> {
+    private final Players players;
     private final Player player;
+    private final List<Action> actionHistory;
 
-    private WaitingMainActionState(Player player) {
+    private WaitingMainActionState(Players players, Player player) {
+        this.players = players;
         this.player = player;
+        this.actionHistory = Collections.emptyList();
     }
 
     @Override
-    public Optional<MainActionType> getMainActionType() {
-        return empty();
+    public List<Action> getActionHistory() {
+        return actionHistory;
+    }
+
+    @Override
+    public Players getPlayers() {
+        return players;
     }
 
     @Override
     public Player getPlayer() {
         return player;
+    }
+
+    @Override
+    public List<Player> getActionablePlayers() {
+        return Collections.singletonList(player);
     }
 
     @Override
@@ -66,20 +89,27 @@ public class WaitingMainActionState implements ActionState<MainAction> {
         checkActionPlayerIsSameAsStatePlayer(action);
         checkActionAllowable(action);
 
+        List<Action> newActionHistory = CollectionUtil.add(actionHistory, action);
         MainActionType mainActionType = action.getActionType();
 
         if (!mainActionType.isChallengeable()) {
             switch (mainActionType) {
                 case INCOME:
-                    return CompletedState.of(player, mainActionType);
-                case COUP:
-                    return WaitingRevealCardState.of(player, mainActionType);
+                    Player newPlayer = player.income();
+                    Players newPlayers = players.updatePlayer(player, newPlayer);
+
+                    return CompletedState.of(newPlayers, newPlayer, newActionHistory);
+                case COUP: {
+                    Player target = action.getTarget().get();
+                    return WaitingRevealCardState.of(players, player, newActionHistory, target, target);
+                }
+
                 default:
                     throw new IllegalArgumentException("Unexpected non-challengeable acton");
             }
         }
 
-        return WaitingChallengeMainActionState.of(player, mainActionType, action.getTarget().orElse(null));
+        return WaitingChallengeMainActionState.of(players, player, newActionHistory, action.getTarget().orElse(null));
     }
 
     private void checkActionAllowable(MainAction action) {
@@ -101,7 +131,7 @@ public class WaitingMainActionState implements ActionState<MainAction> {
                 .collect(Collectors.toList());
     }
 
-    public static WaitingMainActionState of(Player player) {
-        return new WaitingMainActionState(player);
+    public static WaitingMainActionState of(Players players, Player player) {
+        return new WaitingMainActionState(players, player);
     }
 }

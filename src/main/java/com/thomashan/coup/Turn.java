@@ -1,8 +1,6 @@
 package com.thomashan.coup;
 
-import com.thomashan.coup.action.BlockActionType;
-import com.thomashan.coup.action.MainActionType;
-import com.thomashan.coup.action.PlayerChallengeAction;
+import com.thomashan.coup.action.Action;
 
 import java.util.List;
 
@@ -12,17 +10,15 @@ import java.util.List;
 public interface Turn {
     int getTurnNumber();
 
-    Player getCurrentTurnPlayer();
+    Player getPlayer();
 
-    List<MainActionType> getAllowableActions();
+    List<Player> getActionablePlayers();
 
-    Turn attemptMainAction(MainActionType mainActionType);
+    List<Action> getAllowableActions();
 
-    Turn attemptBlock(BlockActionType blockActionType);
+    Turn perform(Action action);
 
-    Turn challengeMainAction(List<PlayerChallengeAction> playerChallengeActions);
-
-    Turn challengeBlock(List<PlayerChallengeAction> playerChallengeActions);
-
-    Turn reveal();
+    static Turn create(Players players) {
+        return StandardTurn.create(players);
+    }
 }

@@ -6,7 +6,7 @@ public class BlockAction implements Action<BlockActionType> {
     private final Player player;
     private final BlockActionType blockActionType;
 
-    private BlockAction(Player player, BlockActionType blockActionType) {
+    public BlockAction(Player player, BlockActionType blockActionType) {
         this.player = player;
         this.blockActionType = blockActionType;
     }
