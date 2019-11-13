@@ -9,10 +9,11 @@
 plugins {
     id "java"
     id "jacoco"
+    id "org.sonarqube" version "2.8"
 }
 
-group 'com.thomashan'
-version '0.1-SNAPSHOT'
+group "com.thomashan"
+version project.VERSION
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -32,4 +33,18 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+sonarqube {
+    properties {
+        property("sonar.projectName", "Coup Card Game (Java)")
+        property("sonar.projectKey", "thomashan_coup-java")
+    }
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled = true // coveralls plugin depends on xml format report
+        html.enabled = true
+    }
 }
