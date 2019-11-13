@@ -9,6 +9,7 @@
 plugins {
     id "java"
     id "jacoco"
+    id "org.sonarqube" version "2.7.1"
 }
 
 group 'com.thomashan'
@@ -32,4 +33,10 @@ dependencies {
 
 test {
     useJUnitPlatform()
+}
+
+sonarqube {
+    properties {
+        sonar.projectKey = "thomashan_coup-java"
+    }
 }
