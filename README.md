@@ -1,6 +1,8 @@
 # coup-java
 [![Build Status](https://travis-ci.org/thomashan/coup-java.svg?branch=master)](https://travis-ci.org/thomashan/coup-java)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=thomashan_coup-java&metric=alert_status)](https://sonarcloud.io/dashboard?id=thomashan_coup-java)
 
+[![Coverage Status](https://coveralls.io/repos/github/thomashan/coup-java/badge.svg?branch=master)](https://coveralls.io/github/thomashan/coup-java?branch=master)
 
 This is a java implementation of the card game Coup by Rikki Tahta.
 
@@ -23,5 +25,5 @@ The following tools are used to improve the project
 | CI            | Travisci   | https://travis-ci.org   |
 | Code analysis | Sonarcloud | https://sonarcloud.io   |
 | Code analysis | Codecov    | https://codecov.io      |
-| Code analysis | ocveralls  | https://coveralls.io    |
+| Code analysis | Coveralls  | https://coveralls.io    |
 | Codacy        | Codact     | https://www.codacy.com/ |
