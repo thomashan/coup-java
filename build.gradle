@@ -10,6 +10,7 @@ plugins {
     id "java"
     id "jacoco"
     id "org.sonarqube" version "2.8"
+    id "com.github.kt3k.coveralls" version "2.8.4"
 }
 
 group "com.thomashan"
