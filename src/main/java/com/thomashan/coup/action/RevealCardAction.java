@@ -2,6 +2,8 @@ package com.thomashan.coup.action;
 
 import com.thomashan.coup.Player;
 
+import java.util.Optional;
+
 public class RevealCardAction implements Action<RevealCardActionType> {
     private final Player player;
     private final RevealCardActionType revealCardActionType;
@@ -18,6 +20,11 @@ public class RevealCardAction implements Action<RevealCardActionType> {
     @Override
     public Player getPlayer() {
         return player;
+    }
+
+    @Override
+    public Optional<Player> getTarget() {
+        return Optional.empty();
     }
 
     @Override

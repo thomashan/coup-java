@@ -10,6 +10,11 @@ import com.thomashan.coup.action.ChallengeActionType;
 import java.util.List;
 import java.util.Optional;
 
+import static com.thomashan.coup.action.state.ActionValidator.checkActionPlayerIsActive;
+import static com.thomashan.coup.action.state.ActionValidator.checkIfActionTypeIsAllowable;
+import static com.thomashan.coup.action.state.ActionValidator.checkIfComplete;
+import static com.thomashan.coup.action.state.ActionValidator.checkTargetPlayerIsActive;
+
 public interface ActionState<A extends Action> {
     List<Action> getActionHistory();
 
@@ -38,28 +43,16 @@ public interface ActionState<A extends Action> {
 
     boolean isComplete();
 
+    // FIXME: replace with getAllowableActions
     List<ActionType> getAllowableActionTypes();
 
     ActionState performAction(A Action);
 
     default ActionState perform(A action) {
-        if (!action.getPlayer().isActive()) {
-            throw new IllegalArgumentException("The player is not active");
-        }
-
-        getTarget().ifPresent(p -> {
-            if (!p.isActive()) {
-                throw new IllegalArgumentException("The target player is not active");
-            }
-        });
-
-        if (isComplete()) {
-            throw new IllegalArgumentException("Can't perform any more action");
-        }
-
-        if (!getAllowableActionTypes().contains(action.getActionType())) {
-            throw new IllegalArgumentException("This action is not allowed");
-        }
+        checkActionPlayerIsActive(action);
+        checkTargetPlayerIsActive(action);
+        checkIfActionTypeIsAllowable(getAllowableActionTypes(), action);
+        checkIfComplete(isComplete());
 
         return performAction(action);
     }

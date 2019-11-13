@@ -2,6 +2,8 @@ package com.thomashan.coup.action;
 
 import com.thomashan.coup.Player;
 
+import java.util.Optional;
+
 public class ChallengeAction implements Action<ChallengeActionType> {
     private final Player player;
     private final ChallengeActionType challengeActionType;
@@ -28,6 +30,11 @@ public class ChallengeAction implements Action<ChallengeActionType> {
     @Override
     public ChallengeActionType getActionType() {
         return challengeActionType;
+    }
+
+    @Override
+    public Optional<Player> getTarget() {
+        return Optional.empty();
     }
 
     public ChallengeActionType getChallengeActionType() {
