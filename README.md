@@ -27,4 +27,4 @@ The following tools are used to improve the project
 | Code analysis | Sonarcloud | https://sonarcloud.io   |
 | Code analysis | Codecov    | https://codecov.io      |
 | Code analysis | Coveralls  | https://coveralls.io    |
-| Codacy        | Codact     | https://www.codacy.com/ |
+| Codacy        | Codacy     | https://www.codacy.com/ |
