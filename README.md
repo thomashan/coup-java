@@ -1,4 +1,6 @@
 # coup-java
+[![Build Status](https://travis-ci.org/thomashan/coup-java.svg?branch=master)](https://travis-ci.org/thomashan/coup-java)
+
 
 This is a java implementation of the card game Coup by Rikki Tahta.
 
@@ -13,3 +15,13 @@ This is a java implementation of the card game Coup by Rikki Tahta.
 # How to play
 https://www.youtube.com/watch?v=lPlBDZnxHQA
 
+# Quality Control
+The following tools are used to improve the project
+
+| Methodology   | Tool       | Web                     |
+| ---           | ---        | ---                     |
+| CI            | Travisci   | https://travis-ci.org   |
+| Code analysis | Sonarcloud | https://sonarcloud.io   |
+| Code analysis | Codecov    | https://codecov.io      |
+| Code analysis | ocveralls  | https://coveralls.io    |
+| Codacy        | Codact     | https://www.codacy.com/ |
