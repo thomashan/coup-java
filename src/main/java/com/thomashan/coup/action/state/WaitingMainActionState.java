@@ -100,8 +100,9 @@ public class WaitingMainActionState implements ActionState<MainAction> {
 
                     return CompletedState.of(newPlayers, newPlayer, newActionHistory);
                 case COUP: {
-                    Player target = action.getTarget().get();
-                    return WaitingRevealCardState.of(players, player, newActionHistory, target, target);
+                    return action.getTarget()
+                            .map(target -> WaitingRevealCardState.of(players, player, newActionHistory, target, target))
+                            .orElseThrow(() -> new IllegalArgumentException("Coup must specify target"));
                 }
 
                 default:

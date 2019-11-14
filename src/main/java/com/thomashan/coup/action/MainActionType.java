@@ -76,10 +76,10 @@ public enum MainActionType implements ActionType {
     }
 
     private boolean isMinimumCoinsFulfilled(int coins) {
-        return !getMinimumCoins().isPresent() || coins >= getMinimumCoins().get();
+        return minimumCoins.map(c -> coins >= c).orElse(true);
     }
 
     private boolean isMaximumCoinsFulfilled(int coins) {
-        return !getMaximumCoins().isPresent() || coins < getMaximumCoins().get();
+        return maximumCoins.map(c -> coins < c).orElse(true);
     }
 }
