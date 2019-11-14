@@ -16,26 +16,26 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ActionValidatorTest {
+public class ActionValidatorUtilTest {
     @Mock
     private Action action;
 
     @Test
     public void testCheckIfComplete_ThrowsException_IfInCompletedState() {
-        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> ActionValidator.checkIfComplete(true));
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> ActionValidatorUtil.checkIfComplete(true));
         assertEquals("Can't perform any more action", throwable.getMessage());
     }
 
     @Test
     public void testCheckIfComplete_NoException_IfNotInCompletedState() {
-        ActionValidator.checkIfComplete(false);
+        ActionValidatorUtil.checkIfComplete(false);
     }
 
     @Test
     public void testCheckIfActionTypeIsAllowable_ThrowsException_IfActionTypeNotInAllowableActionType() {
         when(action.getActionType()).thenReturn(ActionTypeTestImpl.DEFAULT);
 
-        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> ActionValidator.checkIfActionTypeIsAllowable(Collections.emptyList(), action));
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> ActionValidatorUtil.checkIfActionTypeIsAllowable(Collections.emptyList(), action));
         assertEquals("This action is not allowed", throwable.getMessage());
     }
 
@@ -43,14 +43,14 @@ public class ActionValidatorTest {
     public void testCheckIfActionTypeIsAllowable_NoException_IfActionTypeInAllowableActionType() {
         when(action.getActionType()).thenReturn(ActionTypeTestImpl.DEFAULT);
 
-        ActionValidator.checkIfActionTypeIsAllowable(Collections.singletonList(ActionTypeTestImpl.DEFAULT), action);
+        ActionValidatorUtil.checkIfActionTypeIsAllowable(Collections.singletonList(ActionTypeTestImpl.DEFAULT), action);
     }
 
     @Test
     public void testCheckActionPlayerIsActive_ThrowsException_IfActionPlayerIsNotActive() {
         when(action.getPlayer()).thenReturn(build(false));
 
-        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> ActionValidator.checkActionPlayerIsActive(action));
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> ActionValidatorUtil.checkActionPlayerIsActive(action));
         assertEquals("The player is not active", throwable.getMessage());
     }
 
@@ -58,14 +58,14 @@ public class ActionValidatorTest {
     public void testCheckActionPlayerIsActive_NoException_IfActionPlayerIsActive() {
         when(action.getPlayer()).thenReturn(build());
 
-        ActionValidator.checkActionPlayerIsActive(action);
+        ActionValidatorUtil.checkActionPlayerIsActive(action);
     }
 
     @Test
     public void testCheckTargetPlayerIsActive_ThrowsException_IfTargetIsNotActive() {
         when(action.getTarget()).thenReturn(Optional.of(build(false)));
 
-        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> ActionValidator.checkTargetPlayerIsActive(action));
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> ActionValidatorUtil.checkTargetPlayerIsActive(action));
         assertEquals("The target player is not active", throwable.getMessage());
     }
 
@@ -73,14 +73,14 @@ public class ActionValidatorTest {
     public void testCheckTargetPlayerIsActive_NoException_IfTargetIsActive() {
         when(action.getTarget()).thenReturn(Optional.of(build()));
 
-        ActionValidator.checkTargetPlayerIsActive(action);
+        ActionValidatorUtil.checkTargetPlayerIsActive(action);
     }
 
     @Test
     public void testCheckTargetPlayerIsActive_NoException_IfEmptyTarget() {
         when(action.getTarget()).thenReturn(Optional.empty());
 
-        ActionValidator.checkTargetPlayerIsActive(action);
+        ActionValidatorUtil.checkTargetPlayerIsActive(action);
     }
 
     private enum ActionTypeTestImpl implements ActionType {

@@ -10,10 +10,10 @@ import com.thomashan.coup.action.ChallengeActionType;
 import java.util.List;
 import java.util.Optional;
 
-import static com.thomashan.coup.action.state.ActionValidator.checkActionPlayerIsActive;
-import static com.thomashan.coup.action.state.ActionValidator.checkIfActionTypeIsAllowable;
-import static com.thomashan.coup.action.state.ActionValidator.checkIfComplete;
-import static com.thomashan.coup.action.state.ActionValidator.checkTargetPlayerIsActive;
+import static com.thomashan.coup.action.state.ActionValidatorUtil.checkActionPlayerIsActive;
+import static com.thomashan.coup.action.state.ActionValidatorUtil.checkIfActionTypeIsAllowable;
+import static com.thomashan.coup.action.state.ActionValidatorUtil.checkIfComplete;
+import static com.thomashan.coup.action.state.ActionValidatorUtil.checkTargetPlayerIsActive;
 
 public interface ActionState<A extends Action> {
     List<Action> getActionHistory();

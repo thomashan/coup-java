@@ -8,9 +8,9 @@
 This is a java implementation of the card game Coup by Rikki Tahta.
 
 ## Aim
-1. The aim is to implement card game Coup in java.
-2. Build an AI around the statistics
-3. Add statistics about the current game in play
+ 1. The aim is to implement card game Coup in java.
+ 2. Build an AI around the statistics
+ 3. Add statistics about the current game in play
 
 ## Prerequisite
 * jdk8+
@@ -21,10 +21,10 @@ https://www.youtube.com/watch?v=lPlBDZnxHQA
 ## Quality Control
 The following tools are used to improve the project
 
-| Methodology   | Tool       | Web                     |
-| ---           | ---        | ---                     |
-| CI            | Travisci   | https://travis-ci.org   |
-| Code analysis | Sonarcloud | https://sonarcloud.io   |
-| Code analysis | Codecov    | https://codecov.io      |
-| Code analysis | Coveralls  | https://coveralls.io    |
-| Codacy        | Codacy     | https://www.codacy.com/ |
+| Methodology   | Tool       | Web                      |
+| ---           | ---        | ---                      |
+| CI            | Travisci   | <https://travis-ci.org>  |
+| Code analysis | Sonarcloud | <https://sonarcloud.io>  |
+| Code analysis | Codecov    | <https://codecov.io>     |
+| Code analysis | Coveralls  | <https://coveralls.io>   |
+| Codacy        | Codacy     | <https://www.codacy.com> |

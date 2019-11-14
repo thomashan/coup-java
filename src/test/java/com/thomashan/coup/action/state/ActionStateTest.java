@@ -23,9 +23,6 @@ public class ActionStateTest {
     private ActionState<Action> actionState;
     @Mock
     private Action action;
-    @Mock
-    private ActionValidator actionValidator;
-
 
     @Test
     public void testPerform_InvokesPerformAction() {
