@@ -7,18 +7,18 @@
 
 This is a java implementation of the card game Coup by Rikki Tahta.
 
-# Aim
+## Aim
 1. The aim is to implement card game Coup in java.
 3. Add statistics about the current game in play
 2. Build an AI around the statistics
 
-# Prerequisite
+## Prerequisite
 * jdk8+
 
-# How to play
+## How to play
 https://www.youtube.com/watch?v=lPlBDZnxHQA
 
-# Quality Control
+## Quality Control
 The following tools are used to improve the project
 
 | Methodology   | Tool       | Web                     |
