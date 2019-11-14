@@ -2,6 +2,8 @@ package com.thomashan.coup.action;
 
 import com.thomashan.coup.Player;
 
+import java.util.Optional;
+
 public class BlockAction implements Action<BlockActionType> {
     private final Player player;
     private final BlockActionType blockActionType;
@@ -18,6 +20,11 @@ public class BlockAction implements Action<BlockActionType> {
     @Override
     public Player getPlayer() {
         return player;
+    }
+
+    @Override
+    public Optional<Player> getTarget() {
+        return Optional.empty();
     }
 
     @Override

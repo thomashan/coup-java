@@ -104,6 +104,7 @@ public class MainAction implements Action<MainActionType> {
         return MainActionType.class;
     }
 
+    @Override
     public Optional<Player> getTarget() {
         return target;
     }

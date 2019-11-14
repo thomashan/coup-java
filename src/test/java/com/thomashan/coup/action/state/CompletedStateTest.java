@@ -8,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
+import java.util.Optional;
 
 import static com.thomashan.coup.PlayerBuilder.build;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -77,6 +78,11 @@ public class CompletedStateTest {
         @Override
         public Class getActionTypeClass() {
             return null;
+        }
+
+        @Override
+        public Optional<Player> getTarget() {
+            return Optional.empty();
         }
     }
 }
