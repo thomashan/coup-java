@@ -48,7 +48,7 @@ public class MainAction implements Action<MainActionType> {
 
     private void checkPreconditionsNoTarget(Player player, MainActionType mainActionType) {
         if (actionRequiresTarget.contains(mainActionType)) {
-            throw new IllegalArgumentException("Action cannot specify target");
+            throw new IllegalArgumentException("Action must specify target");
         }
 
         actionAllowed(mainActionType, player);
@@ -56,7 +56,7 @@ public class MainAction implements Action<MainActionType> {
 
     private void checkPreconditionsTargetRequired(Player player, MainActionType mainActionType, Player target) {
         if (!actionRequiresTarget.contains(mainActionType)) {
-            throw new IllegalArgumentException("Action requires a target");
+            throw new IllegalArgumentException("Action must not specify a target");
         }
 
         actionAllowed(mainActionType, player);
@@ -67,7 +67,7 @@ public class MainAction implements Action<MainActionType> {
 
     private void targetActive(Player target) {
         if (!target.isActive()) {
-            throw new IllegalArgumentException("Target player is inactive.");
+            throw new IllegalArgumentException("Target player is inactive");
         }
     }
 

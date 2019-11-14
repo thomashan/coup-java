@@ -2,6 +2,8 @@ package com.thomashan.coup.action.state;
 
 import com.thomashan.coup.action.MainAction;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 
@@ -12,12 +14,16 @@ import static com.thomashan.coup.action.MainActionType.FOREIGN_AID;
 import static com.thomashan.coup.action.MainActionType.INCOME;
 import static com.thomashan.coup.action.MainActionType.STEAL;
 import static com.thomashan.coup.action.MainActionType.TAX;
+import static java.util.Optional.empty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class WaitingMainActionStateTest extends WaitingMainActionStateTestCases {
     @Test
     public void testGetAllowableActionTypes() {
@@ -74,6 +80,19 @@ public class WaitingMainActionStateTest extends WaitingMainActionStateTestCases 
     public void testPerformAction_ThrowsException_IfActionIsNotAllowed() {
         Throwable throwable = assertThrows(IllegalArgumentException.class, () -> getWaitingMainActionState().performAction(MainAction.of(getPlayer(), COUP, build())));
         assertEquals("The action is not allowed", throwable.getMessage());
+    }
+
+    @Test
+    public void testPerformAction_GivenCoupActionAndNoTarget_ThrowsException() {
+        setUp(7);
+
+        MainAction coup = mock(MainAction.class);
+        when(coup.getActionType()).thenReturn(COUP);
+        when(coup.getPlayer()).thenReturn(getPlayer());
+        when(coup.getTarget()).thenReturn(empty());
+
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> getWaitingMainActionState().performAction(coup));
+        assertEquals("Coup must specify target", throwable.getMessage());
     }
 
     @Test
