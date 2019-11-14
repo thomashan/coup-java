@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Optional;
 
 import static com.thomashan.coup.PlayerBuilder.build;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
@@ -28,7 +29,7 @@ public class ActionValidatorUtilTest {
 
     @Test
     public void testCheckIfComplete_NoException_IfNotInCompletedState() {
-        ActionValidatorUtil.checkIfComplete(false);
+        assertDoesNotThrow(() -> ActionValidatorUtil.checkIfComplete(false));
     }
 
     @Test
@@ -43,7 +44,7 @@ public class ActionValidatorUtilTest {
     public void testCheckIfActionTypeIsAllowable_NoException_IfActionTypeInAllowableActionType() {
         when(action.getActionType()).thenReturn(ActionTypeTestImpl.DEFAULT);
 
-        ActionValidatorUtil.checkIfActionTypeIsAllowable(Collections.singletonList(ActionTypeTestImpl.DEFAULT), action);
+        assertDoesNotThrow(() -> ActionValidatorUtil.checkIfActionTypeIsAllowable(Collections.singletonList(ActionTypeTestImpl.DEFAULT), action));
     }
 
     @Test
@@ -58,7 +59,7 @@ public class ActionValidatorUtilTest {
     public void testCheckActionPlayerIsActive_NoException_IfActionPlayerIsActive() {
         when(action.getPlayer()).thenReturn(build());
 
-        ActionValidatorUtil.checkActionPlayerIsActive(action);
+        assertDoesNotThrow(() -> ActionValidatorUtil.checkActionPlayerIsActive(action));
     }
 
     @Test
@@ -73,14 +74,14 @@ public class ActionValidatorUtilTest {
     public void testCheckTargetPlayerIsActive_NoException_IfTargetIsActive() {
         when(action.getTarget()).thenReturn(Optional.of(build()));
 
-        ActionValidatorUtil.checkTargetPlayerIsActive(action);
+        assertDoesNotThrow(() -> ActionValidatorUtil.checkTargetPlayerIsActive(action));
     }
 
     @Test
     public void testCheckTargetPlayerIsActive_NoException_IfEmptyTarget() {
         when(action.getTarget()).thenReturn(Optional.empty());
 
-        ActionValidatorUtil.checkTargetPlayerIsActive(action);
+        assertDoesNotThrow(() -> ActionValidatorUtil.checkTargetPlayerIsActive(action));
     }
 
     private enum ActionTypeTestImpl implements ActionType {
