@@ -4,6 +4,7 @@
 [![codecov](https://codecov.io/gh/thomashan/coup-java/branch/master/graph/badge.svg)](https://codecov.io/gh/thomashan/coup-java)
 [![Coverage Status](https://coveralls.io/repos/github/thomashan/coup-java/badge.svg?branch=master)](https://coveralls.io/github/thomashan/coup-java?branch=master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/974abb2b54ea4b6e817c703ecbad0eac)](https://www.codacy.com/manual/thomashan/coup-java?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=thomashan/coup-java&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Coverage/974abb2b54ea4b6e817c703ecbad0eac)](https://www.codacy.com/manual/thomashan/coup-java?utm_source=github.com&utm_medium=referral&utm_content=thomashan/coup-java&utm_campaign=Badge_Coverage)
 
 This is a java implementation of the card game Coup by Rikki Tahta.
 
@@ -13,7 +14,7 @@ This is a java implementation of the card game Coup by Rikki Tahta.
 3.  Add statistics about the current game in play
 
 ## Prerequisite
-*    jdk8+
+*   jdk8+
 
 ## How to play
 <https://www.youtube.com/watch?v=lPlBDZnxHQA>
