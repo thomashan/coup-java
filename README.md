@@ -14,7 +14,7 @@ This is a java implementation of the card game Coup by Rikki Tahta.
 3.  Add statistics about the current game in play
 
 ## Prerequisite
-*    jdk8+
+*  jdk8+
 
 ## How to play
 <https://www.youtube.com/watch?v=lPlBDZnxHQA>
