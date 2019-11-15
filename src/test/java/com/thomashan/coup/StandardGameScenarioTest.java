@@ -4,6 +4,8 @@ import com.thomashan.coup.action.MainAction;
 import com.thomashan.coup.action.MainActionType;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
+
 public class StandardGameScenarioTest {
     @Test
     public void testTwoPlayerScenario_ShouldPass() {
@@ -11,6 +13,6 @@ public class StandardGameScenarioTest {
         Player player1 = game.getPlayers().get().get(0);
         Player player2 = game.getPlayers().get().get(1);
 
-        game.action(MainAction.of(player1, MainActionType.INCOME));
+        assertDoesNotThrow(() -> game.action(MainAction.of(player1, MainActionType.INCOME)));
     }
 }

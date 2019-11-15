@@ -1,6 +1,6 @@
 package com.thomashan.coup;
 
-public class PlayerCard {
+public final class PlayerCard {
     private final Card card;
     private final boolean shown;
 

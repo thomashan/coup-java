@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class StandardPlayers implements Players {
+public final class StandardPlayers implements Players {
     private final List<Player> players;
 
     private StandardPlayers() {

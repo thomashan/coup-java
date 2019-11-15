@@ -1,6 +1,6 @@
 package com.thomashan.coup;
 
-public class DrawnCard {
+public final class DrawnCard {
     private final Card card;
     private final Deck deck;
 

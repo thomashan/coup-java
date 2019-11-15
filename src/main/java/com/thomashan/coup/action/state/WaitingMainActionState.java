@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Optional.empty;
 
-public class WaitingMainActionState implements ActionState<MainAction> {
+public final class WaitingMainActionState implements ActionState<MainAction> {
     private final Players players;
     private final Player player;
     private final List<Action> actionHistory;

@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import static java.util.Optional.empty;
 
-public class CompletedState implements ActionState {
+public final class CompletedState implements ActionState {
     private final Players players;
     private final Player player;
     private final List<Action> actionHistory;

@@ -2,7 +2,7 @@ package com.thomashan.coup.action;
 
 import com.thomashan.coup.Player;
 
-public class PlayerChallengeAction {
+public final class PlayerChallengeAction {
     private final Player player;
     private final ChallengeActionType challengeActionType;
 

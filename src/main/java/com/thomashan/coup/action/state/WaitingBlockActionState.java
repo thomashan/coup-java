@@ -13,7 +13,7 @@ import java.util.Optional;
 
 import static java.util.Optional.empty;
 
-public class WaitingBlockActionState implements ActionState<BlockAction> {
+public final class WaitingBlockActionState implements ActionState<BlockAction> {
     private final Players players;
     private final Player player;
     private final List<Action> actionHistory;

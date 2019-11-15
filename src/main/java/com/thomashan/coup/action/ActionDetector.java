@@ -17,7 +17,7 @@ import static com.thomashan.coup.action.MainActionType.EXCHANGE;
 import static com.thomashan.coup.action.MainActionType.STEAL;
 import static com.thomashan.coup.action.MainActionType.TAX;
 
-public class ActionDetector {
+public final class ActionDetector {
     private ActionDetector() {
         throw new AssertionError();
     }

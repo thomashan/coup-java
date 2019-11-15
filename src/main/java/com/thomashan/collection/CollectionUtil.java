@@ -3,7 +3,7 @@ package com.thomashan.collection;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CollectionUtil {
+public final class CollectionUtil {
     private CollectionUtil() {
         // prevent instantiation
     }

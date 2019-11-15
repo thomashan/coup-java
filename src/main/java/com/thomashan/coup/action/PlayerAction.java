@@ -12,7 +12,7 @@ import static com.thomashan.coup.action.MainActionType.COUP;
 import static com.thomashan.coup.action.MainActionType.STEAL;
 import static java.util.Optional.empty;
 
-public class PlayerAction {
+public final class PlayerAction {
     private static final List<MainActionType> actionRequiresTarget = Arrays.asList(ASSASSINATE, STEAL, COUP);
     private final MainActionType mainActionType;
     private final Player player;
