@@ -10,9 +10,15 @@ import java.util.List;
 public interface Turn {
     int getTurnNumber();
 
+    Deck getDeck();
+
+    Players getPlayers();
+
     Player getPlayer();
 
     List<Player> getActionablePlayers();
+
+    List<Action> getActionHistory();
 
     List<Action> getAllowableActions();
 

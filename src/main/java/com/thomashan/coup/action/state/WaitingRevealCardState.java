@@ -1,5 +1,6 @@
 package com.thomashan.coup.action.state;
 
+import com.thomashan.coup.Deck;
 import com.thomashan.coup.Player;
 import com.thomashan.coup.Players;
 import com.thomashan.coup.action.Action;
@@ -53,6 +54,11 @@ public final class WaitingRevealCardState implements ActionState<RevealCardActio
     @Override
     public List<Action> getActionHistory() {
         return actionHistory;
+    }
+
+    @Override
+    public Deck getDeck() {
+        return null;
     }
 
     @Override

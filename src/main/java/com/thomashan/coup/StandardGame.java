@@ -1,5 +1,6 @@
 package com.thomashan.coup;
 
+import com.thomashan.collection.CollectionUtil;
 import com.thomashan.coup.action.Action;
 
 import java.util.ArrayList;
@@ -46,6 +47,14 @@ public final class StandardGame implements Game {
         this.turn = Turn.create(players);
     }
 
+    private StandardGame(Turn turn, List<List<Action>> actionHistory) {
+        this.players = turn.getPlayers();
+        this.numberOfPlayers = players.getNumberOfPlayers();
+        this.deck = turn.getDeck();
+        this.actionHistory = CollectionUtil.add(actionHistory, turn.getActionHistory());
+        this.turn = turn;
+    }
+
     public static StandardGame create(int numberOfPlayers) {
         return new StandardGame(numberOfPlayers);
     }
@@ -82,9 +91,10 @@ public final class StandardGame implements Game {
 
     @Override
     public Game action(Action action) {
-        return null;
+        return new StandardGame(turn.perform(action), actionHistory);
     }
 
+    @Override
     public Player getCurrentPlayer() {
         return turn.getPlayer();
     }

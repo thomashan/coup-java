@@ -1,6 +1,7 @@
 package com.thomashan.coup.action.state;
 
 import com.thomashan.collection.CollectionUtil;
+import com.thomashan.coup.Deck;
 import com.thomashan.coup.Player;
 import com.thomashan.coup.Players;
 import com.thomashan.coup.action.Action;
@@ -43,6 +44,11 @@ public final class WaitingChallengeMainActionState implements ActionState<Challe
     @Override
     public List<Action> getActionHistory() {
         return actionHistory;
+    }
+
+    @Override
+    public Deck getDeck() {
+        return null;
     }
 
     @Override

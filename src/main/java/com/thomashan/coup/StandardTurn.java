@@ -26,13 +26,28 @@ public final class StandardTurn implements Turn {
     }
 
     @Override
+    public Deck getDeck() {
+        return null;
+    }
+
+    @Override
+    public Players getPlayers() {
+        return players;
+    }
+
+    @Override
     public Player getPlayer() {
-        return actionState.getPlayer();
+        return players.get().get(turnNumber % players.getNumberOfPlayers());
     }
 
     @Override
     public List<Player> getActionablePlayers() {
         return actionState.getActionablePlayers();
+    }
+
+    @Override
+    public List<Action> getActionHistory() {
+        return actionState.getActionHistory();
     }
 
     @Override
@@ -42,6 +57,7 @@ public final class StandardTurn implements Turn {
 
     @Override
     public Turn perform(Action action) {
-        return new StandardTurn(turnNumber, players, actionState.perform(action));
+        ActionState newActionState = actionState.perform(action);
+        return new StandardTurn(turnNumber + 1, newActionState.getPlayers(), newActionState);
     }
 }

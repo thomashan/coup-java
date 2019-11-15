@@ -19,6 +19,8 @@ public interface Game {
 
     Game action(Action action);
 
+    Player getCurrentPlayer();
+
     static Game create(int numberOfPlayers) {
         return StandardGame.create(numberOfPlayers);
     }
