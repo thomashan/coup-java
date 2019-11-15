@@ -16,13 +16,8 @@ public final class StandardGame implements Game {
     private final Turn turn;
 
     private StandardGame(int numberOfPlayers) {
-        if (numberOfPlayers < MINIMUM_PLAYERS) {
-            throw new IllegalArgumentException("You need at least " + MINIMUM_PLAYERS + " players");
-        }
-
-        if (numberOfPlayers > MAXIMUM_PLAYERS) {
-            throw new IllegalArgumentException("Maximum of " + MAXIMUM_PLAYERS + " players");
-        }
+        checkMinimumPlayers(numberOfPlayers);
+        checkMaximumPlayers(numberOfPlayers);
 
         Deck deck = StandardDeck.create();
         Players players = StandardPlayers.create();
@@ -51,8 +46,9 @@ public final class StandardGame implements Game {
         this.players = turn.getPlayers();
         this.numberOfPlayers = players.getNumberOfPlayers();
         this.deck = turn.getDeck();
+
         List<List<Action>> newActionHistory = new ArrayList<>(actionHistory);
-        if(newActionHistory.size() == turn.getTurnNumber()) {
+        if (newActionHistory.size() == turn.getTurnNumber()) {
             newActionHistory.add(turn.getTurnNumber(), turn.getActionHistory());
         } else {
             newActionHistory.set(turn.getTurnNumber(), turn.getActionHistory());
@@ -60,6 +56,18 @@ public final class StandardGame implements Game {
 
         this.actionHistory = newActionHistory;
         this.turn = turn;
+    }
+
+    private void checkMinimumPlayers(int numberOfPlayers) {
+        if (numberOfPlayers < MINIMUM_PLAYERS) {
+            throw new IllegalArgumentException("You need at least " + MINIMUM_PLAYERS + " players");
+        }
+    }
+
+    private void checkMaximumPlayers(int numberOfPlayers) {
+        if (numberOfPlayers > MAXIMUM_PLAYERS) {
+            throw new IllegalArgumentException("Maximum of " + MAXIMUM_PLAYERS + " players");
+        }
     }
 
     public static StandardGame create(int numberOfPlayers) {
