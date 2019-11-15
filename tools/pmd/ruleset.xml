@@ -19,7 +19,7 @@
 <!--        </properties>-->
 <!--    </rule>-->
     <rule ref="category/java/codestyle.xml">
-        <exclude name="category/java/codestyle.xml/MethodNamingConventions"/>
+        <exclude name="MethodNamingConventions"/>
         <exclude name="MethodArgumentCouldBeFinal"/>
         <exclude name="LocalVariableCouldBeFinal"/>
         <exclude name="ShortClassName"/>
