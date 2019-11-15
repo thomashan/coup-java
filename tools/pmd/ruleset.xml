@@ -7,6 +7,13 @@
 
     <rule ref="category/java/bestpractices.xml"/>
     <rule ref="category/java/codestyle.xml">
+        <exclude name="MethodArgumentCouldBeFinal"/>
+        <exclude name="LocalVariableCouldBeFinal"/>
+        <exclude name="CommentRequired"/>
+        <exclude name="ShortMethodName"/>
+        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
+    </rule>
+    <rule ref="category/java/codestyle.xml/MethodNamingConventions">
         <properties>
             <property name="methodPattern" value="[a-z][a-zA-Z0-9]*"/>
             <property name="staticPattern" value="[a-z][a-zA-Z0-9]*"/>
@@ -14,11 +21,6 @@
             <property name="junit3TestPattern" value="test[A-Z0-9][a-zA-Z0-9]*"/>
             <property name="junit4TestPattern" value="[a-z][a-zA-Z0-9_]*"/>
         </properties>
-        <exclude name="MethodArgumentCouldBeFinal"/>
-        <exclude name="LocalVariableCouldBeFinal"/>
-        <exclude name="CommentRequired"/>
-        <exclude name="ShortMethodName"/>
-        <exclude name="JUnitAssertionsShouldIncludeMessage"/>
     </rule>
     <rule ref="category/java/design.xml"/>
     <rule ref="category/java/documentation.xml"/>
