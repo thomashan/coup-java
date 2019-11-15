@@ -12,8 +12,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class WaitingMainActionStateToWaitingRevealCardStateTest extends WaitingMainActionStateTestCases {
     @BeforeEach
-    public void setUp() {
-        setUp(7);
+    public void setUpDefaultPlayer() {
+        setUpPlayerCoins(7);
     }
 
     @Test

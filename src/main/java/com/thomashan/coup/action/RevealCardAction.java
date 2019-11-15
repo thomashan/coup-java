@@ -4,7 +4,7 @@ import com.thomashan.coup.Player;
 
 import java.util.Optional;
 
-public class RevealCardAction implements Action<RevealCardActionType> {
+public final class RevealCardAction implements Action<RevealCardActionType> {
     private final Player player;
     private final RevealCardActionType revealCardActionType;
 

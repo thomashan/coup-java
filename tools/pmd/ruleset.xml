@@ -4,15 +4,11 @@
          xmlns="http://pmd.sourceforge.net/ruleset/2.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://pmd.sourceforge.net/ruleset/2.0.0 https://pmd.sourceforge.io/ruleset_2_0_0.xsd">
-
-    <rule ref="category/java/bestpractices.xml"/>
-    <rule ref="category/java/codestyle.xml">
-        <exclude name="MethodArgumentCouldBeFinal"/>
-        <exclude name="LocalVariableCouldBeFinal"/>
-        <exclude name="CommentRequired"/>
-        <exclude name="ShortMethodName"/>
+    <rule ref="category/java/bestpractices.xml">
         <exclude name="JUnitAssertionsShouldIncludeMessage"/>
     </rule>
+
+
     <rule ref="category/java/codestyle.xml/MethodNamingConventions">
         <properties>
             <property name="methodPattern" value="[a-z][a-zA-Z0-9]*"/>
@@ -22,8 +18,20 @@
             <property name="junit4TestPattern" value="[a-z][a-zA-Z0-9_]*"/>
         </properties>
     </rule>
-    <rule ref="category/java/design.xml"/>
-    <rule ref="category/java/documentation.xml"/>
+    <rule ref="category/java/codestyle.xml">
+        <exclude name="MethodArgumentCouldBeFinal"/>
+        <exclude name="LocalVariableCouldBeFinal"/>
+        <exclude name="ShortClassName"/>
+        <exclude name="ShortMethodName"/>
+        <exclude name="OnlyOneReturn"/>
+    </rule>
+    <rule ref="category/java/design.xml">
+        <exclude name="LawOfDemeter"/>
+    </rule>
+    <rule ref="category/java/documentation.xml">
+        <exclude name="CommentRequired"/>
+        <exclude name="CommentSize"/>
+    </rule>
     <rule ref="category/java/errorprone.xml"/>
     <rule ref="category/java/multithreading.xml"/>
     <rule ref="category/java/performance.xml"/>

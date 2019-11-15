@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static java.util.Optional.empty;
 
-public class WaitingRevealCardState implements ActionState<RevealCardAction> {
+public final class WaitingRevealCardState implements ActionState<RevealCardAction> {
     private final Players players;
     private final Player player;
     private final List<Action> actionHistory;

@@ -5,7 +5,7 @@ import com.thomashan.coup.action.Action;
 import java.util.ArrayList;
 import java.util.List;
 
-public class StandardGame implements Game {
+public final class StandardGame implements Game {
     private static final int MINIMUM_PLAYERS = 2;
     private static final int MAXIMUM_PLAYERS = 6;
     private final Players players;

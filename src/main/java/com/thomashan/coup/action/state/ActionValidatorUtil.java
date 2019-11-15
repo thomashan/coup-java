@@ -7,7 +7,7 @@ import com.thomashan.coup.action.ActionType;
 import java.util.List;
 import java.util.Optional;
 
-public class ActionValidatorUtil {
+public final class ActionValidatorUtil {
     private ActionValidatorUtil() {
         // prevent instantiation
     }

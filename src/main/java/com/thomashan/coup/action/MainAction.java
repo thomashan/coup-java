@@ -11,7 +11,7 @@ import static com.thomashan.coup.action.MainActionType.COUP;
 import static com.thomashan.coup.action.MainActionType.STEAL;
 import static java.util.Optional.empty;
 
-public class MainAction implements Action<MainActionType> {
+public final class MainAction implements Action<MainActionType> {
     private static final List<MainActionType> actionRequiresTarget = Arrays.asList(ASSASSINATE, STEAL, COUP);
     private final Player player;
     private final MainActionType mainActionType;

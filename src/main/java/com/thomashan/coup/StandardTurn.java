@@ -5,7 +5,7 @@ import com.thomashan.coup.action.state.ActionState;
 
 import java.util.List;
 
-public class StandardTurn implements Turn {
+public final class StandardTurn implements Turn {
     private final int turnNumber;
     private final Players players;
     private final ActionState actionState;

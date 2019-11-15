@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Player {
+public final class Player {
     private final int coins;
     private final PlayerCard playerCard1;
     private final PlayerCard playerCard2;

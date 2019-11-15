@@ -18,7 +18,7 @@ import java.util.Optional;
 import static com.thomashan.coup.action.ChallengeActionType.CHALLENGE;
 import static java.util.Optional.empty;
 
-public class WaitingChallengeMainActionState implements ActionState<ChallengeAction> {
+public final class WaitingChallengeMainActionState implements ActionState<ChallengeAction> {
     private final Players players;
     private final Player player;
     private final List<Action> actionHistory;

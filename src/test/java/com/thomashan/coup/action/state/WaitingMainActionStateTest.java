@@ -84,7 +84,7 @@ public class WaitingMainActionStateTest extends WaitingMainActionStateTestCases 
 
     @Test
     public void testPerformAction_GivenCoupActionAndNoTarget_ThrowsException() {
-        setUp(7);
+        setUpPlayerCoins(7);
 
         MainAction coup = mock(MainAction.class);
         when(coup.getActionType()).thenReturn(COUP);
@@ -97,7 +97,7 @@ public class WaitingMainActionStateTest extends WaitingMainActionStateTestCases 
 
     @Test
     public void testPerformAction_ReturnsWaitingRevealCardState_IfCoupAction() {
-        setUp(7);
+        setUpPlayerCoins(7);
         ActionState actionState = getWaitingMainActionState().performAction(MainAction.of(getPlayer(), COUP, build()));
 
         assertEquals(WaitingRevealCardState.class, actionState.getClass());

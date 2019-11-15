@@ -10,7 +10,7 @@ import static com.thomashan.coup.Card.CAPTAIN;
 import static com.thomashan.coup.Card.CONTESSA;
 import static com.thomashan.coup.Card.DUKE;
 
-public class StandardDeck implements Deck {
+public final class StandardDeck implements Deck {
     private final List<Card> cards;
 
     private StandardDeck() {
