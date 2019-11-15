@@ -1,9 +1,9 @@
 package com.thomashan.coup;
 
-import com.thomashan.collection.CollectionUtil;
 import com.thomashan.coup.action.Action;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public final class StandardGame implements Game {
@@ -41,7 +41,7 @@ public final class StandardGame implements Game {
         }
 
         this.numberOfPlayers = numberOfPlayers;
-        this.actionHistory = new ArrayList<>();
+        this.actionHistory = Collections.singletonList(Collections.emptyList());
         this.players = players;
         this.deck = deck;
         this.turn = Turn.create(players);
@@ -51,7 +51,14 @@ public final class StandardGame implements Game {
         this.players = turn.getPlayers();
         this.numberOfPlayers = players.getNumberOfPlayers();
         this.deck = turn.getDeck();
-        this.actionHistory = CollectionUtil.add(actionHistory, turn.getActionHistory());
+        List<List<Action>> newActionHistory = new ArrayList<>(actionHistory);
+        if(newActionHistory.size() == turn.getTurnNumber()) {
+            newActionHistory.add(turn.getTurnNumber(), turn.getActionHistory());
+        } else {
+            newActionHistory.set(turn.getTurnNumber(), turn.getActionHistory());
+        }
+
+        this.actionHistory = newActionHistory;
         this.turn = turn;
     }
 
@@ -91,7 +98,15 @@ public final class StandardGame implements Game {
 
     @Override
     public Game action(Action action) {
-        return new StandardGame(turn.perform(action), actionHistory);
+        Turn newTurn = turn.perform(action);
+        List<List<Action>> newActionHistory = new ArrayList<>(actionHistory);
+        newActionHistory.set(turn.getTurnNumber(), newTurn.getActionHistory());
+
+        if (newTurn.isComplete()) {
+            return new StandardGame(newTurn.newTurn(), newActionHistory);
+        }
+
+        return new StandardGame(newTurn, newActionHistory);
     }
 
     @Override

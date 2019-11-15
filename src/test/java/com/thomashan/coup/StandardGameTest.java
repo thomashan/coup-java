@@ -1,11 +1,13 @@
 package com.thomashan.coup;
 
+import com.thomashan.coup.action.Action;
 import com.thomashan.coup.action.MainAction;
 import org.junit.jupiter.api.Test;
 
 import static com.thomashan.coup.action.MainActionType.INCOME;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class StandardGameTest {
     @Test
@@ -58,5 +60,39 @@ class StandardGameTest {
         game = game.action(MainAction.of(game.getCurrentPlayer(), INCOME));
 
         assertEquals(1, game.getTurn().getTurnNumber());
+    }
+
+    @Test
+    public void testGetActionHistory_GivenFirstTurn_ReturnsOneActionHistory() {
+        Game game = StandardGame.create(2);
+
+        assertEquals(1, game.getActionHistory().size());
+    }
+
+    @Test
+    public void testGetActionHistory_GivenSecondTurn_ReturnsTwoActionHistory() {
+        Game game = StandardGame.create(2);
+        game = game.action(MainAction.of(game.getCurrentPlayer(), INCOME));
+
+        assertEquals(2, game.getActionHistory().size());
+    }
+
+    @Test
+    public void testGetActionHistory_GivenSecondTurn_ReturnsCorrectActionHistory() {
+        Game game = StandardGame.create(2);
+        Action action = MainAction.of(game.getCurrentPlayer(), INCOME);
+        game = game.action(action);
+
+        assertTrue(game.getActionHistory().get(0).contains(action));
+    }
+
+    @Test
+    public void testGetActionHistory_GivenThirdTurn_ReturnsCorrectActionHistory() {
+        Game game = StandardGame.create(2);
+        game = game.action(MainAction.of(game.getCurrentPlayer(), INCOME));
+        Action action = MainAction.of(game.getCurrentPlayer(), INCOME);
+        game = game.action(action);
+
+        assertTrue(game.getActionHistory().get(1).contains(action));
     }
 }

@@ -8,6 +8,10 @@ import java.util.List;
  * Model the allowable action, challenge action, and block action for the current turn.
  */
 public interface Turn {
+    boolean isComplete();
+
+    Turn newTurn();
+
     int getTurnNumber();
 
     Deck getDeck();

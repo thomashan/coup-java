@@ -21,6 +21,18 @@ public final class StandardTurn implements Turn {
     }
 
     @Override
+    public boolean isComplete() {
+        return actionState.isComplete();
+    }
+
+    @Override
+    public Turn newTurn() {
+        int newTurnNumber = turnNumber + 1;
+
+        return new StandardTurn(newTurnNumber, players, ActionState.initialState(players, getNextTurnPlayer()));
+    }
+
+    @Override
     public int getTurnNumber() {
         return turnNumber;
     }
@@ -58,6 +70,10 @@ public final class StandardTurn implements Turn {
     @Override
     public Turn perform(Action action) {
         ActionState newActionState = actionState.perform(action);
-        return new StandardTurn(turnNumber + 1, newActionState.getPlayers(), newActionState);
+        return new StandardTurn(turnNumber, newActionState.getPlayers(), newActionState);
+    }
+
+    private Player getNextTurnPlayer() {
+        return players.get().get((turnNumber + 1) % players.getNumberOfPlayers());
     }
 }
