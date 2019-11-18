@@ -151,20 +151,6 @@ class ImmutableListImpl<E> implements ImmutableList<E> {
     }
 
     @Override
-    public E getOrElse(int index, E e) {
-        try {
-            return list.get(index);
-        } catch (IndexOutOfBoundsException ex) {
-            return e;
-        }
-    }
-
-    @Override
-    public List<E> toList() {
-        return new ArrayList<>(list);
-    }
-
-    @Override
     public ImmutableList<E> minus(E e) {
         List<E> newList = new ArrayList<>(list);
         newList.remove(e);

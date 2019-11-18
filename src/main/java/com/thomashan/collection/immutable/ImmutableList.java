@@ -31,8 +31,4 @@ public interface ImmutableList<E> extends List<E> {
     ImmutableList<E> minus(E e);
 
     ImmutableList<E> addOrSet(int index, E e);
-
-    E getOrElse(int index, E e);
-
-    List<E> toList();
 }
