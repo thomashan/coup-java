@@ -24,5 +24,5 @@ public interface Deck {
      * @param card The card to add to the deck.
      * @return Deck the new deck with the card added.
      */
-    Deck add(Card card);
+    Deck plus(Card card);
 }

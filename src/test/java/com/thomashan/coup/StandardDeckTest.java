@@ -58,8 +58,8 @@ class StandardDeckTest {
     }
 
     @Test
-    public void testAdd_AddANewCardToDeck() {
-        Deck newDeck = deck.add(AMBASSADOR);
+    public void testPlus_AddANewCardToDeck() {
+        Deck newDeck = deck.plus(AMBASSADOR);
 
         assertEquals(16, newDeck.getCards().size());
         assertEquals(4, newDeck.getCards().stream().filter(card -> card == AMBASSADOR).count());

@@ -1,8 +1,8 @@
 package com.thomashan.coup;
 
+import com.thomashan.collection.immutable.ImmutableList;
 import com.thomashan.coup.action.Action;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -12,7 +12,7 @@ public final class StandardGame implements Game {
     private final Players players;
     private final int numberOfPlayers;
     private final Deck deck;
-    private final List<List<Action>> actionHistory;
+    private final ImmutableList<List<Action>> actionHistory;
     private final Turn turn;
 
     private StandardGame(int numberOfPlayers) {
@@ -36,25 +36,17 @@ public final class StandardGame implements Game {
         }
 
         this.numberOfPlayers = numberOfPlayers;
-        this.actionHistory = Collections.singletonList(Collections.emptyList());
+        this.actionHistory = ImmutableList.of(Collections.singletonList(Collections.emptyList()));
         this.players = players;
         this.deck = deck;
         this.turn = Turn.create(players);
     }
 
-    private StandardGame(Turn turn, List<List<Action>> actionHistory) {
+    private StandardGame(Turn turn, ImmutableList<List<Action>> actionHistory) {
         this.players = turn.getPlayers();
         this.numberOfPlayers = players.getNumberOfPlayers();
         this.deck = turn.getDeck();
-
-        List<List<Action>> newActionHistory = new ArrayList<>(actionHistory);
-        if (newActionHistory.size() == turn.getTurnNumber()) {
-            newActionHistory.add(turn.getTurnNumber(), turn.getActionHistory());
-        } else {
-            newActionHistory.set(turn.getTurnNumber(), turn.getActionHistory());
-        }
-
-        this.actionHistory = newActionHistory;
+        this.actionHistory = actionHistory.addOrSet(turn.getTurnNumber(), turn.getActionHistory());
         this.turn = turn;
     }
 
@@ -107,8 +99,7 @@ public final class StandardGame implements Game {
     @Override
     public Game action(Action action) {
         Turn newTurn = turn.perform(action);
-        List<List<Action>> newActionHistory = new ArrayList<>(actionHistory);
-        newActionHistory.set(turn.getTurnNumber(), newTurn.getActionHistory());
+        ImmutableList<List<Action>> newActionHistory = actionHistory.addOrSet(turn.getTurnNumber(), newTurn.getActionHistory());
 
         if (newTurn.isComplete()) {
             return new StandardGame(newTurn.newTurn(), newActionHistory);

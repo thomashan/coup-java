@@ -1,6 +1,9 @@
 package com.thomashan.coup;
 
+import com.thomashan.collection.immutable.ImmutableList;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -11,36 +14,37 @@ import static com.thomashan.coup.Card.CONTESSA;
 import static com.thomashan.coup.Card.DUKE;
 
 public final class StandardDeck implements Deck {
-    private final List<Card> cards;
+    private final ImmutableList<Card> cards;
 
     private StandardDeck() {
-        List<Card> initialDeck = new ArrayList<>();
-        initialDeck.add(DUKE);
-        initialDeck.add(DUKE);
-        initialDeck.add(DUKE);
-        initialDeck.add(ASSASSIN);
-        initialDeck.add(ASSASSIN);
-        initialDeck.add(ASSASSIN);
-        initialDeck.add(AMBASSADOR);
-        initialDeck.add(AMBASSADOR);
-        initialDeck.add(AMBASSADOR);
-        initialDeck.add(CAPTAIN);
-        initialDeck.add(CAPTAIN);
-        initialDeck.add(CAPTAIN);
-        initialDeck.add(CONTESSA);
-        initialDeck.add(CONTESSA);
-        initialDeck.add(CONTESSA);
+        List<Card> initialDeck = Arrays.asList(
+                DUKE,
+                DUKE,
+                DUKE,
+                ASSASSIN,
+                ASSASSIN,
+                ASSASSIN,
+                AMBASSADOR,
+                AMBASSADOR,
+                AMBASSADOR,
+                CAPTAIN,
+                CAPTAIN,
+                CAPTAIN,
+                CONTESSA,
+                CONTESSA,
+                CONTESSA
+        );
 
         Collections.shuffle(initialDeck);
 
-        cards = initialDeck;
+        cards = ImmutableList.of(initialDeck);
     }
 
     private StandardDeck(List<Card> initialDeck) {
-        List<Card> cardsToShuffle = new ArrayList<>(initialDeck);
-        Collections.shuffle(cardsToShuffle);
+        List<Card> shuffledCards = new ArrayList<>(initialDeck);
+        Collections.shuffle(shuffledCards);
 
-        cards = cardsToShuffle;
+        cards = ImmutableList.of(shuffledCards);
     }
 
     public static Deck create() {
@@ -73,16 +77,14 @@ public final class StandardDeck implements Deck {
 
     @Override
     public DrawnCard draw() {
-        Card removedCard = cards.remove(getLastCardIndex());
+        Card removedCard = cards.get(getLastCardIndex());
+        ImmutableList<Card> newCards = cards.minus(removedCard);
 
-        return DrawnCard.of(removedCard, new StandardDeck(cards));
+        return DrawnCard.of(removedCard, new StandardDeck(newCards));
     }
 
     @Override
-    public Deck add(Card card) {
-        List<Card> newCards = new ArrayList<>(cards);
-        newCards.add(card);
-
-        return new StandardDeck(newCards);
+    public Deck plus(Card card) {
+        return new StandardDeck(cards.plus(card));
     }
 }
