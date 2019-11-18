@@ -85,9 +85,6 @@ public final class StandardDeck implements Deck {
 
     @Override
     public Deck plus(Card card) {
-        List<Card> newCards = new ArrayList<>(cards);
-        newCards.add(card);
-
-        return new StandardDeck(newCards);
+        return new StandardDeck(cards.plus(card));
     }
 }

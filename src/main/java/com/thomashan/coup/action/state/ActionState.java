@@ -1,6 +1,5 @@
 package com.thomashan.coup.action.state;
 
-import com.thomashan.collection.CollectionUtil;
 import com.thomashan.coup.Deck;
 import com.thomashan.coup.Player;
 import com.thomashan.coup.Players;
