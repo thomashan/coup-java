@@ -17,9 +17,7 @@ public final class StandardPlayers implements Players {
     }
 
     private StandardPlayers(ImmutableList<Player> players, Player player) {
-        ImmutableList<Player> playerList = players.plus(player);
-
-        this.players = playerList;
+        this.players = players.plus(player);
     }
 
     public static Players create() {
