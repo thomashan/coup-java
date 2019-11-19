@@ -1,6 +1,7 @@
 package com.thomashan.coup.action.state;
 
-import com.thomashan.collection.CollectionUtil;
+import com.thomashan.collection.immutable.ImmutableList;
+import com.thomashan.coup.Deck;
 import com.thomashan.coup.Player;
 import com.thomashan.coup.Players;
 import com.thomashan.coup.action.Action;
@@ -21,17 +22,22 @@ import static java.util.Optional.empty;
 public final class WaitingMainActionState implements ActionState<MainAction> {
     private final Players players;
     private final Player player;
-    private final List<Action> actionHistory;
+    private final ImmutableList<Action> actionHistory;
 
     private WaitingMainActionState(Players players, Player player) {
         this.players = players;
         this.player = player;
-        this.actionHistory = Collections.emptyList();
+        this.actionHistory = ImmutableList.of();
     }
 
     @Override
     public List<Action> getActionHistory() {
         return actionHistory;
+    }
+
+    @Override
+    public Deck getDeck() {
+        return null;
     }
 
     @Override
@@ -89,7 +95,7 @@ public final class WaitingMainActionState implements ActionState<MainAction> {
         checkActionPlayerIsSameAsStatePlayer(action);
         checkActionAllowable(action);
 
-        List<Action> newActionHistory = CollectionUtil.add(actionHistory, action);
+        ImmutableList<Action> newActionHistory = actionHistory.plus(action);
         MainActionType mainActionType = action.getActionType();
 
         if (!mainActionType.isChallengeable()) {

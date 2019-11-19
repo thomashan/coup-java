@@ -1,8 +1,8 @@
 package com.thomashan.coup;
 
+import com.thomashan.collection.immutable.ImmutableList;
 import com.thomashan.coup.action.MainActionType;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -39,13 +39,13 @@ public final class Player {
     }
 
     public List<Card> getActiveCards() {
-        List<Card> cards = new ArrayList<>();
+        ImmutableList<Card> cards = ImmutableList.of();
 
         if (playerCard1.isHidden()) {
-            cards.add(playerCard1.getCard());
+            cards = cards.plus(playerCard1.getCard());
         }
         if (playerCard2.isHidden()) {
-            cards.add(playerCard2.getCard());
+            cards = cards.plus(playerCard2.getCard());
         }
 
         return cards;

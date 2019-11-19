@@ -1,8 +1,9 @@
 package com.thomashan.coup;
 
+import com.thomashan.collection.immutable.ImmutableList;
 import com.thomashan.coup.action.Action;
 
-import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public final class StandardGame implements Game {
@@ -11,17 +12,12 @@ public final class StandardGame implements Game {
     private final Players players;
     private final int numberOfPlayers;
     private final Deck deck;
-    private final List<List<Action>> actionHistory;
+    private final ImmutableList<List<Action>> actionHistory;
     private final Turn turn;
 
     private StandardGame(int numberOfPlayers) {
-        if (numberOfPlayers < MINIMUM_PLAYERS) {
-            throw new IllegalArgumentException("You need at least " + MINIMUM_PLAYERS + " players");
-        }
-
-        if (numberOfPlayers > MAXIMUM_PLAYERS) {
-            throw new IllegalArgumentException("Maximum of " + MAXIMUM_PLAYERS + " players");
-        }
+        checkMinimumPlayers(numberOfPlayers);
+        checkMaximumPlayers(numberOfPlayers);
 
         Deck deck = StandardDeck.create();
         Players players = StandardPlayers.create();
@@ -40,10 +36,30 @@ public final class StandardGame implements Game {
         }
 
         this.numberOfPlayers = numberOfPlayers;
-        this.actionHistory = new ArrayList<>();
+        this.actionHistory = ImmutableList.of(Collections.singletonList(Collections.emptyList()));
         this.players = players;
         this.deck = deck;
         this.turn = Turn.create(players);
+    }
+
+    private StandardGame(Turn turn, ImmutableList<List<Action>> actionHistory) {
+        this.players = turn.getPlayers();
+        this.numberOfPlayers = players.getNumberOfPlayers();
+        this.deck = turn.getDeck();
+        this.actionHistory = actionHistory.addOrSet(turn.getTurnNumber(), turn.getActionHistory());
+        this.turn = turn;
+    }
+
+    private void checkMinimumPlayers(int numberOfPlayers) {
+        if (numberOfPlayers < MINIMUM_PLAYERS) {
+            throw new IllegalArgumentException("You need at least " + MINIMUM_PLAYERS + " players");
+        }
+    }
+
+    private void checkMaximumPlayers(int numberOfPlayers) {
+        if (numberOfPlayers > MAXIMUM_PLAYERS) {
+            throw new IllegalArgumentException("Maximum of " + MAXIMUM_PLAYERS + " players");
+        }
     }
 
     public static StandardGame create(int numberOfPlayers) {
@@ -82,9 +98,17 @@ public final class StandardGame implements Game {
 
     @Override
     public Game action(Action action) {
-        return null;
+        Turn newTurn = turn.perform(action);
+        ImmutableList<List<Action>> newActionHistory = actionHistory.addOrSet(turn.getTurnNumber(), newTurn.getActionHistory());
+
+        if (newTurn.isComplete()) {
+            return new StandardGame(newTurn.newTurn(), newActionHistory);
+        }
+
+        return new StandardGame(newTurn, newActionHistory);
     }
 
+    @Override
     public Player getCurrentPlayer() {
         return turn.getPlayer();
     }

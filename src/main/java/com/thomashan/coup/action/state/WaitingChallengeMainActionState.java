@@ -1,6 +1,7 @@
 package com.thomashan.coup.action.state;
 
-import com.thomashan.collection.CollectionUtil;
+import com.thomashan.collection.immutable.ImmutableList;
+import com.thomashan.coup.Deck;
 import com.thomashan.coup.Player;
 import com.thomashan.coup.Players;
 import com.thomashan.coup.action.Action;
@@ -21,13 +22,13 @@ import static java.util.Optional.empty;
 public final class WaitingChallengeMainActionState implements ActionState<ChallengeAction> {
     private final Players players;
     private final Player player;
-    private final List<Action> actionHistory;
+    private final ImmutableList<Action> actionHistory;
     private final Optional<Player> target;
 
     private WaitingChallengeMainActionState(Players players, Player player, List<Action> actionHistory, Player target) {
         this.players = players;
         this.player = player;
-        this.actionHistory = actionHistory;
+        this.actionHistory = ImmutableList.of(actionHistory);
 
         if (target != null) {
             this.target = Optional.of(target);
@@ -43,6 +44,11 @@ public final class WaitingChallengeMainActionState implements ActionState<Challe
     @Override
     public List<Action> getActionHistory() {
         return actionHistory;
+    }
+
+    @Override
+    public Deck getDeck() {
+        return null;
     }
 
     @Override
@@ -98,7 +104,7 @@ public final class WaitingChallengeMainActionState implements ActionState<Challe
 
     @Override
     public ActionState performAction(ChallengeAction action) {
-        List<Action> newActionHistory = CollectionUtil.add(actionHistory, action);
+        ImmutableList<Action> newActionHistory = actionHistory.plus(action);
 
         if (action.getChallengeActionType() == CHALLENGE) {
             if (ActionDetector.isBluff(((MainAction) actionHistory.get(0)).getActionType(), player.getActiveCards())) {

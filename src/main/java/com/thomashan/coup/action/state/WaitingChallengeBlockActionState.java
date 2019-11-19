@@ -1,5 +1,6 @@
 package com.thomashan.coup.action.state;
 
+import com.thomashan.coup.Deck;
 import com.thomashan.coup.Player;
 import com.thomashan.coup.Players;
 import com.thomashan.coup.action.Action;
@@ -17,6 +18,11 @@ import static java.util.Optional.empty;
 public class WaitingChallengeBlockActionState implements ActionState<ChallengeAction> {
     @Override
     public List<Action> getActionHistory() {
+        return null;
+    }
+
+    @Override
+    public Deck getDeck() {
         return null;
     }
 

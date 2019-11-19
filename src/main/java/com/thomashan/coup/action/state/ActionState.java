@@ -1,5 +1,6 @@
 package com.thomashan.coup.action.state;
 
+import com.thomashan.coup.Deck;
 import com.thomashan.coup.Player;
 import com.thomashan.coup.Players;
 import com.thomashan.coup.action.Action;
@@ -17,6 +18,8 @@ import static com.thomashan.coup.action.state.ActionValidatorUtil.checkTargetPla
 
 public interface ActionState<A extends Action> {
     List<Action> getActionHistory();
+
+    Deck getDeck();
 
     Players getPlayers();
 

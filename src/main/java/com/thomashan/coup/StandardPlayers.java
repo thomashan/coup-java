@@ -1,25 +1,23 @@
 package com.thomashan.coup;
 
-import java.util.ArrayList;
+import com.thomashan.collection.immutable.ImmutableList;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
 public final class StandardPlayers implements Players {
-    private final List<Player> players;
+    private final transient ImmutableList<Player> players;
 
     private StandardPlayers() {
-        this.players = new ArrayList<>();
+        this.players = ImmutableList.of();
     }
 
     private StandardPlayers(List<Player> players) {
-        this.players = players;
+        this.players = ImmutableList.of(players);
     }
 
-    private StandardPlayers(List<Player> players, Player player) {
-        List<Player> playerList = new ArrayList<>(players);
-        playerList.add(player);
-
-        this.players = playerList;
+    private StandardPlayers(ImmutableList<Player> players, Player player) {
+        this.players = players.plus(player);
     }
 
     public static Players create() {
@@ -57,9 +55,8 @@ public final class StandardPlayers implements Players {
 
     @Override
     public Players updatePlayer(Player oldPlayer, Player newPlayer) {
-        List<Player> newPlayers = new ArrayList<>(players);
-        int index = newPlayers.indexOf(oldPlayer);
-        newPlayers.set(index, newPlayer);
+        int index = players.indexOf(oldPlayer);
+        ImmutableList<Player> newPlayers = players.addOrSet(index, newPlayer);
 
         return new StandardPlayers(newPlayers);
     }
