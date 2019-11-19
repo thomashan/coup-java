@@ -139,7 +139,17 @@ class ImmutableListImpl<E> implements ImmutableList<E> {
 
     @Override
     public List<E> subList(int fromIndex, int toIndex) {
-        return list.subList(fromIndex, toIndex);
+        return of(list.subList(fromIndex, toIndex));
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return list.equals(obj);
+    }
+
+    @Override
+    public int hashCode() {
+        return list.hashCode();
     }
 
     @Override
