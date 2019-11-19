@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.ListIterator;
 
 /* default */
+@SuppressWarnings("PMD.TooManyMethods")
 final class ImmutableListImpl<E> implements ImmutableList<E> {
     private final transient List<E> list;
 

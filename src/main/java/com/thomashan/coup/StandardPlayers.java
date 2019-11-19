@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public final class StandardPlayers implements Players {
-    private final ImmutableList<Player> players;
+    private final transient ImmutableList<Player> players;
 
     private StandardPlayers() {
         this.players = ImmutableList.of();
