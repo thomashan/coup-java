@@ -199,7 +199,7 @@ public class ImmutableListImplTest {
     public void testPlus_ReturnsNewInstanceOfImmutableList() {
         ImmutableList<Object> list = of();
 
-        assertFalse(list == list.plus(new Object()));
+        assertNotSame(list, list.plus(new Object()));
     }
 
     @Test

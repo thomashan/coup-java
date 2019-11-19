@@ -7,7 +7,7 @@ import java.util.List;
 
 public final class StandardTurn implements Turn {
     private final int turnNumber;
-    private final Players players;
+    private final transient Players players;
     private final ActionState actionState;
 
     private StandardTurn(int turnNumber, Players players, ActionState actionState) {
