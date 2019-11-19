@@ -38,6 +38,8 @@ dependencies {
 
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.4.2"
 
+    implementation "com.google.guava:guava:28.1-jre"
+
     codacy "com.github.codacy:codacy-coverage-reporter:6.0.6"
 }
 

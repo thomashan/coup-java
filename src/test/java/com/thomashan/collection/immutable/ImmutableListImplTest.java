@@ -10,6 +10,7 @@ import static com.thomashan.collection.immutable.ImmutableListImpl.of;
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotSame;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -215,7 +216,7 @@ public class ImmutableListImplTest {
         Object object = new Object();
         ImmutableList<Object> list = of(object);
 
-        assertFalse(list == list.minus(object));
+        assertNotSame(list, list.minus(object));
     }
 
     @Test
@@ -235,7 +236,7 @@ public class ImmutableListImplTest {
         Object object = new Object();
         ImmutableList<Object> list = of(object);
 
-        assertFalse(list == list.addOrSet(0, object));
+        assertNotSame(list, list.addOrSet(0, object));
     }
 
     @Test

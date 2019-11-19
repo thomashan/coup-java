@@ -1,5 +1,7 @@
 package com.thomashan.collection.immutable;
 
+import com.google.common.annotations.VisibleForTesting;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -8,13 +10,15 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-class ImmutableListImpl<E> implements ImmutableList<E> {
+/* default */
+final class ImmutableListImpl<E> implements ImmutableList<E> {
     private final transient List<E> list;
 
     private ImmutableListImpl(List<E> list) {
         this.list = list;
     }
 
+    @VisibleForTesting
     static <E> ImmutableListImpl<E> of(E... e) {
         if (0 == e.length) {
             return new ImmutableListImpl<>(Collections.unmodifiableList(Collections.emptyList()));
@@ -23,6 +27,7 @@ class ImmutableListImpl<E> implements ImmutableList<E> {
         return new ImmutableListImpl(Collections.unmodifiableList(Arrays.asList(e)));
     }
 
+    @VisibleForTesting
     static <E> ImmutableListImpl<E> of(List<E> list) {
         return new ImmutableListImpl<>(Collections.unmodifiableList(list));
     }
