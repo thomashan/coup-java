@@ -1,7 +1,8 @@
-package com.thomashan.coup.action.state;
+package com.thomashan.coup.action;
 
 import com.thomashan.coup.action.Action;
 import com.thomashan.coup.action.ActionType;
+import com.thomashan.coup.action.ActionValidatorUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;

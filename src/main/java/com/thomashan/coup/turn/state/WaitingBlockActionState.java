@@ -1,24 +1,37 @@
-package com.thomashan.coup.action.state;
+package com.thomashan.coup.turn.state;
 
 import com.thomashan.coup.Deck;
 import com.thomashan.coup.Player;
 import com.thomashan.coup.Players;
 import com.thomashan.coup.action.Action;
 import com.thomashan.coup.action.ActionType;
+import com.thomashan.coup.action.BlockAction;
 import com.thomashan.coup.action.BlockActionType;
-import com.thomashan.coup.action.ChallengeAction;
 import com.thomashan.coup.action.ChallengeActionType;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import static java.util.Optional.empty;
 
-public class WaitingChallengeBlockActionState implements ActionState<ChallengeAction> {
+public final class WaitingBlockActionState implements TurnState<BlockAction> {
+    private final Players players;
+    private final Player player;
+    private final List<Action> actionHistory;
+
+    private WaitingBlockActionState(Players players, Player player, List<Action> actionHistory) {
+        this.players = players;
+        this.player = player;
+        this.actionHistory = actionHistory;
+    }
+
+    public static WaitingBlockActionState of(Players players, Player player, List<Action> actionHistory) {
+        return new WaitingBlockActionState(players, player, actionHistory);
+    }
+
     @Override
     public List<Action> getActionHistory() {
-        return null;
+        return actionHistory;
     }
 
     @Override
@@ -28,17 +41,17 @@ public class WaitingChallengeBlockActionState implements ActionState<ChallengeAc
 
     @Override
     public Players getPlayers() {
-        return null;
+        return players;
     }
 
     @Override
     public Player getPlayer() {
-        return null;
+        return player;
     }
 
     @Override
     public List<Player> getActionablePlayers() {
-        // FIXME: return all player apart from the player that performed the block
+        // FIXME: return the player who should perform the block
         return null;
     }
 
@@ -78,12 +91,12 @@ public class WaitingChallengeBlockActionState implements ActionState<ChallengeAc
     }
 
     @Override
-    public WaitingRevealCardState performAction(ChallengeAction action) {
+    public TurnState performAction(BlockAction action) {
         return null;
     }
 
     @Override
     public List<ActionType> getAllowableActionTypes() {
-        return Arrays.asList(ChallengeActionType.values());
+        return null;
     }
 }

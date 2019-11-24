@@ -1,4 +1,4 @@
-package com.thomashan.coup.action.state;
+package com.thomashan.coup.turn.state;
 
 import com.thomashan.coup.action.MainAction;
 import org.junit.jupiter.api.Test;
@@ -16,16 +16,16 @@ public class WaitingMainActionStateToCompletedStateTest extends WaitingMainActio
 
     @Test
     public void testPerformAction_IncomeAction_PlayersContainsNewPlayer() {
-        ActionState actionState = getWaitingMainActionState().performAction(MainAction.of(getPlayer(), INCOME));
+        TurnState turnState = getWaitingMainActionState().performAction(MainAction.of(getPlayer(), INCOME));
 
-        assertTrue(actionState.getPlayers().get().contains(actionState.getPlayer()));
-        assertFalse(actionState.getPlayers().get().contains(getPlayer()));
+        assertTrue(turnState.getPlayers().get().contains(turnState.getPlayer()));
+        assertFalse(turnState.getPlayers().get().contains(getPlayer()));
     }
 
     @Test
     public void testPerformAction_IncomeAction_NewPlayerWithOneMoreCoin() {
-        ActionState actionState = getWaitingMainActionState().performAction(MainAction.of(getPlayer(), INCOME));
+        TurnState turnState = getWaitingMainActionState().performAction(MainAction.of(getPlayer(), INCOME));
 
-        assertEquals(getPlayer().getCoins() + 1, actionState.getPlayer().getCoins());
+        assertEquals(getPlayer().getCoins() + 1, turnState.getPlayer().getCoins());
     }
 }

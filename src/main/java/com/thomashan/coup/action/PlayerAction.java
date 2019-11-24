@@ -1,7 +1,6 @@
 package com.thomashan.coup.action;
 
 import com.thomashan.coup.Player;
-import com.thomashan.coup.TurnAction;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,7 +15,6 @@ public final class PlayerAction {
     private static final List<MainActionType> actionRequiresTarget = Arrays.asList(ASSASSINATE, STEAL, COUP);
     private final MainActionType mainActionType;
     private final Player player;
-    private final TurnAction turnAction;
     private final Optional<Player> target;
     private final Optional<List<ChallengeActionType>> challengeActions;
     private final Optional<BlockActionType> blockAction;
@@ -27,7 +25,6 @@ public final class PlayerAction {
 
         this.player = player;
         this.mainActionType = mainActionType;
-        this.turnAction = mainActionType.getNextTurnAction();
         this.challengeActions = empty();
         this.blockAction = empty();
         this.blockChallengeActions = empty();

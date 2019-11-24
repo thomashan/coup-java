@@ -1,4 +1,4 @@
-package com.thomashan.coup.action.state;
+package com.thomashan.coup.turn.state;
 
 import com.thomashan.coup.Deck;
 import com.thomashan.coup.Player;
@@ -14,7 +14,7 @@ import java.util.Optional;
 
 import static java.util.Optional.empty;
 
-public final class CompletedState implements ActionState {
+public final class CompletedState implements TurnState {
     private final Players players;
     private final Player player;
     private final List<Action> actionHistory;
@@ -91,7 +91,7 @@ public final class CompletedState implements ActionState {
     }
 
     @Override
-    public ActionState performAction(Action action) {
+    public TurnState performAction(Action action) {
         throw new UnsupportedOperationException("Can't perform any more action");
     }
 

@@ -1,12 +1,7 @@
 package com.thomashan.coup.action;
 
-import com.thomashan.coup.TurnAction;
-
 import java.util.Optional;
 
-import static com.thomashan.coup.TurnAction.BLOCK_ACTION;
-import static com.thomashan.coup.TurnAction.CHALLENGE_ACTION;
-import static com.thomashan.coup.TurnAction.COMPLETED;
 import static com.thomashan.coup.action.BlockActionType.BLOCK_ASSASSINATE;
 import static com.thomashan.coup.action.BlockActionType.BLOCK_FOREIGN_AID;
 import static com.thomashan.coup.action.BlockActionType.BLOCK_STEAL;
@@ -53,18 +48,6 @@ public enum MainActionType implements ActionType {
     @Override
     public boolean isBlockable() {
         return blockAction.isPresent();
-    }
-
-    public TurnAction getNextTurnAction() {
-        if (challengeable) {
-            return CHALLENGE_ACTION;
-        }
-
-        if (isBlockable()) {
-            return BLOCK_ACTION;
-        }
-
-        return COMPLETED;
     }
 
     public Optional<BlockActionType> getBlockAction() {

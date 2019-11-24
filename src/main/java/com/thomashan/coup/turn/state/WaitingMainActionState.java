@@ -1,4 +1,4 @@
-package com.thomashan.coup.action.state;
+package com.thomashan.coup.turn.state;
 
 import com.thomashan.collection.immutable.ImmutableList;
 import com.thomashan.coup.Deck;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 import static java.util.Optional.empty;
 
-public final class WaitingMainActionState implements ActionState<MainAction> {
+public final class WaitingMainActionState implements TurnState<MainAction> {
     private final Players players;
     private final Player player;
     private final ImmutableList<Action> actionHistory;
@@ -91,7 +91,7 @@ public final class WaitingMainActionState implements ActionState<MainAction> {
     }
 
     @Override
-    public ActionState performAction(MainAction action) {
+    public TurnState performAction(MainAction action) {
         checkActionPlayerIsSameAsStatePlayer(action);
         checkActionAllowable(action);
 

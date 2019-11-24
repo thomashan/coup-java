@@ -2,6 +2,7 @@ package com.thomashan.coup;
 
 import com.thomashan.collection.immutable.ImmutableList;
 import com.thomashan.coup.action.Action;
+import com.thomashan.coup.turn.Turn;
 
 import java.util.Collections;
 import java.util.List;
