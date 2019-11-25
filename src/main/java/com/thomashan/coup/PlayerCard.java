@@ -1,8 +1,5 @@
 package com.thomashan.coup;
 
-import org.immutables.value.Value;
-
-@Value.Immutable
 public final class PlayerCard {
     private final Card card;
     private final boolean revealed;
