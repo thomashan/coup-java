@@ -2,7 +2,7 @@ package com.thomashan.coup.action;
 
 import com.thomashan.coup.Card;
 
-import java.util.List;
+import java.util.Set;
 
 import static com.thomashan.coup.Card.AMBASSADOR;
 import static com.thomashan.coup.Card.ASSASSIN;
@@ -22,7 +22,7 @@ public final class ActionDetector {
         throw new AssertionError();
     }
 
-    public static boolean isBluff(MainActionType mainActionType, List<Card> cards) {
+    public static boolean isBluff(MainActionType mainActionType, Set<Card> cards) {
         if (mainActionType == ASSASSINATE && !cards.contains(ASSASSIN)) {
             return true;
         }
@@ -38,7 +38,7 @@ public final class ActionDetector {
         return mainActionType == TAX && !cards.contains(DUKE);
     }
 
-    public static boolean isBluff(BlockActionType blockActionType, List<Card> cards) {
+    public static boolean isBluff(BlockActionType blockActionType, Set<Card> cards) {
         if (blockActionType == BLOCK_ASSASSINATE && !cards.contains(CONTESSA)) {
             return true;
         }

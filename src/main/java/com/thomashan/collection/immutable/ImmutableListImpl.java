@@ -30,7 +30,40 @@ final class ImmutableListImpl<E> implements ImmutableList<E> {
 
     @VisibleForTesting
     static <E> ImmutableListImpl<E> of(List<E> list) {
+        if (list instanceof ImmutableList) {
+            return new ImmutableListImpl<>(list);
+        }
+
         return new ImmutableListImpl<>(Collections.unmodifiableList(list));
+    }
+
+    @Override
+    public ImmutableList<E> plus(E e) {
+        List<E> newList = new ArrayList<>(list);
+        newList.add(e);
+
+        return of(newList);
+    }
+
+    @Override
+    public ImmutableList<E> minus(E e) {
+        List<E> newList = new ArrayList<>(list);
+        newList.remove(e);
+
+        return of(newList);
+    }
+
+    @Override
+    public ImmutableList<E> addOrSet(int index, E e) {
+        List<E> newList = new ArrayList<>(list);
+
+        if (size() > index) {
+            newList.set(index, e);
+        } else {
+            newList.add(index, e);
+        }
+
+        return of(newList);
     }
 
     @Override
@@ -156,34 +189,5 @@ final class ImmutableListImpl<E> implements ImmutableList<E> {
     @Override
     public int hashCode() {
         return list.hashCode();
-    }
-
-    @Override
-    public ImmutableList<E> plus(E e) {
-        List<E> newList = new ArrayList<>(list);
-        newList.add(e);
-
-        return of(newList);
-    }
-
-    @Override
-    public ImmutableList<E> minus(E e) {
-        List<E> newList = new ArrayList<>(list);
-        newList.remove(e);
-
-        return of(newList);
-    }
-
-    @Override
-    public ImmutableList<E> addOrSet(int index, E e) {
-        List<E> newList = new ArrayList<>(list);
-
-        if (size() > index) {
-            newList.set(index, e);
-        } else {
-            newList.add(index, e);
-        }
-
-        return of(newList);
     }
 }
