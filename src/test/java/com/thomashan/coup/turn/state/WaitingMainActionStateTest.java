@@ -1,4 +1,4 @@
-package com.thomashan.coup.action.state;
+package com.thomashan.coup.turn.state;
 
 import com.thomashan.coup.action.MainAction;
 import org.junit.jupiter.api.Test;
@@ -98,9 +98,9 @@ public class WaitingMainActionStateTest extends WaitingMainActionStateTestCases 
     @Test
     public void testPerformAction_ReturnsWaitingRevealCardState_IfCoupAction() {
         setUpPlayerCoins(7);
-        ActionState actionState = getWaitingMainActionState().performAction(MainAction.of(getPlayer(), COUP, build()));
+        TurnState turnState = getWaitingMainActionState().performAction(MainAction.of(getPlayer(), COUP, build()));
 
-        assertEquals(WaitingRevealCardState.class, actionState.getClass());
+        assertEquals(WaitingRevealCardState.class, turnState.getClass());
     }
 
     @Test

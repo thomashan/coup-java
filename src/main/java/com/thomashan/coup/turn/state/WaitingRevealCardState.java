@@ -1,4 +1,4 @@
-package com.thomashan.coup.action.state;
+package com.thomashan.coup.turn.state;
 
 import com.thomashan.coup.Deck;
 import com.thomashan.coup.Player;
@@ -15,7 +15,7 @@ import java.util.Optional;
 
 import static java.util.Optional.empty;
 
-public final class WaitingRevealCardState implements ActionState<RevealCardAction> {
+public final class WaitingRevealCardState implements TurnState<RevealCardAction> {
     private final Players players;
     private final Player player;
     private final List<Action> actionHistory;

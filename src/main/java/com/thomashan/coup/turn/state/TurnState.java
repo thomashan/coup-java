@@ -1,4 +1,4 @@
-package com.thomashan.coup.action.state;
+package com.thomashan.coup.turn.state;
 
 import com.thomashan.coup.Deck;
 import com.thomashan.coup.Player;
@@ -11,12 +11,12 @@ import com.thomashan.coup.action.ChallengeActionType;
 import java.util.List;
 import java.util.Optional;
 
-import static com.thomashan.coup.action.state.ActionValidatorUtil.checkActionPlayerIsActive;
-import static com.thomashan.coup.action.state.ActionValidatorUtil.checkIfActionTypeIsAllowable;
-import static com.thomashan.coup.action.state.ActionValidatorUtil.checkIfComplete;
-import static com.thomashan.coup.action.state.ActionValidatorUtil.checkTargetPlayerIsActive;
+import static com.thomashan.coup.action.ActionValidatorUtil.checkActionPlayerIsActive;
+import static com.thomashan.coup.action.ActionValidatorUtil.checkIfActionTypeIsAllowable;
+import static com.thomashan.coup.action.ActionValidatorUtil.checkIfComplete;
+import static com.thomashan.coup.action.ActionValidatorUtil.checkTargetPlayerIsActive;
 
-public interface ActionState<A extends Action> {
+public interface TurnState<A extends Action> {
     List<Action> getActionHistory();
 
     Deck getDeck();
@@ -49,9 +49,9 @@ public interface ActionState<A extends Action> {
     // FIXME: replace with getAllowableActions
     List<ActionType> getAllowableActionTypes();
 
-    ActionState performAction(A Action);
+    TurnState performAction(A Action);
 
-    default ActionState perform(A action) {
+    default TurnState perform(A action) {
         checkActionPlayerIsActive(action);
         checkTargetPlayerIsActive(action);
         checkIfActionTypeIsAllowable(getAllowableActionTypes(), action);

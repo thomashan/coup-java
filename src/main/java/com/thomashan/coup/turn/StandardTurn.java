@@ -1,35 +1,38 @@
-package com.thomashan.coup;
+package com.thomashan.coup.turn;
 
+import com.thomashan.coup.Deck;
+import com.thomashan.coup.Player;
+import com.thomashan.coup.Players;
 import com.thomashan.coup.action.Action;
-import com.thomashan.coup.action.state.ActionState;
+import com.thomashan.coup.turn.state.TurnState;
 
 import java.util.List;
 
 public final class StandardTurn implements Turn {
     private final int turnNumber;
     private final transient Players players;
-    private final ActionState actionState;
+    private final TurnState turnState;
 
-    private StandardTurn(int turnNumber, Players players, ActionState actionState) {
+    private StandardTurn(int turnNumber, Players players, TurnState turnState) {
         this.turnNumber = turnNumber;
         this.players = players;
-        this.actionState = actionState;
+        this.turnState = turnState;
     }
 
     public static StandardTurn create(Players players) {
-        return new StandardTurn(0, players, ActionState.initialState(players, players.get().get(0)));
+        return new StandardTurn(0, players, TurnState.initialState(players, players.get().get(0)));
     }
 
     @Override
     public boolean isComplete() {
-        return actionState.isComplete();
+        return turnState.isComplete();
     }
 
     @Override
     public Turn newTurn() {
         int newTurnNumber = turnNumber + 1;
 
-        return new StandardTurn(newTurnNumber, players, ActionState.initialState(players, getNextTurnPlayer()));
+        return new StandardTurn(newTurnNumber, players, TurnState.initialState(players, getNextTurnPlayer()));
     }
 
     @Override
@@ -54,23 +57,23 @@ public final class StandardTurn implements Turn {
 
     @Override
     public List<Player> getActionablePlayers() {
-        return actionState.getActionablePlayers();
+        return turnState.getActionablePlayers();
     }
 
     @Override
     public List<Action> getActionHistory() {
-        return actionState.getActionHistory();
+        return turnState.getActionHistory();
     }
 
     @Override
     public List<Action> getAllowableActions() {
-        return actionState.getAllowableActionTypes();
+        return turnState.getAllowableActionTypes();
     }
 
     @Override
     public Turn perform(Action action) {
-        ActionState newActionState = actionState.perform(action);
-        return new StandardTurn(turnNumber, newActionState.getPlayers(), newActionState);
+        TurnState newTurnState = turnState.perform(action);
+        return new StandardTurn(turnNumber, newTurnState.getPlayers(), newTurnState);
     }
 
     private Player getNextTurnPlayer() {

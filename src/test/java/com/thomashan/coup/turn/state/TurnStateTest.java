@@ -1,4 +1,4 @@
-package com.thomashan.coup.action.state;
+package com.thomashan.coup.turn.state;
 
 import com.thomashan.coup.Player;
 import com.thomashan.coup.Players;
@@ -18,9 +18,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ActionStateTest {
+public class TurnStateTest {
     @Mock
-    private ActionState<Action> actionState;
+    private TurnState<Action> turnState;
     @Mock
     private Action action;
 
@@ -28,19 +28,19 @@ public class ActionStateTest {
     public void testPerform_InvokesPerformAction() {
         when(action.getPlayer()).thenReturn(build());
         when(action.getActionType()).thenReturn(ActionTypeTestImpl.DEFAULT);
-        when(actionState.perform(any())).thenCallRealMethod();
-        when(actionState.getAllowableActionTypes()).thenReturn(Collections.singletonList(ActionTypeTestImpl.DEFAULT));
-        when(actionState.isComplete()).thenReturn(false);
+        when(turnState.perform(any())).thenCallRealMethod();
+        when(turnState.getAllowableActionTypes()).thenReturn(Collections.singletonList(ActionTypeTestImpl.DEFAULT));
+        when(turnState.isComplete()).thenReturn(false);
 
-        actionState.perform(action);
+        turnState.perform(action);
 
-        verify(actionState).performAction(any());
+        verify(turnState).performAction(any());
     }
 
     @Test
     public void testInitialState() {
         Player player = build();
-        assertEquals(WaitingMainActionState.class, ActionState.initialState(Players.create(player), player).getClass());
+        assertEquals(WaitingMainActionState.class, TurnState.initialState(Players.create(player), player).getClass());
     }
 
     private enum ActionTypeTestImpl implements ActionType {

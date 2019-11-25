@@ -1,4 +1,4 @@
-package com.thomashan.coup.action.state;
+package com.thomashan.coup.turn.state;
 
 import com.thomashan.collection.immutable.ImmutableList;
 import com.thomashan.coup.Deck;
@@ -19,7 +19,7 @@ import java.util.Optional;
 import static com.thomashan.coup.action.ChallengeActionType.CHALLENGE;
 import static java.util.Optional.empty;
 
-public final class WaitingChallengeMainActionState implements ActionState<ChallengeAction> {
+public final class WaitingChallengeMainActionState implements TurnState<ChallengeAction> {
     private final Players players;
     private final Player player;
     private final ImmutableList<Action> actionHistory;
@@ -103,7 +103,7 @@ public final class WaitingChallengeMainActionState implements ActionState<Challe
     }
 
     @Override
-    public ActionState performAction(ChallengeAction action) {
+    public TurnState performAction(ChallengeAction action) {
         ImmutableList<Action> newActionHistory = actionHistory.plus(action);
 
         if (action.getChallengeActionType() == CHALLENGE) {

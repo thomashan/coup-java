@@ -1,5 +1,8 @@
-package com.thomashan.coup;
+package com.thomashan.coup.turn;
 
+import com.thomashan.coup.Deck;
+import com.thomashan.coup.Player;
+import com.thomashan.coup.Players;
 import com.thomashan.coup.action.Action;
 
 import java.util.List;

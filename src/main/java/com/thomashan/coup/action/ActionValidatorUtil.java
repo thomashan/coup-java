@@ -1,4 +1,4 @@
-package com.thomashan.coup.action.state;
+package com.thomashan.coup.action;
 
 import com.thomashan.coup.Player;
 import com.thomashan.coup.action.Action;
