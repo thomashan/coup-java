@@ -1,8 +1,5 @@
 package com.thomashan.coup.action;
 
-import com.thomashan.coup.action.Action;
-import com.thomashan.coup.action.ActionType;
-import com.thomashan.coup.action.ActionValidatorUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -49,7 +46,7 @@ public class ActionValidatorUtilTest {
     }
 
     @Test
-    public void testCheckActionPlayerIsActive_ThrowsException_IfActionPlayerIsNotActive() {
+    public void testCheckActionPlayerIsActive_GivenPlayerIsNotActive_ThrowsException() {
         when(action.getPlayer()).thenReturn(build(false));
 
         Throwable throwable = assertThrows(IllegalArgumentException.class, () -> ActionValidatorUtil.checkActionPlayerIsActive(action));

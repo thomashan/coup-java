@@ -9,14 +9,10 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 public class PlayerCards {
-    private final List<PlayerCard> playerCards;
+    private final ImmutableList<PlayerCard> playerCards;
 
-    private PlayerCards(List<PlayerCard> playerCards) {
+    private PlayerCards(ImmutableList<PlayerCard> playerCards) {
         this.playerCards = playerCards;
-    }
-
-    private PlayerCards(PlayerCard playerCard1, PlayerCard playerCard2) {
-        this.playerCards = ImmutableList.of(playerCard1, playerCard2);
     }
 
     public static PlayerCards of(Card card1, Card card2) {
@@ -27,48 +23,43 @@ public class PlayerCards {
         return playerCards;
     }
 
-    public Set<Card> getActiveCards() {
+    public Set<PlayerCard> getActivePlayerCards() {
         return ImmutableSet.of(playerCards.stream()
                 .filter(cards -> cards.isHidden())
-                .map(c -> c.getCard())
                 .collect(Collectors.toSet()));
     }
 
-    public boolean isAllShown() {
+    public boolean isActive() {
         return playerCards.stream()
-                .allMatch(cards -> cards.isShown());
+                .anyMatch(cards -> cards.isHidden());
     }
 
-    public boolean isAllHidden() {
-        return playerCards.stream()
-                .allMatch(cards -> cards.isHidden());
+    public PlayerCards reveal(PlayerCard playerCardToReveal) {
+        checkPlayerHasCard(playerCardToReveal);
+        checkIfAlreadyRevealedCard(playerCardToReveal);
+
+        return new PlayerCards(playerCards.addOrSet(playerCards.indexOf(playerCardToReveal), playerCardToReveal.reveal()));
     }
 
-    public PlayerCards revealCard1() {
-        if (playerCards.get(0).isShown()) {
-            throw new IllegalStateException("Card 1 is already revealed");
-        }
-
-        return new PlayerCards(playerCards.get(0).reveal(), playerCards.get(1));
-    }
-
-    public PlayerCards revealCard2() {
-        if (playerCards.get(1).isShown()) {
-            throw new IllegalStateException("Card 2 is already revealed");
-        }
-
-        return new PlayerCards(playerCards.get(0), playerCards.get(1).reveal());
-    }
-
-    public PlayerCards plus(PlayerCard playerCard) {
-        return new PlayerCards(ImmutableList.of(playerCard).plus(playerCard));
-    }
-
-    public PlayerCards minus(PlayerCard playerCard) {
+    private void checkPlayerHasCard(PlayerCard playerCard) {
         if (!playerCards.contains(playerCard)) {
             throw new IllegalArgumentException(String.format("Player does not have the card", playerCard.toString()));
         }
+    }
 
-        return new PlayerCards(ImmutableList.of(playerCard).plus(playerCard));
+    private void checkIfAlreadyRevealedCard(PlayerCard playerCard) {
+        if (playerCard.isRevealed()) {
+            throw new IllegalStateException("Card is already revealed");
+        }
+    }
+
+    public PlayerCards plus(PlayerCard playerCard) {
+        return new PlayerCards(ImmutableList.of(get()).plus(playerCard));
+    }
+
+    public PlayerCards minus(PlayerCard playerCard) {
+        checkPlayerHasCard(playerCard);
+
+        return new PlayerCards(ImmutableList.of(get()).minus(playerCard));
     }
 }

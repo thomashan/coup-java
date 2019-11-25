@@ -9,7 +9,17 @@ public class PlayerBuilder {
             return player;
         }
 
-        return player.revealCard1().revealCard2();
+        return revealAllCards(player);
+    }
+
+    private static Player revealAllCards(Player playerToRevealCards) {
+        Player player = playerToRevealCards;
+
+        for (PlayerCard playerCard : player.getPlayerCards().get()) {
+            player = player.revealCard(playerCard);
+        }
+
+        return player;
     }
 
     public static Player build() {

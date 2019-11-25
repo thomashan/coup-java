@@ -15,6 +15,7 @@ import com.thomashan.coup.action.MainAction;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.thomashan.coup.action.ChallengeActionType.CHALLENGE;
 import static java.util.Optional.empty;
@@ -107,7 +108,7 @@ public final class WaitingChallengeMainActionState implements TurnState<Challeng
         ImmutableList<Action> newActionHistory = actionHistory.plus(action);
 
         if (action.getChallengeActionType() == CHALLENGE) {
-            if (ActionDetector.isBluff(((MainAction) actionHistory.get(0)).getActionType(), player.getActiveCards())) {
+            if (ActionDetector.isBluff(((MainAction) actionHistory.get(0)).getActionType(), player.getActivePlayerCards().stream().map(c -> c.getCard()).collect(Collectors.toSet()))) {
                 return WaitingRevealCardState.of(players, player, newActionHistory, player);
             } else {
                 return WaitingRevealCardState.of(players, player, newActionHistory, action.getPlayer());

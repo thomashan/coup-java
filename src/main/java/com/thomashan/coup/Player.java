@@ -25,24 +25,24 @@ public final class Player {
         return new Player(2, card1, card2);
     }
 
-    public Player revealCard1() {
-        return new Player(coins, playerCards.revealCard1());
-    }
-
-    public Player revealCard2() {
-        return new Player(coins, playerCards.revealCard2());
+    public Player revealCard(PlayerCard playerCard) {
+        return new Player(coins, playerCards.reveal(playerCard));
     }
 
     public boolean isActive() {
-        return !playerCards.isAllShown();
+        return playerCards.isActive();
     }
 
     public int getCoins() {
         return coins;
     }
 
-    public Set<Card> getActiveCards() {
-        return playerCards.getActiveCards();
+    public PlayerCards getPlayerCards() {
+        return playerCards;
+    }
+
+    public Set<PlayerCard> getActivePlayerCards() {
+        return playerCards.getActivePlayerCards();
     }
 
     public Player income() {
