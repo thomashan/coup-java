@@ -18,7 +18,7 @@ import static java.util.Collections.singleton;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class MainActionDetectorTest {
+class ActionDetectorTest {
     @Test
     public void testIsBluff_ReturnsFalse_Assassinate_HasAssassin() {
         assertFalse(ActionDetector.isBluff(ASSASSINATE, singleton(ASSASSIN)));

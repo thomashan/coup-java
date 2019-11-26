@@ -7,7 +7,6 @@ import com.thomashan.coup.action.Action;
 import com.thomashan.coup.action.ActionType;
 import com.thomashan.coup.action.BlockActionType;
 import com.thomashan.coup.action.ChallengeActionType;
-import com.thomashan.coup.action.MainAction;
 import com.thomashan.coup.action.PutBackCardsAction;
 
 import java.util.List;
@@ -80,7 +79,7 @@ public class WaitingPutBackCardsActionState implements TurnState<PutBackCardsAct
     }
 
     @Override
-    public TurnState performAction(PutBackCardsAction Action) {
+    public TurnState performAction(PutBackCardsAction action) {
         return null;
     }
 }

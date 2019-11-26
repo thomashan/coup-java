@@ -49,7 +49,7 @@ public interface TurnState<A extends Action> {
     // FIXME: replace with getAllowableActions
     List<ActionType> getAllowableActionTypes();
 
-    TurnState performAction(A Action);
+    TurnState performAction(A action);
 
     default TurnState perform(A action) {
         checkActionPlayerIsActive(action);

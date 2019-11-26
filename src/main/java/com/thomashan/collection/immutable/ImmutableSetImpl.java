@@ -11,7 +11,7 @@ import java.util.Set;
 
 /* default */
 @SuppressWarnings("PMD.TooManyMethods")
-class ImmutableSetImpl<E> implements ImmutableSet<E> {
+final class ImmutableSetImpl<E> implements ImmutableSet<E> {
     private final transient Set<E> set;
 
     private ImmutableSetImpl(Set<E> set) {

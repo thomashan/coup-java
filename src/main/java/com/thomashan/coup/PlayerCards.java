@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-public class PlayerCards {
-    private final ImmutableList<PlayerCard> playerCards;
+public final class PlayerCards {
+    private final transient ImmutableList<PlayerCard> playerCards;
 
     private PlayerCards(ImmutableList<PlayerCard> playerCards) {
         this.playerCards = playerCards;
