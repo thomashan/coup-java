@@ -8,6 +8,7 @@ import com.thomashan.coup.action.ActionType;
 import com.thomashan.coup.action.BlockActionType;
 import com.thomashan.coup.action.ChallengeAction;
 import com.thomashan.coup.action.ChallengeActionType;
+import com.thomashan.coup.action.MainAction;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,6 +17,11 @@ import java.util.Optional;
 import static java.util.Optional.empty;
 
 public class WaitingChallengeBlockActionState implements TurnState<ChallengeAction> {
+    @Override
+    public MainAction getMainAction() {
+        return null;
+    }
+
     @Override
     public List<Action> getActionHistory() {
         return null;

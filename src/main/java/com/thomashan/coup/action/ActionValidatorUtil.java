@@ -1,8 +1,6 @@
 package com.thomashan.coup.action;
 
 import com.thomashan.coup.Player;
-import com.thomashan.coup.action.Action;
-import com.thomashan.coup.action.ActionType;
 
 import java.util.List;
 import java.util.Optional;

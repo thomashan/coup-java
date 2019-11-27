@@ -10,22 +10,22 @@ import org.junit.jupiter.api.Test;
 import java.util.Collections;
 import java.util.Optional;
 
-import static com.thomashan.coup.PlayerBuilder.build;
+import static com.thomashan.coup.PlayerBuilder.newBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CompletedStateTest {
+public class CompletedStateTest extends TurnStateTestCase {
     private CompletedState completedState;
     private Player player;
     private Players players;
 
     @BeforeEach
     public void setUp() {
-        player = build();
+        player = newBuilder().build();
         players = Players.create(player);
 
-        completedState = CompletedState.of(players, player, Collections.emptyList());
+        completedState = CompletedState.of(players, player, anyMainMethod(), Collections.emptyList());
     }
 
     @Test

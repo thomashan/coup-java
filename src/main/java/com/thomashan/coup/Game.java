@@ -6,6 +6,10 @@ import com.thomashan.coup.turn.Turn;
 import java.util.List;
 
 public interface Game {
+    static Game create(int numberOfPlayers) {
+        return StandardGame.create(numberOfPlayers);
+    }
+
     boolean isComplete();
 
     int getNumberOfPlayers();
@@ -21,8 +25,4 @@ public interface Game {
     Game action(Action action);
 
     Player getCurrentPlayer();
-
-    static Game create(int numberOfPlayers) {
-        return StandardGame.create(numberOfPlayers);
-    }
 }

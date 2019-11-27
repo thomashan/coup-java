@@ -7,6 +7,7 @@ import com.thomashan.coup.action.Action;
 import com.thomashan.coup.action.ActionType;
 import com.thomashan.coup.action.BlockActionType;
 import com.thomashan.coup.action.ChallengeActionType;
+import com.thomashan.coup.action.MainAction;
 import com.thomashan.coup.action.RevealCardAction;
 
 import java.util.Collections;
@@ -18,21 +19,24 @@ import static java.util.Optional.empty;
 public final class WaitingRevealCardState implements TurnState<RevealCardAction> {
     private final Players players;
     private final Player player;
+    private final MainAction mainAction;
     private final List<Action> actionHistory;
     private final Optional<Player> target;
     private final Player revealer;
 
-    private WaitingRevealCardState(Players players, Player player, List<Action> actionHistory, Player revealer) {
+    private WaitingRevealCardState(Players players, Player player, MainAction mainAction, List<Action> actionHistory, Player revealer) {
         this.players = players;
         this.player = player;
+        this.mainAction = mainAction;
         this.actionHistory = actionHistory;
         this.revealer = revealer;
         this.target = empty();
     }
 
-    private WaitingRevealCardState(Players players, Player player, List<Action> actionHistory, Player revealer, Player target) {
+    private WaitingRevealCardState(Players players, Player player, MainAction mainAction, List<Action> actionHistory, Player revealer, Player target) {
         this.players = players;
         this.player = player;
+        this.mainAction = mainAction;
         this.actionHistory = actionHistory;
         this.revealer = revealer;
 
@@ -43,12 +47,17 @@ public final class WaitingRevealCardState implements TurnState<RevealCardAction>
         }
     }
 
-    static WaitingRevealCardState of(Players players, Player player, List<Action> actionHistory, Player revealer) {
-        return new WaitingRevealCardState(players, player, actionHistory, revealer);
+    static WaitingRevealCardState of(Players players, Player player, MainAction mainAction, List<Action> actionHistory, Player revealer) {
+        return new WaitingRevealCardState(players, player, mainAction, actionHistory, revealer);
     }
 
-    static WaitingRevealCardState of(Players players, Player player, List<Action> actionHistory, Player revealer, Player target) {
-        return new WaitingRevealCardState(players, player, actionHistory, revealer, target);
+    static WaitingRevealCardState of(Players players, Player player, MainAction mainAction, List<Action> actionHistory, Player revealer, Player target) {
+        return new WaitingRevealCardState(players, player, mainAction, actionHistory, revealer, target);
+    }
+
+    @Override
+    public MainAction getMainAction() {
+        return mainAction;
     }
 
     @Override

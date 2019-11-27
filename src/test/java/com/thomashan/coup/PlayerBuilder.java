@@ -3,17 +3,49 @@ package com.thomashan.coup;
 import static com.thomashan.coup.Card.AMBASSADOR;
 
 public class PlayerBuilder {
-    public static Player build(boolean active) {
-        Player player = build();
+    private int coins = 2;
+    private boolean active = true;
+    private Card card1 = AMBASSADOR;
+    private Card card2 = AMBASSADOR;
+
+    public static PlayerBuilder newBuilder() {
+        return new PlayerBuilder();
+    }
+
+    public PlayerBuilder coins(int coins) {
+        this.coins = coins;
+        return this;
+    }
+
+    public PlayerBuilder active(boolean active) {
+        this.active = active;
+        return this;
+    }
+
+    public PlayerBuilder card1(Card card1) {
+        this.card1 = card1;
+        return this;
+    }
+
+    public PlayerBuilder card2(Card card2) {
+        this.card2 = card2;
+        return this;
+    }
+
+    public Player build() {
+        Player player = Player.of(card1, card2);
+        player = coins(player, coins);
+        player = active(player, active);
+
+        return player;
+    }
+
+    private Player active(Player playerToRevealCards, boolean active) {
+        Player player = playerToRevealCards;
+
         if (active) {
             return player;
         }
-
-        return revealAllCards(player);
-    }
-
-    private static Player revealAllCards(Player playerToRevealCards) {
-        Player player = playerToRevealCards;
 
         for (PlayerCard playerCard : player.getPlayerCards().get()) {
             player = player.revealCard(playerCard);
@@ -22,34 +54,22 @@ public class PlayerBuilder {
         return player;
     }
 
-    public static Player build() {
-        return build(2);
-    }
-
-    public static Player build(int coins) {
-        Player player = createPlayerWithNumberOfCoins(coins);
-
-        assert player.getCoins() == coins;
-
-        return player;
-    }
-
-    private static Player createPlayerWithNumberOfCoins(int coins) {
-        Player player = Player.of(AMBASSADOR, AMBASSADOR);
+    private Player coins(Player player, int coins) {
+        Player createdPlayer = player;
 
         if (coins < 2) {
-            player = player.stolenToOtherPlayer();
+            createdPlayer = createdPlayer.stolenToOtherPlayer();
             if (coins == 0) {
-                return player;
+                return createdPlayer;
             }
 
-            return player.income();
+            return createdPlayer.income();
         } else {
             for (int i = 0; i < coins - 2; i++) {
-                player = player.income();
+                createdPlayer = createdPlayer.income();
             }
 
-            return player;
+            return createdPlayer;
         }
     }
 }

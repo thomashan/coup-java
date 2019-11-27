@@ -5,12 +5,12 @@ import com.thomashan.coup.action.MainAction;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.thomashan.coup.PlayerBuilder.build;
+import static com.thomashan.coup.PlayerBuilder.newBuilder;
 import static com.thomashan.coup.action.MainActionType.COUP;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class WaitingMainTurnStateToWaitingRevealCardStateTest extends WaitingMainActionStateTestCases {
+public class WaitingMainTurnStateToWaitingRevealCardStateTest extends WaitingMainActionStateTestCase {
     @BeforeEach
     public void setUpDefaultPlayer() {
         setUpPlayerCoins(7);
@@ -18,13 +18,13 @@ public class WaitingMainTurnStateToWaitingRevealCardStateTest extends WaitingMai
 
     @Test
     public void testPerformAction_Coup_ReturnsWaitingRevealCardState() {
-        assertEquals(WaitingRevealCardState.class, getWaitingMainActionState().performAction(MainAction.of(getPlayer(), COUP, build())).getClass());
+        assertEquals(WaitingRevealCardState.class, createWaitingMainActionState().performAction(MainAction.of(getPlayer(), COUP, newBuilder().build())).getClass());
     }
 
     @Test
     public void testPerformAction_Coup_ReturnsTarget() {
-        Player target = build();
-        TurnState turnState = getWaitingMainActionState().performAction(MainAction.of(getPlayer(), COUP, target));
+        Player target = newBuilder().build();
+        TurnState turnState = createWaitingMainActionState().performAction(MainAction.of(getPlayer(), COUP, target));
 
         assertTrue(turnState.getTarget().isPresent());
         assertEquals(target, turnState.getTarget().get());
@@ -32,8 +32,8 @@ public class WaitingMainTurnStateToWaitingRevealCardStateTest extends WaitingMai
 
     @Test
     public void testPerformAction_Coup_ReturnsActionablePlayers() {
-        Player target = build();
-        TurnState turnState = getWaitingMainActionState().performAction(MainAction.of(getPlayer(), COUP, target));
+        Player target = newBuilder().build();
+        TurnState turnState = createWaitingMainActionState().performAction(MainAction.of(getPlayer(), COUP, target));
 
         assertEquals(1, turnState.getActionablePlayers().size());
         assertTrue(turnState.getActionablePlayers().contains(target));

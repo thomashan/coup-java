@@ -51,6 +51,10 @@ public final class StandardGame implements Game {
         this.turn = turn;
     }
 
+    public static StandardGame create(int numberOfPlayers) {
+        return new StandardGame(numberOfPlayers);
+    }
+
     private void checkMinimumPlayers(int numberOfPlayers) {
         if (numberOfPlayers < MINIMUM_PLAYERS) {
             throw new IllegalArgumentException("You need at least " + MINIMUM_PLAYERS + " players");
@@ -61,10 +65,6 @@ public final class StandardGame implements Game {
         if (numberOfPlayers > MAXIMUM_PLAYERS) {
             throw new IllegalArgumentException("Maximum of " + MAXIMUM_PLAYERS + " players");
         }
-    }
-
-    public static StandardGame create(int numberOfPlayers) {
-        return new StandardGame(numberOfPlayers);
     }
 
     @Override

@@ -11,6 +11,10 @@ import java.util.List;
  * Model the allowable action, challenge action, and block action for the current turn.
  */
 public interface Turn {
+    static Turn create(Players players) {
+        return StandardTurn.create(players);
+    }
+
     boolean isComplete();
 
     Turn newTurn();
@@ -30,8 +34,4 @@ public interface Turn {
     List<Action> getAllowableActions();
 
     Turn perform(Action action);
-
-    static Turn create(Players players) {
-        return StandardTurn.create(players);
-    }
 }

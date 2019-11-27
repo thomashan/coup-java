@@ -8,6 +8,7 @@ import com.thomashan.coup.action.ActionType;
 import com.thomashan.coup.action.BlockAction;
 import com.thomashan.coup.action.BlockActionType;
 import com.thomashan.coup.action.ChallengeActionType;
+import com.thomashan.coup.action.MainAction;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,16 +18,23 @@ import static java.util.Optional.empty;
 public final class WaitingBlockActionState implements TurnState<BlockAction> {
     private final Players players;
     private final Player player;
+    private final MainAction mainAction;
     private final List<Action> actionHistory;
 
-    private WaitingBlockActionState(Players players, Player player, List<Action> actionHistory) {
+    private WaitingBlockActionState(Players players, Player player, MainAction mainAction, List<Action> actionHistory) {
         this.players = players;
         this.player = player;
+        this.mainAction = mainAction;
         this.actionHistory = actionHistory;
     }
 
-    public static WaitingBlockActionState of(Players players, Player player, List<Action> actionHistory) {
-        return new WaitingBlockActionState(players, player, actionHistory);
+    public static WaitingBlockActionState of(Players players, Player player, MainAction mainAction, List<Action> actionHistory) {
+        return new WaitingBlockActionState(players, player, mainAction, actionHistory);
+    }
+
+    @Override
+    public MainAction getMainAction() {
+        return mainAction;
     }
 
     @Override

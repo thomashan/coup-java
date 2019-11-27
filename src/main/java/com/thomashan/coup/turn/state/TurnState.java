@@ -7,6 +7,7 @@ import com.thomashan.coup.action.Action;
 import com.thomashan.coup.action.ActionType;
 import com.thomashan.coup.action.BlockActionType;
 import com.thomashan.coup.action.ChallengeActionType;
+import com.thomashan.coup.action.MainAction;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +18,10 @@ import static com.thomashan.coup.action.ActionValidatorUtil.checkIfComplete;
 import static com.thomashan.coup.action.ActionValidatorUtil.checkTargetPlayerIsActive;
 
 public interface TurnState<A extends Action> {
+    static WaitingMainActionState initialState(Players players, Player player) {
+        return WaitingMainActionState.of(players, player);
+    }
+
     List<Action> getActionHistory();
 
     Deck getDeck();
@@ -28,6 +33,8 @@ public interface TurnState<A extends Action> {
     List<Player> getActionablePlayers();
 
     Optional<Player> getTarget();
+
+    MainAction getMainAction();
 
     // FIXME: do we need this? could be handled by action history
     Optional<ChallengeActionType> getChallengeActionType();
@@ -58,9 +65,5 @@ public interface TurnState<A extends Action> {
         checkIfComplete(isComplete());
 
         return performAction(action);
-    }
-
-    static WaitingMainActionState initialState(Players players, Player player) {
-        return WaitingMainActionState.of(players, player);
     }
 }

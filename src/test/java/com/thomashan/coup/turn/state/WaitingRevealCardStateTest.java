@@ -1,17 +1,18 @@
 package com.thomashan.coup.turn.state;
 
 import com.thomashan.coup.Player;
+import com.thomashan.coup.PlayerBuilder;
 import com.thomashan.coup.Players;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 
-import static com.thomashan.coup.PlayerBuilder.build;
+import static com.thomashan.coup.PlayerBuilder.newBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class WaitingRevealCardStateTest {
+public class WaitingRevealCardStateTest extends TurnStateTestCase {
     private WaitingRevealCardState waitingRevealCardState;
     private Players players;
     private Player player;
@@ -19,10 +20,11 @@ public class WaitingRevealCardStateTest {
 
     @BeforeEach
     public void setUp() {
-        player = build();
+        PlayerBuilder playerBuilder = newBuilder();
+        player = playerBuilder.build();
         players = Players.create(player);
-        revealer = build();
-        waitingRevealCardState = WaitingRevealCardState.of(players, player, Collections.emptyList(), revealer);
+        revealer = playerBuilder.build();
+        waitingRevealCardState = WaitingRevealCardState.of(players, player, anyMainMethod(), Collections.emptyList(), revealer);
     }
 
     @Test

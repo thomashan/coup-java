@@ -23,12 +23,14 @@ import static java.util.Optional.empty;
 public final class WaitingChallengeMainActionState implements TurnState<ChallengeAction> {
     private final Players players;
     private final Player player;
+    private final MainAction mainAction;
     private final ImmutableList<Action> actionHistory;
     private final Optional<Player> target;
 
-    private WaitingChallengeMainActionState(Players players, Player player, List<Action> actionHistory, Player target) {
+    private WaitingChallengeMainActionState(Players players, Player player, MainAction mainAction, List<Action> actionHistory, Player target) {
         this.players = players;
         this.player = player;
+        this.mainAction = mainAction;
         this.actionHistory = ImmutableList.of(actionHistory);
 
         if (target != null) {
@@ -38,8 +40,17 @@ public final class WaitingChallengeMainActionState implements TurnState<Challeng
         }
     }
 
-    public static WaitingChallengeMainActionState of(Players players, Player player, List<Action> actionHistory, Player target) {
-        return new WaitingChallengeMainActionState(players, player, actionHistory, target);
+    public static WaitingChallengeMainActionState of(Players players, Player player, MainAction mainAction, List<Action> actionHistory) {
+        return new WaitingChallengeMainActionState(players, player, mainAction, actionHistory, null);
+    }
+
+    public static WaitingChallengeMainActionState of(Players players, Player player, MainAction mainAction, List<Action> actionHistory, Player target) {
+        return new WaitingChallengeMainActionState(players, player, mainAction, actionHistory, target);
+    }
+
+    @Override
+    public MainAction getMainAction() {
+        return mainAction;
     }
 
     @Override
@@ -105,21 +116,29 @@ public final class WaitingChallengeMainActionState implements TurnState<Challeng
 
     @Override
     public TurnState performAction(ChallengeAction action) {
+        checkMainActionIsChallengeable();
+
         ImmutableList<Action> newActionHistory = actionHistory.plus(action);
 
         if (action.getChallengeActionType() == CHALLENGE) {
-            if (ActionDetector.isBluff(((MainAction) actionHistory.get(0)).getActionType(), player.getActivePlayerCards().stream().map(c -> c.getCard()).collect(Collectors.toSet()))) {
-                return WaitingRevealCardState.of(players, player, newActionHistory, player);
+            if (ActionDetector.isBluff(mainAction.getActionType(), player.getActivePlayerCards().stream().map(c -> c.getCard()).collect(Collectors.toSet()))) {
+                return WaitingRevealCardState.of(players, player, mainAction, newActionHistory, player);
             } else {
-                return WaitingRevealCardState.of(players, player, newActionHistory, action.getPlayer());
+                return WaitingRevealCardState.of(players, player, mainAction, newActionHistory, action.getPlayer());
             }
         }
 
-        if (actionHistory.get(0).getActionType().isBlockable()) {
-            return WaitingBlockActionState.of(players, player, newActionHistory);
+        if (mainAction.getActionType().isBlockable()) {
+            return WaitingBlockActionState.of(players, player, mainAction, newActionHistory);
         }
 
-        return CompletedState.of(players, player, newActionHistory);
+        return CompletedState.of(players, player, mainAction, newActionHistory);
+    }
+
+    private void checkMainActionIsChallengeable() {
+        if (!mainAction.getActionType().isChallengeable()) {
+            throw new IllegalArgumentException("Challenging a non-challengeable action");
+        }
     }
 
     @Override

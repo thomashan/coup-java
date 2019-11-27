@@ -30,6 +30,15 @@ public final class WaitingMainActionState implements TurnState<MainAction> {
         this.actionHistory = ImmutableList.of();
     }
 
+    public static WaitingMainActionState of(Players players, Player player) {
+        return new WaitingMainActionState(players, player);
+    }
+
+    @Override
+    public MainAction getMainAction() {
+        throw new UnsupportedOperationException("Waiting for main action to be performed");
+    }
+
     @Override
     public List<Action> getActionHistory() {
         return actionHistory;
@@ -104,21 +113,21 @@ public final class WaitingMainActionState implements TurnState<MainAction> {
                     Player newPlayer = player.income();
                     Players newPlayers = players.updatePlayer(player, newPlayer);
 
-                    return CompletedState.of(newPlayers, newPlayer, newActionHistory);
+                    return CompletedState.of(newPlayers, newPlayer, action, newActionHistory);
                 }
                 case COUP:
                     return action.getTarget()
-                            .map(target -> WaitingRevealCardState.of(players, player, newActionHistory, target, target))
+                            .map(target -> WaitingRevealCardState.of(players, player, action, newActionHistory, target, target))
                             .orElseThrow(() -> new IllegalArgumentException("Coup must specify target"));
                 case FOREIGN_AID:
-                    return WaitingBlockActionState.of(players, player, newActionHistory);
+                    return WaitingBlockActionState.of(players, player, action, newActionHistory);
 
                 default:
                     throw new IllegalArgumentException("Unexpected non-challengeable acton");
             }
         }
 
-        return WaitingChallengeMainActionState.of(players, player, newActionHistory, action.getTarget().orElse(null));
+        return WaitingChallengeMainActionState.of(players, player, action, newActionHistory, action.getTarget().orElse(null));
     }
 
     private void checkActionAllowable(MainAction action) {
@@ -138,9 +147,5 @@ public final class WaitingMainActionState implements TurnState<MainAction> {
         return Arrays.stream(MainActionType.values())
                 .filter(mainActionType -> mainActionType.isAllowable(player.getCoins()))
                 .collect(Collectors.toList());
-    }
-
-    public static WaitingMainActionState of(Players players, Player player) {
-        return new WaitingMainActionState(players, player);
     }
 }

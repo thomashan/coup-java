@@ -11,7 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Collections;
 
-import static com.thomashan.coup.PlayerBuilder.build;
+import static com.thomashan.coup.PlayerBuilder.newBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
@@ -26,7 +26,7 @@ public class TurnStateTest {
 
     @Test
     public void testPerform_InvokesPerformAction() {
-        when(action.getPlayer()).thenReturn(build());
+        when(action.getPlayer()).thenReturn(newBuilder().build());
         when(action.getActionType()).thenReturn(ActionTypeTestImpl.DEFAULT);
         when(turnState.perform(any())).thenCallRealMethod();
         when(turnState.getAllowableActionTypes()).thenReturn(Collections.singletonList(ActionTypeTestImpl.DEFAULT));
@@ -39,7 +39,7 @@ public class TurnStateTest {
 
     @Test
     public void testInitialState() {
-        Player player = build();
+        Player player = newBuilder().build();
         assertEquals(WaitingMainActionState.class, TurnState.initialState(Players.create(player), player).getClass());
     }
 

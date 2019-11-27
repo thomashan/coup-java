@@ -7,7 +7,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Arrays;
 
-import static com.thomashan.coup.PlayerBuilder.build;
+import static com.thomashan.coup.PlayerBuilder.newBuilder;
 import static com.thomashan.coup.action.MainActionType.COUP;
 import static com.thomashan.coup.action.MainActionType.EXCHANGE;
 import static com.thomashan.coup.action.MainActionType.FOREIGN_AID;
@@ -24,61 +24,61 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class WaitingMainActionStateTest extends WaitingMainActionStateTestCases {
+public class WaitingMainActionStateTest extends WaitingMainActionStateTestCase {
     @Test
     public void testGetAllowableActionTypes() {
-        assertIterableEquals(Arrays.asList(TAX, STEAL, EXCHANGE, INCOME, FOREIGN_AID), getWaitingMainActionState().getAllowableActionTypes());
+        assertIterableEquals(Arrays.asList(TAX, STEAL, EXCHANGE, INCOME, FOREIGN_AID), createWaitingMainActionState().getAllowableActionTypes());
     }
 
     @Test
     public void testGetBlockAction() {
-        assertFalse(getWaitingMainActionState().getBlockAction().isPresent());
+        assertFalse(createWaitingMainActionState().getBlockAction().isPresent());
     }
 
     @Test
     public void testGetBlockActionChallengedBy() {
-        assertFalse(getWaitingMainActionState().getBlockActionChallengedBy().isPresent());
+        assertFalse(createWaitingMainActionState().getBlockActionChallengedBy().isPresent());
     }
 
     @Test
     public void testGetBlockChallengeActionType() {
-        assertFalse(getWaitingMainActionState().getBlockChallengeActionType().isPresent());
+        assertFalse(createWaitingMainActionState().getBlockChallengeActionType().isPresent());
     }
 
     @Test
     public void testGetChallengeActionType() {
-        assertFalse(getWaitingMainActionState().getChallengeActionType().isPresent());
+        assertFalse(createWaitingMainActionState().getChallengeActionType().isPresent());
     }
 
     @Test
     public void testGetMainActionChallengedBy() {
-        assertFalse(getWaitingMainActionState().getMainActionChallengedBy().isPresent());
+        assertFalse(createWaitingMainActionState().getMainActionChallengedBy().isPresent());
     }
 
     @Test
     public void testGetActionHistory() {
-        assertTrue(getWaitingMainActionState().getActionHistory().isEmpty());
+        assertTrue(createWaitingMainActionState().getActionHistory().isEmpty());
     }
 
     @Test
     public void testGetTarget() {
-        assertFalse(getWaitingMainActionState().getTarget().isPresent());
+        assertFalse(createWaitingMainActionState().getTarget().isPresent());
     }
 
     @Test
     public void testIsComplete() {
-        assertFalse(getWaitingMainActionState().isComplete());
+        assertFalse(createWaitingMainActionState().isComplete());
     }
 
     @Test
     public void testPerformAction_ThrowsException_IfActionPlayerIsDifferentToState() {
-        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> getWaitingMainActionState().performAction(MainAction.of(build(), INCOME)));
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> createWaitingMainActionState().performAction(MainAction.of(newBuilder().build(), INCOME)));
         assertEquals("Trying to perform action with different player", throwable.getMessage());
     }
 
     @Test
     public void testPerformAction_ThrowsException_IfActionIsNotAllowed() {
-        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> getWaitingMainActionState().performAction(MainAction.of(getPlayer(), COUP, build())));
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> createWaitingMainActionState().performAction(MainAction.of(getPlayer(), COUP, newBuilder().build())));
         assertEquals("The action is not allowed", throwable.getMessage());
     }
 
@@ -91,20 +91,20 @@ public class WaitingMainActionStateTest extends WaitingMainActionStateTestCases 
         when(coup.getPlayer()).thenReturn(getPlayer());
         when(coup.getTarget()).thenReturn(empty());
 
-        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> getWaitingMainActionState().performAction(coup));
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> createWaitingMainActionState().performAction(coup));
         assertEquals("Coup must specify target", throwable.getMessage());
     }
 
     @Test
     public void testPerformAction_ReturnsWaitingRevealCardState_IfCoupAction() {
         setUpPlayerCoins(7);
-        TurnState turnState = getWaitingMainActionState().performAction(MainAction.of(getPlayer(), COUP, build()));
+        TurnState turnState = createWaitingMainActionState().performAction(MainAction.of(getPlayer(), COUP, newBuilder().build()));
 
         assertEquals(WaitingRevealCardState.class, turnState.getClass());
     }
 
     @Test
     public void testPerformAction_ReturnsWaitingChallengeMainActionState_IfNotCoupOrIncomeAction() {
-        assertEquals(WaitingChallengeMainActionState.class, getWaitingMainActionState().performAction(MainAction.of(getPlayer(), STEAL, build())).getClass());
+        assertEquals(WaitingChallengeMainActionState.class, createWaitingMainActionState().performAction(MainAction.of(getPlayer(), STEAL, newBuilder().build())).getClass());
     }
 }
