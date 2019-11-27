@@ -130,4 +130,8 @@ public final class WaitingRevealCardState implements TurnState<RevealCardAction>
     public List<ActionType> getAllowableActionTypes() {
         return null;
     }
+
+    public Player getRevealer() {
+        return revealer;
+    }
 }

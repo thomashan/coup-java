@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class WaitingMainTurnStateToWaitingRevealCardStateTest extends WaitingMainActionStateTestCase {
     @BeforeEach
     public void setUpDefaultPlayer() {
-        setUpPlayerCoins(7);
+        setUpPlayer(newBuilder().coins(7));
     }
 
     @Test

@@ -1,6 +1,7 @@
 package com.thomashan.coup.turn.state;
 
 import com.thomashan.coup.Player;
+import com.thomashan.coup.PlayerBuilder;
 import com.thomashan.coup.Players;
 import com.thomashan.coup.action.MainAction;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,13 +20,8 @@ public abstract class TurnStateTestCase {
         players = Players.create(player);
     }
 
-    protected void setUpPlayerCoins(int coins) {
-        player = newBuilder().coins(coins).build();
-        players = Players.create(player);
-    }
-
-    protected void setUpActivePlayer(boolean active) {
-        player = newBuilder().active(active).build();
+    protected void setUpPlayer(PlayerBuilder playerBuilder) {
+        player = playerBuilder.build();
         players = Players.create(player);
     }
 
@@ -38,7 +34,7 @@ public abstract class TurnStateTestCase {
     }
 
     protected MainAction anyMainMethod() {
-        return MainAction.of(newBuilder().build(), EXCHANGE);
+        return MainAction.of(player, EXCHANGE);
     }
 
     protected MainAction anyChallengeableMainAction() {
@@ -46,6 +42,6 @@ public abstract class TurnStateTestCase {
     }
 
     protected MainAction anyNonChallengeableMainAction() {
-        return MainAction.of(newBuilder().build(), INCOME);
+        return MainAction.of(player, INCOME);
     }
 }

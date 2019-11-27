@@ -117,6 +117,7 @@ public final class WaitingChallengeMainActionState implements TurnState<Challeng
     @Override
     public TurnState performAction(ChallengeAction action) {
         checkMainActionIsChallengeable();
+        checkActionPlayerIsDifferentToMainActionPlayer(action);
 
         ImmutableList<Action> newActionHistory = actionHistory.plus(action);
 
@@ -133,6 +134,12 @@ public final class WaitingChallengeMainActionState implements TurnState<Challeng
         }
 
         return CompletedState.of(players, player, mainAction, newActionHistory);
+    }
+
+    private void checkActionPlayerIsDifferentToMainActionPlayer(ChallengeAction action) {
+        if (mainAction.getPlayer().equals(action.getPlayer())) {
+            throw new IllegalArgumentException("You cannot challenge your own action");
+        }
     }
 
     private void checkMainActionIsChallengeable() {

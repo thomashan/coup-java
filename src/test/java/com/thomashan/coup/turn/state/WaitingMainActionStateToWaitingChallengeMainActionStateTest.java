@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class WaitingMainActionStateToWaitingChallengeMainActionStateTest extends WaitingMainActionStateTestCase {
     @Test
     public void testPerformAction_Assassinate_ReturnsWaitingChallengeMainActionState() {
-        setUpPlayerCoins(3);
+        setUpPlayer(newBuilder().coins(3));
 
         assertEquals(WaitingChallengeMainActionState.class, createWaitingMainActionState().performAction(MainAction.of(getPlayer(), ASSASSINATE, newBuilder().build())).getClass());
     }
