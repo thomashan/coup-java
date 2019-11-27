@@ -100,16 +100,18 @@ public final class WaitingMainActionState implements TurnState<MainAction> {
 
         if (!mainActionType.isChallengeable()) {
             switch (mainActionType) {
-                case INCOME:
+                case INCOME: {
                     Player newPlayer = player.income();
                     Players newPlayers = players.updatePlayer(player, newPlayer);
 
                     return CompletedState.of(newPlayers, newPlayer, newActionHistory);
-                case COUP: {
+                }
+                case COUP:
                     return action.getTarget()
                             .map(target -> WaitingRevealCardState.of(players, player, newActionHistory, target, target))
                             .orElseThrow(() -> new IllegalArgumentException("Coup must specify target"));
-                }
+                case FOREIGN_AID:
+                    return WaitingBlockActionState.of(players, player, newActionHistory);
 
                 default:
                     throw new IllegalArgumentException("Unexpected non-challengeable acton");

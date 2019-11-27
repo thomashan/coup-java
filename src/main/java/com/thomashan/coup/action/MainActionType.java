@@ -14,7 +14,7 @@ public enum MainActionType implements ActionType {
     STEAL(empty(), of(10), true, of(BLOCK_STEAL)),
     EXCHANGE(empty(), of(10), true, empty()),
     INCOME(empty(), of(10), false, empty()),
-    FOREIGN_AID(empty(), of(10), true, of(BLOCK_FOREIGN_AID)),
+    FOREIGN_AID(empty(), of(10), false, of(BLOCK_FOREIGN_AID)),
     COUP(of(7), empty(), false, empty());
 
     private final Optional<Integer> minimumCoins;
