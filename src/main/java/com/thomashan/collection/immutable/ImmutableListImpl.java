@@ -3,12 +3,12 @@ package com.thomashan.collection.immutable;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import static java.util.Arrays.asList;
 import static java.util.Collections.emptyList;
 import static java.util.Collections.unmodifiableList;
 
@@ -27,7 +27,7 @@ final class ImmutableListImpl<E> implements ImmutableList<E> {
             return new ImmutableListImpl<>(unmodifiableList(emptyList()));
         }
 
-        return new ImmutableListImpl(unmodifiableList(Arrays.asList(e)));
+        return new ImmutableListImpl(unmodifiableList(asList(e)));
     }
 
     @VisibleForTesting
