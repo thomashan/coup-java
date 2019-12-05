@@ -5,10 +5,12 @@ import com.google.common.annotations.VisibleForTesting;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
 
 /* default */
 @SuppressWarnings("PMD.TooManyMethods")
@@ -22,10 +24,10 @@ final class ImmutableListImpl<E> implements ImmutableList<E> {
     @VisibleForTesting
     static <E> ImmutableListImpl<E> of(E... e) {
         if (0 == e.length) {
-            return new ImmutableListImpl<>(Collections.unmodifiableList(Collections.emptyList()));
+            return new ImmutableListImpl<>(unmodifiableList(emptyList()));
         }
 
-        return new ImmutableListImpl(Collections.unmodifiableList(Arrays.asList(e)));
+        return new ImmutableListImpl(unmodifiableList(Arrays.asList(e)));
     }
 
     @VisibleForTesting
@@ -36,7 +38,7 @@ final class ImmutableListImpl<E> implements ImmutableList<E> {
             return new ImmutableListImpl<>(l.getBackingList());
         }
 
-        return new ImmutableListImpl<>(Collections.unmodifiableList(list));
+        return new ImmutableListImpl<>(unmodifiableList(list));
     }
 
     @Override
