@@ -13,7 +13,7 @@ import java.util.ListIterator;
 /* default */
 @SuppressWarnings("PMD.TooManyMethods")
 final class ImmutableListImpl<E> implements ImmutableList<E> {
-    private final transient List<E> list;
+    private final List<E> list;
 
     private ImmutableListImpl(List<E> list) {
         this.list = list;
@@ -30,8 +30,10 @@ final class ImmutableListImpl<E> implements ImmutableList<E> {
 
     @VisibleForTesting
     static <E> ImmutableListImpl<E> of(List<E> list) {
-        if (list instanceof ImmutableList) {
-            return new ImmutableListImpl<>(list);
+        if (list instanceof ImmutableListImpl) {
+            ImmutableListImpl<E> l = (ImmutableListImpl<E>) list;
+
+            return new ImmutableListImpl<>(l.getBackingList());
         }
 
         return new ImmutableListImpl<>(Collections.unmodifiableList(list));
@@ -43,6 +45,10 @@ final class ImmutableListImpl<E> implements ImmutableList<E> {
         newList.add(e);
 
         return of(newList);
+    }
+
+    List<E> getBackingList() {
+        return list;
     }
 
     @Override

@@ -252,4 +252,12 @@ public class ImmutableListImplTest {
 
         assertEquals(of(object), list.addOrSet(0, object));
     }
+
+    @Test
+    public void testOf_ListParameter() {
+        ImmutableListImpl list1 = ImmutableListImpl.of(1, 2);
+        ImmutableListImpl list2 = ImmutableListImpl.of(list1);
+
+        assertFalse(list2.getBackingList() instanceof ImmutableList);
+    }
 }
