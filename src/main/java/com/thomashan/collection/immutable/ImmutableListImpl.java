@@ -49,7 +49,7 @@ final class ImmutableListImpl<E> implements ImmutableList<E> {
         return of(newList);
     }
 
-    List<E> getBackingList() {
+    private List<E> getBackingList() {
         return list;
     }
 
