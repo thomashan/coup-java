@@ -1,8 +1,5 @@
 package com.thomashan.coup.action;
 
-import com.thomashan.coup.action.Action;
-import com.thomashan.coup.action.ActionType;
-import com.thomashan.coup.action.ActionValidatorUtil;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -11,7 +8,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Collections;
 import java.util.Optional;
 
-import static com.thomashan.coup.PlayerBuilder.build;
+import static com.thomashan.coup.player.PlayerBuilder.newBuilder;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -49,8 +46,9 @@ public class ActionValidatorUtilTest {
     }
 
     @Test
-    public void testCheckActionPlayerIsActive_ThrowsException_IfActionPlayerIsNotActive() {
-        when(action.getPlayer()).thenReturn(build(false));
+    public void testCheckActionPlayerIsActive_GivenPlayerIsNotActive_ThrowsException() {
+        when(action.getPlayer()).thenReturn(newBuilder().active(false).build());
+        when(action.isCheckForActivePlayer()).thenReturn(true);
 
         Throwable throwable = assertThrows(IllegalArgumentException.class, () -> ActionValidatorUtil.checkActionPlayerIsActive(action));
         assertEquals("The player is not active", throwable.getMessage());
@@ -58,14 +56,13 @@ public class ActionValidatorUtilTest {
 
     @Test
     public void testCheckActionPlayerIsActive_NoException_IfActionPlayerIsActive() {
-        when(action.getPlayer()).thenReturn(build());
-
         assertDoesNotThrow(() -> ActionValidatorUtil.checkActionPlayerIsActive(action));
     }
 
     @Test
     public void testCheckTargetPlayerIsActive_ThrowsException_IfTargetIsNotActive() {
-        when(action.getTarget()).thenReturn(Optional.of(build(false)));
+        when(action.getTarget()).thenReturn(Optional.of(newBuilder().active(false).build()));
+        when(action.isCheckForActivePlayer()).thenReturn(true);
 
         Throwable throwable = assertThrows(IllegalArgumentException.class, () -> ActionValidatorUtil.checkTargetPlayerIsActive(action));
         assertEquals("The target player is not active", throwable.getMessage());
@@ -73,7 +70,7 @@ public class ActionValidatorUtilTest {
 
     @Test
     public void testCheckTargetPlayerIsActive_NoException_IfTargetIsActive() {
-        when(action.getTarget()).thenReturn(Optional.of(build()));
+        when(action.getTarget()).thenReturn(Optional.of(newBuilder().build()));
 
         assertDoesNotThrow(() -> ActionValidatorUtil.checkTargetPlayerIsActive(action));
     }

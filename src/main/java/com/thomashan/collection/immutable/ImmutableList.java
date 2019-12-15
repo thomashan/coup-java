@@ -1,5 +1,6 @@
 package com.thomashan.collection.immutable;
 
+import java.util.Collection;
 import java.util.List;
 
 
@@ -10,6 +11,10 @@ public interface ImmutableList<E> extends List<E> {
 
     static <E> ImmutableList<E> of(List<E> list) {
         return ImmutableListImpl.of(list);
+    }
+
+    static <E> ImmutableList<E> of(Collection<E> colletion) {
+        return ImmutableListImpl.of(colletion);
     }
 
     /**

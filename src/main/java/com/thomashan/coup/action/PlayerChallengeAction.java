@@ -1,6 +1,6 @@
 package com.thomashan.coup.action;
 
-import com.thomashan.coup.Player;
+import com.thomashan.coup.player.Player;
 
 public final class PlayerChallengeAction {
     private final Player player;

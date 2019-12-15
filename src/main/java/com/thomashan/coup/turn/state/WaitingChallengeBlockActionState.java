@@ -1,89 +1,51 @@
 package com.thomashan.coup.turn.state;
 
-import com.thomashan.coup.Deck;
-import com.thomashan.coup.Player;
-import com.thomashan.coup.Players;
+import com.thomashan.collection.immutable.ImmutableList;
 import com.thomashan.coup.action.Action;
-import com.thomashan.coup.action.ActionType;
-import com.thomashan.coup.action.BlockActionType;
+import com.thomashan.coup.action.ActionDetector;
+import com.thomashan.coup.action.BlockAction;
 import com.thomashan.coup.action.ChallengeAction;
-import com.thomashan.coup.action.ChallengeActionType;
+import com.thomashan.coup.action.MainAction;
+import com.thomashan.coup.card.Deck;
+import com.thomashan.coup.player.Player;
+import com.thomashan.coup.player.Players;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-import static java.util.Optional.empty;
+import static com.thomashan.coup.turn.state.WaitingChallengeActionState.FromState.BLOCK;
 
-public class WaitingChallengeBlockActionState implements TurnState<ChallengeAction> {
-    @Override
-    public List<Action> getActionHistory() {
-        return null;
+public class WaitingChallengeBlockActionState extends WaitingChallengeActionState {
+    private final BlockAction blockAction;
+
+    private WaitingChallengeBlockActionState(Players players, Player player, Deck deck, MainAction mainAction, BlockAction blockAction, List<Action> actionHistory, Player target, List<Player> challengeablePlayers) {
+        super(players, player, deck, mainAction, actionHistory, target, challengeablePlayers, BLOCK);
+        this.blockAction = blockAction;
+    }
+
+    public static WaitingChallengeBlockActionState of(Players players, Player player, Deck deck, MainAction mainAction, BlockAction blockAction, List<Action> actionHistory, Player target, List<Player> challengeablePlayers) {
+        return new WaitingChallengeBlockActionState(players, player, deck, mainAction, blockAction, actionHistory, target, challengeablePlayers);
     }
 
     @Override
-    public Deck getDeck() {
-        return null;
+    protected TurnState toWaitingChallengeActionState(ChallengeAction action, List<Action> actionHistory) {
+        return WaitingChallengeBlockActionState.of(getPlayers(), getPlayer(), getDeck(), getMainAction(), getBlockAction(), actionHistory, getTarget().orElse(null), ImmutableList.of(getChallengeablePlayers()).minus(action.getPlayer()));
     }
 
     @Override
-    public Players getPlayers() {
-        return null;
+    protected TurnState toRevealCardState(ChallengeAction action, List<Action> actionHistory) {
+        if (ActionDetector.isBluff(blockAction.getActionType(), blockAction.getPlayer().getActiveCardSet())) {
+            return WaitingRevealCardState.of(getPlayers(), getPlayer(), getDeck(), getMainAction(), actionHistory, getMainAction(), getTarget().orElse(null), blockAction.getPlayer());
+        } else {
+            return WaitingRevealCardState.of(getPlayers(), getPlayer(), getDeck(), getMainAction(), actionHistory, blockAction, getTarget().orElse(null), action.getPlayer());
+        }
     }
 
     @Override
-    public Player getPlayer() {
-        return null;
+    protected void checkAction(ChallengeAction action) {
+        // FIXME: put in action checks here
     }
 
-    @Override
-    public List<Player> getActionablePlayers() {
-        // FIXME: return all player apart from the player that performed the block
-        return null;
-    }
-
-    @Override
-    public Optional<Player> getTarget() {
-        return empty();
-    }
-
-    @Override
-    public Optional<ChallengeActionType> getChallengeActionType() {
-        return empty();
-    }
-
-    @Override
-    public Optional<BlockActionType> getBlockAction() {
-        return empty();
-    }
-
-    @Override
-    public Optional<ChallengeActionType> getBlockChallengeActionType() {
-        return empty();
-    }
-
-    @Override
-    public Optional<Player> getMainActionChallengedBy() {
-        return empty();
-    }
-
-    @Override
-    public Optional<Player> getBlockActionChallengedBy() {
-        return empty();
-    }
-
-    @Override
-    public boolean isComplete() {
-        return false;
-    }
-
-    @Override
-    public WaitingRevealCardState performAction(ChallengeAction action) {
-        return null;
-    }
-
-    @Override
-    public List<ActionType> getAllowableActionTypes() {
-        return Arrays.asList(ChallengeActionType.values());
+    public BlockAction getBlockAction() {
+        return blockAction;
     }
 }

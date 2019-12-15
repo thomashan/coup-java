@@ -3,17 +3,19 @@ package com.thomashan.collection.immutable;
 import com.google.common.annotations.VisibleForTesting;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
+import static java.util.Arrays.asList;
+import static java.util.Collections.emptyList;
+import static java.util.Collections.unmodifiableList;
+
 /* default */
 @SuppressWarnings("PMD.TooManyMethods")
 final class ImmutableListImpl<E> implements ImmutableList<E> {
-    private final transient List<E> list;
+    private final List<E> list;
 
     private ImmutableListImpl(List<E> list) {
         this.list = list;
@@ -22,15 +24,62 @@ final class ImmutableListImpl<E> implements ImmutableList<E> {
     @VisibleForTesting
     static <E> ImmutableListImpl<E> of(E... e) {
         if (0 == e.length) {
-            return new ImmutableListImpl<>(Collections.unmodifiableList(Collections.emptyList()));
+            return new ImmutableListImpl<>(unmodifiableList(emptyList()));
         }
 
-        return new ImmutableListImpl(Collections.unmodifiableList(Arrays.asList(e)));
+        return new ImmutableListImpl(unmodifiableList(asList(e)));
     }
 
     @VisibleForTesting
     static <E> ImmutableListImpl<E> of(List<E> list) {
-        return new ImmutableListImpl<>(Collections.unmodifiableList(list));
+        if (list instanceof ImmutableListImpl) {
+            return new ImmutableListImpl<>(((ImmutableListImpl<E>) list).getBackingList());
+        }
+
+        return new ImmutableListImpl<>(unmodifiableList(list));
+    }
+
+    @VisibleForTesting
+    static <E> ImmutableListImpl<E> of(Collection<E> collection) {
+        if (collection instanceof ImmutableListImpl) {
+            return new ImmutableListImpl<>(((ImmutableListImpl<E>) collection).getBackingList());
+        }
+
+        return new ImmutableListImpl<>(unmodifiableList(new ArrayList<>(collection)));
+    }
+
+    @Override
+    public ImmutableList<E> plus(E e) {
+        List<E> newList = new ArrayList<>(list);
+        newList.add(e);
+
+        return of(newList);
+    }
+
+    @VisibleForTesting
+    List<E> getBackingList() {
+        return list;
+    }
+
+    @Override
+    public ImmutableList<E> minus(E e) {
+        List<E> newList = new ArrayList<>(list);
+        newList.remove(e);
+
+        return of(newList);
+    }
+
+    @Override
+    public ImmutableList<E> addOrSet(int index, E e) {
+        List<E> newList = new ArrayList<>(list);
+
+        if (size() > index) {
+            newList.set(index, e);
+        } else {
+            newList.add(index, e);
+        }
+
+        return of(newList);
     }
 
     @Override
@@ -156,34 +205,5 @@ final class ImmutableListImpl<E> implements ImmutableList<E> {
     @Override
     public int hashCode() {
         return list.hashCode();
-    }
-
-    @Override
-    public ImmutableList<E> plus(E e) {
-        List<E> newList = new ArrayList<>(list);
-        newList.add(e);
-
-        return of(newList);
-    }
-
-    @Override
-    public ImmutableList<E> minus(E e) {
-        List<E> newList = new ArrayList<>(list);
-        newList.remove(e);
-
-        return of(newList);
-    }
-
-    @Override
-    public ImmutableList<E> addOrSet(int index, E e) {
-        List<E> newList = new ArrayList<>(list);
-
-        if (size() > index) {
-            newList.set(index, e);
-        } else {
-            newList.add(index, e);
-        }
-
-        return of(newList);
     }
 }

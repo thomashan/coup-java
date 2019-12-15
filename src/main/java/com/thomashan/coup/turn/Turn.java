@@ -1,9 +1,9 @@
 package com.thomashan.coup.turn;
 
-import com.thomashan.coup.Deck;
-import com.thomashan.coup.Player;
-import com.thomashan.coup.Players;
 import com.thomashan.coup.action.Action;
+import com.thomashan.coup.card.Deck;
+import com.thomashan.coup.player.Player;
+import com.thomashan.coup.player.Players;
 
 import java.util.List;
 
@@ -11,6 +11,10 @@ import java.util.List;
  * Model the allowable action, challenge action, and block action for the current turn.
  */
 public interface Turn {
+    static Turn create(Players players, Deck deck) {
+        return StandardTurn.create(players, deck);
+    }
+
     boolean isComplete();
 
     Turn newTurn();
@@ -23,15 +27,9 @@ public interface Turn {
 
     Player getPlayer();
 
-    List<Player> getActionablePlayers();
-
     List<Action> getActionHistory();
 
     List<Action> getAllowableActions();
 
     Turn perform(Action action);
-
-    static Turn create(Players players) {
-        return StandardTurn.create(players);
-    }
 }

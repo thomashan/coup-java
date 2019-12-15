@@ -1,32 +1,52 @@
 package com.thomashan.coup.turn.state;
 
-import com.thomashan.coup.Deck;
-import com.thomashan.coup.Player;
-import com.thomashan.coup.Players;
+import com.thomashan.collection.immutable.ImmutableList;
 import com.thomashan.coup.action.Action;
-import com.thomashan.coup.action.ActionType;
 import com.thomashan.coup.action.BlockAction;
 import com.thomashan.coup.action.BlockActionType;
-import com.thomashan.coup.action.ChallengeActionType;
+import com.thomashan.coup.action.MainAction;
+import com.thomashan.coup.action.PerformAction;
+import com.thomashan.coup.card.Deck;
+import com.thomashan.coup.player.Player;
+import com.thomashan.coup.player.Players;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import static com.thomashan.coup.action.BlockActionType.NO_BLOCK;
 import static java.util.Optional.empty;
 
 public final class WaitingBlockActionState implements TurnState<BlockAction> {
     private final Players players;
     private final Player player;
-    private final List<Action> actionHistory;
+    private final Deck deck;
+    private final MainAction mainAction;
+    private final ImmutableList<Action> actionHistory;
+    private final Optional<Player> target;
 
-    private WaitingBlockActionState(Players players, Player player, List<Action> actionHistory) {
+    private WaitingBlockActionState(Players players, Player player, Deck deck, MainAction mainAction, List<Action> actionHistory, Player target) {
         this.players = players;
         this.player = player;
-        this.actionHistory = actionHistory;
+        this.deck = deck;
+        this.mainAction = mainAction;
+        this.actionHistory = ImmutableList.of(actionHistory);
+
+        if (target != null) {
+            this.target = Optional.of(target);
+        } else {
+            this.target = empty();
+        }
     }
 
-    public static WaitingBlockActionState of(Players players, Player player, List<Action> actionHistory) {
-        return new WaitingBlockActionState(players, player, actionHistory);
+    public static WaitingBlockActionState of(Players players, Player player, Deck deck, MainAction mainAction, List<Action> actionHistory, Player target) {
+        return new WaitingBlockActionState(players, player, deck, mainAction, actionHistory, target);
+    }
+
+    @Override
+    public MainAction getMainAction() {
+        return mainAction;
     }
 
     @Override
@@ -36,7 +56,7 @@ public final class WaitingBlockActionState implements TurnState<BlockAction> {
 
     @Override
     public Deck getDeck() {
-        return null;
+        return deck;
     }
 
     @Override
@@ -50,39 +70,8 @@ public final class WaitingBlockActionState implements TurnState<BlockAction> {
     }
 
     @Override
-    public List<Player> getActionablePlayers() {
-        // FIXME: return the player who should perform the block
-        return null;
-    }
-
-    @Override
     public Optional<Player> getTarget() {
-        return empty();
-    }
-
-    @Override
-    public Optional<ChallengeActionType> getChallengeActionType() {
-        return empty();
-    }
-
-    @Override
-    public Optional<BlockActionType> getBlockAction() {
-        return empty();
-    }
-
-    @Override
-    public Optional<ChallengeActionType> getBlockChallengeActionType() {
-        return empty();
-    }
-
-    @Override
-    public Optional<Player> getMainActionChallengedBy() {
-        return empty();
-    }
-
-    @Override
-    public Optional<Player> getBlockActionChallengedBy() {
-        return empty();
+        return target;
     }
 
     @Override
@@ -91,12 +80,53 @@ public final class WaitingBlockActionState implements TurnState<BlockAction> {
     }
 
     @Override
-    public TurnState performAction(BlockAction action) {
-        return null;
+    public boolean isCheckAllowableActions() {
+        return true;
     }
 
     @Override
-    public List<ActionType> getAllowableActionTypes() {
-        return null;
+    public TurnState performAction(BlockAction action) {
+        checkBlockActionMatchesMainAction(action);
+
+        ImmutableList<Action> newActionHistory = actionHistory.plus(action);
+
+        switch (action.getActionType()) {
+            case NO_BLOCK:
+                PerformAction performAction = PerformAction.mainAction(getMainAction());
+                return WaitingToPerformActionsState.of(getPlayers(), getPlayer(), getDeck(), getMainAction(), newActionHistory, getTarget().orElse(null))
+                        .performAction(performAction);
+            default:
+                return WaitingChallengeBlockActionState.of(getPlayers(), getPlayer(), getDeck(), getMainAction(), action, newActionHistory, getTarget().orElse(null), getPlayers().others(action.getPlayer()).get());
+        }
+    }
+
+    private void checkBlockActionMatchesMainAction(BlockAction action) {
+        BlockActionType blockActionType = getBlockActionType();
+
+        if (action.getActionType() != blockActionType && action.getActionType() != NO_BLOCK) {
+            throw new IllegalArgumentException("Your block action is incompatible with the main action");
+        }
+    }
+
+    @Override
+    public List<BlockAction> getAllowableActions() {
+        BlockActionType blockActionType = getBlockActionType();
+
+        Player target = getMainAction().getTarget().orElseThrow(() -> new IllegalStateException("The main action didn't specify a target"));
+
+        return Stream.concat(
+                blockActionType
+                        .getBlockableBy()
+                        .stream()
+                        .map(c -> BlockAction.block(target, blockActionType, c)),
+                Stream.of(BlockAction.noBlock(target)))
+                .collect(Collectors.toList());
+    }
+
+    private BlockActionType getBlockActionType() {
+        return getMainAction()
+                .getActionType()
+                .getBlockAction()
+                .orElseThrow(() -> new IllegalStateException("Main action is not blockable"));
     }
 }

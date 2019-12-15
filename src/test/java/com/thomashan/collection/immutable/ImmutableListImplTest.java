@@ -76,12 +76,12 @@ public class ImmutableListImplTest {
     public void testContainsAll_GivenAllObjectAreInTheList_ReturnsTrue() {
         Object object = new Object();
 
-        assertTrue(of(object).containsAll(Collections.singleton(object)));
+        assertTrue(of(object).contains(object));
     }
 
     @Test
     public void testContainsAll_GivenAllObjectNotInTheList_ReturnsFalse() {
-        assertFalse(of(new Object()).containsAll(Collections.singleton(new Object())));
+        assertFalse(of(new Object()).contains(new Object()));
     }
 
     @Test
@@ -251,5 +251,13 @@ public class ImmutableListImplTest {
         ImmutableList<Object> list = of(new Object());
 
         assertEquals(of(object), list.addOrSet(0, object));
+    }
+
+    @Test
+    public void testOf_ListParameter() {
+        ImmutableListImpl list1 = ImmutableListImpl.of(1, 2);
+        ImmutableListImpl list2 = ImmutableListImpl.of(list1);
+
+        assertFalse(list2.getBackingList() instanceof ImmutableList);
     }
 }

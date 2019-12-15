@@ -1,6 +1,7 @@
 package com.thomashan.coup.action;
 
-import com.thomashan.coup.Player;
+import com.thomashan.coup.player.Player;
+import lombok.EqualsAndHashCode;
 
 import java.util.Arrays;
 import java.util.List;
@@ -11,6 +12,7 @@ import static com.thomashan.coup.action.MainActionType.COUP;
 import static com.thomashan.coup.action.MainActionType.STEAL;
 import static java.util.Optional.empty;
 
+@EqualsAndHashCode
 public final class MainAction implements Action<MainActionType> {
     private static final List<MainActionType> actionRequiresTarget = Arrays.asList(ASSASSINATE, STEAL, COUP);
     private final Player player;
@@ -31,10 +33,18 @@ public final class MainAction implements Action<MainActionType> {
     }
 
     public static MainAction of(Player player, MainActionType mainActionType) {
+        if (mainActionType.isRequiresTarget()) {
+            throw new IllegalArgumentException("The action requires a target");
+        }
+
         return new MainAction(player, mainActionType, null);
     }
 
     public static MainAction of(Player player, MainActionType mainActionType, Player target) {
+        if (!mainActionType.isRequiresTarget()) {
+            throw new IllegalArgumentException("The action must not specify a target");
+        }
+
         return new MainAction(player, mainActionType, target);
     }
 
@@ -79,7 +89,7 @@ public final class MainAction implements Action<MainActionType> {
 
     private void actionAllowed(MainActionType mainActionType, Player player) {
         if (!mainActionType.isAllowable(player.getCoins())) {
-            throw new IllegalArgumentException("The action is not allowed");
+            throw new IllegalArgumentException("The action " + mainActionType + " is not allowed by player " + player.toString());
         }
     }
 
@@ -100,12 +110,12 @@ public final class MainAction implements Action<MainActionType> {
     }
 
     @Override
-    public Class<MainActionType> getActionTypeClass() {
-        return MainActionType.class;
+    public Optional<Player> getTarget() {
+        return target;
     }
 
     @Override
-    public Optional<Player> getTarget() {
-        return target;
+    public boolean isCheckForActivePlayer() {
+        return true;
     }
 }

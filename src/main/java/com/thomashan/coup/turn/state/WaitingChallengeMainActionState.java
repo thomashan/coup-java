@@ -1,128 +1,79 @@
 package com.thomashan.coup.turn.state;
 
 import com.thomashan.collection.immutable.ImmutableList;
-import com.thomashan.coup.Deck;
-import com.thomashan.coup.Player;
-import com.thomashan.coup.Players;
 import com.thomashan.coup.action.Action;
 import com.thomashan.coup.action.ActionDetector;
-import com.thomashan.coup.action.ActionType;
-import com.thomashan.coup.action.BlockActionType;
 import com.thomashan.coup.action.ChallengeAction;
-import com.thomashan.coup.action.ChallengeActionType;
 import com.thomashan.coup.action.MainAction;
+import com.thomashan.coup.action.NoAction;
+import com.thomashan.coup.action.PerformAction;
+import com.thomashan.coup.card.Card;
+import com.thomashan.coup.card.Deck;
+import com.thomashan.coup.card.DrawnCard;
+import com.thomashan.coup.player.Player;
+import com.thomashan.coup.player.Players;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-import static com.thomashan.coup.action.ChallengeActionType.CHALLENGE;
-import static java.util.Optional.empty;
+import static com.thomashan.coup.turn.state.WaitingChallengeActionState.FromState.MAIN;
 
-public final class WaitingChallengeMainActionState implements TurnState<ChallengeAction> {
-    private final Players players;
-    private final Player player;
-    private final ImmutableList<Action> actionHistory;
-    private final Optional<Player> target;
+public final class WaitingChallengeMainActionState extends WaitingChallengeActionState {
 
-    private WaitingChallengeMainActionState(Players players, Player player, List<Action> actionHistory, Player target) {
-        this.players = players;
-        this.player = player;
-        this.actionHistory = ImmutableList.of(actionHistory);
-
-        if (target != null) {
-            this.target = Optional.of(target);
-        } else {
-            this.target = empty();
-        }
+    private WaitingChallengeMainActionState(Players players, Player player, Deck deck, MainAction mainAction, List<Action> actionHistory, Player target, List<Player> challengeablePlayers) {
+        super(players, player, deck, mainAction, actionHistory, target, challengeablePlayers, MAIN);
     }
 
-    public static WaitingChallengeMainActionState of(Players players, Player player, List<Action> actionHistory, Player target) {
-        return new WaitingChallengeMainActionState(players, player, actionHistory, target);
+    public static WaitingChallengeMainActionState of(Players players, Player player, Deck deck, MainAction mainAction, List<Action> actionHistory, Player target, List<Player> challengeablePlayers) {
+        return new WaitingChallengeMainActionState(players, player, deck, mainAction, actionHistory, target, challengeablePlayers);
     }
 
     @Override
-    public List<Action> getActionHistory() {
-        return actionHistory;
-    }
+    protected TurnState toRevealCardState(ChallengeAction action, List<Action> actionHistory) {
+        Player newPlayer = getPlayer();
+        Players newPlayers = getPlayers();
 
-    @Override
-    public Deck getDeck() {
-        return null;
-    }
-
-    @Override
-    public Players getPlayers() {
-        return players;
-    }
-
-    @Override
-    public Player getPlayer() {
-        return player;
-    }
-
-    @Override
-    public List<Player> getActionablePlayers() {
-        // FIXME: return all players apart from the player who performed the main action
-        return null;
-    }
-
-    @Override
-    public Optional<Player> getTarget() {
-        return target;
-    }
-
-    @Override
-    public Optional<Player> getMainActionChallengedBy() {
-        return empty();
-    }
-
-    @Override
-    public Optional<Player> getBlockActionChallengedBy() {
-        return empty();
-    }
-
-    @Override
-    public Optional<ChallengeActionType> getChallengeActionType() {
-        return empty();
-    }
-
-    @Override
-    public Optional<BlockActionType> getBlockAction() {
-        return empty();
-    }
-
-    @Override
-    public Optional<ChallengeActionType> getBlockChallengeActionType() {
-        return empty();
-    }
-
-    @Override
-    public boolean isComplete() {
-        return false;
-    }
-
-    @Override
-    public TurnState performAction(ChallengeAction action) {
-        ImmutableList<Action> newActionHistory = actionHistory.plus(action);
-
-        if (action.getChallengeActionType() == CHALLENGE) {
-            if (ActionDetector.isBluff(((MainAction) actionHistory.get(0)).getActionType(), player.getActiveCards())) {
-                return WaitingRevealCardState.of(players, player, newActionHistory, player);
-            } else {
-                return WaitingRevealCardState.of(players, player, newActionHistory, action.getPlayer());
+        if (isMainActionPlayerBluffing()) {
+            switch (getMainAction().getActionType()) {
+                case ASSASSINATE:
+                    return WaitingRevealCardState.of(newPlayers, newPlayer, getDeck(), getMainAction(), actionHistory, PerformAction.takeCoinsForAssassination(newPlayer), getTarget().orElse(null), newPlayer);
+                default:
+                    return WaitingRevealCardState.of(newPlayers, newPlayer, getDeck(), getMainAction(), actionHistory, NoAction.get(), getTarget().orElse(null), newPlayer);
             }
-        }
+        } else {
+            Card card = ActionDetector.getActionableCard(getMainAction().getActionType());
+            newPlayer = newPlayer.minus(card);
+            DrawnCard drawnCard = getDeck().plus(card).shuffle().draw();
+            newPlayer = newPlayer.plus(drawnCard.getCard());
+            newPlayers = newPlayers.updatePlayer(getPlayer(), newPlayer);
 
-        if (actionHistory.get(0).getActionType().isBlockable()) {
-            return WaitingBlockActionState.of(players, player, newActionHistory);
+            return WaitingRevealCardState.of(newPlayers, newPlayer, drawnCard.getDeck(), getMainAction(), actionHistory, getMainAction(), getTarget().orElse(null), action.getPlayer());
         }
+    }
 
-        return CompletedState.of(players, player, newActionHistory);
+    private boolean isMainActionPlayerBluffing() {
+        return ActionDetector.isBluff(getMainAction().getActionType(), getMainAction().getPlayer().getActiveCardSet());
     }
 
     @Override
-    public List<ActionType> getAllowableActionTypes() {
-        return Arrays.asList(ChallengeActionType.values());
+    protected TurnState toWaitingChallengeActionState(ChallengeAction action, List<Action> actionHistory) {
+        return WaitingChallengeMainActionState.of(getPlayers(), getPlayer(), getDeck(), getMainAction(), actionHistory, getTarget().orElse(null), ImmutableList.of(getChallengeablePlayers()).minus(action.getPlayer()));
+    }
+
+    @Override
+    protected void checkAction(ChallengeAction action) {
+        checkMainActionIsChallengeable();
+        checkActionPlayerIsDifferentToMainActionPlayer(action);
+    }
+
+    private void checkActionPlayerIsDifferentToMainActionPlayer(ChallengeAction action) {
+        if (getMainAction().getPlayer().equals(action.getPlayer())) {
+            throw new IllegalArgumentException("You cannot challenge your own action");
+        }
+    }
+
+    private void checkMainActionIsChallengeable() {
+        if (!getMainAction().getActionType().isChallengeable()) {
+            throw new IllegalArgumentException("Challenging a non-challengeable action");
+        }
     }
 }

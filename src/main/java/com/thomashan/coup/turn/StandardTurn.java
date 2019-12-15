@@ -1,9 +1,9 @@
 package com.thomashan.coup.turn;
 
-import com.thomashan.coup.Deck;
-import com.thomashan.coup.Player;
-import com.thomashan.coup.Players;
 import com.thomashan.coup.action.Action;
+import com.thomashan.coup.card.Deck;
+import com.thomashan.coup.player.Player;
+import com.thomashan.coup.player.Players;
 import com.thomashan.coup.turn.state.TurnState;
 
 import java.util.List;
@@ -12,15 +12,17 @@ public final class StandardTurn implements Turn {
     private final int turnNumber;
     private final transient Players players;
     private final TurnState turnState;
+    private final Deck deck;
 
-    private StandardTurn(int turnNumber, Players players, TurnState turnState) {
+    private StandardTurn(int turnNumber, Players players, Deck deck, TurnState turnState) {
         this.turnNumber = turnNumber;
         this.players = players;
+        this.deck = deck;
         this.turnState = turnState;
     }
 
-    public static StandardTurn create(Players players) {
-        return new StandardTurn(0, players, TurnState.initialState(players, players.get().get(0)));
+    public static StandardTurn create(Players players, Deck deck) {
+        return new StandardTurn(0, players, deck, TurnState.initialState(players, players.get(0), deck));
     }
 
     @Override
@@ -30,9 +32,13 @@ public final class StandardTurn implements Turn {
 
     @Override
     public Turn newTurn() {
-        int newTurnNumber = turnNumber + 1;
+        if (isComplete()) {
+            int newTurnNumber = turnNumber + 1;
 
-        return new StandardTurn(newTurnNumber, players, TurnState.initialState(players, getNextTurnPlayer()));
+            return new StandardTurn(newTurnNumber, getPlayers(), getDeck(), TurnState.initialState(players, getNextTurnPlayer(), getDeck()));
+        }
+
+        throw new IllegalStateException("Can't generate a new turn when the turn state is not complete");
     }
 
     @Override
@@ -42,7 +48,7 @@ public final class StandardTurn implements Turn {
 
     @Override
     public Deck getDeck() {
-        return null;
+        return deck;
     }
 
     @Override
@@ -52,12 +58,7 @@ public final class StandardTurn implements Turn {
 
     @Override
     public Player getPlayer() {
-        return players.get().get(turnNumber % players.getNumberOfPlayers());
-    }
-
-    @Override
-    public List<Player> getActionablePlayers() {
-        return turnState.getActionablePlayers();
+        return players.get(turnNumber % players.getNumberOfPlayers());
     }
 
     @Override
@@ -67,16 +68,16 @@ public final class StandardTurn implements Turn {
 
     @Override
     public List<Action> getAllowableActions() {
-        return turnState.getAllowableActionTypes();
+        return turnState.getAllowableActions();
     }
 
     @Override
     public Turn perform(Action action) {
         TurnState newTurnState = turnState.perform(action);
-        return new StandardTurn(turnNumber, newTurnState.getPlayers(), newTurnState);
+        return new StandardTurn(turnNumber, newTurnState.getPlayers(), newTurnState.getDeck(), newTurnState);
     }
 
     private Player getNextTurnPlayer() {
-        return players.get().get((turnNumber + 1) % players.getNumberOfPlayers());
+        return players.get((turnNumber + 1) % players.getNumberOfPlayers());
     }
 }

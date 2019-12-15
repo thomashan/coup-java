@@ -8,15 +8,15 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class WaitingMainActionStateToCompletedStateTest extends WaitingMainActionStateTestCases {
+public class WaitingMainActionStateToCompletedStateTest extends WaitingMainActionStateTestCase {
     @Test
     public void testPerformAction_IncomeAction_ReturnsCompletedState() {
-        assertEquals(CompletedState.class, getWaitingMainActionState().performAction(MainAction.of(getPlayer(), INCOME)).getClass());
+        assertEquals(CompletedState.class, createWaitingMainActionState().performAction(MainAction.of(getPlayer(), INCOME)).getClass());
     }
 
     @Test
     public void testPerformAction_IncomeAction_PlayersContainsNewPlayer() {
-        TurnState turnState = getWaitingMainActionState().performAction(MainAction.of(getPlayer(), INCOME));
+        TurnState turnState = createWaitingMainActionState().performAction(MainAction.of(getPlayer(), INCOME));
 
         assertTrue(turnState.getPlayers().get().contains(turnState.getPlayer()));
         assertFalse(turnState.getPlayers().get().contains(getPlayer()));
@@ -24,7 +24,7 @@ public class WaitingMainActionStateToCompletedStateTest extends WaitingMainActio
 
     @Test
     public void testPerformAction_IncomeAction_NewPlayerWithOneMoreCoin() {
-        TurnState turnState = getWaitingMainActionState().performAction(MainAction.of(getPlayer(), INCOME));
+        TurnState turnState = createWaitingMainActionState().performAction(MainAction.of(getPlayer(), INCOME));
 
         assertEquals(getPlayer().getCoins() + 1, turnState.getPlayer().getCoins());
     }
