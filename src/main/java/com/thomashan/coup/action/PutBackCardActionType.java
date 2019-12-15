@@ -1,8 +1,8 @@
 package com.thomashan.coup.action;
 
 public enum PutBackCardActionType implements ActionType {
-    DISTINCT_TWO,
-    SAME_TWO;
+    PUT_BACK,
+    SELECT;
 
     @Override
     public boolean isChallengeable() {

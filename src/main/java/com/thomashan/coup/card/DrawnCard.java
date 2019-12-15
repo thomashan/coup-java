@@ -1,4 +1,4 @@
-package com.thomashan.coup;
+package com.thomashan.coup.card;
 
 public final class DrawnCard {
     private final Card card;

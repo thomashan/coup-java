@@ -1,12 +1,15 @@
 package com.thomashan.coup.turn.state;
 
-import com.thomashan.coup.Player;
+import com.thomashan.coup.action.Action;
 import com.thomashan.coup.action.MainAction;
+import com.thomashan.coup.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import static com.thomashan.coup.PlayerBuilder.newBuilder;
+import java.util.List;
+
 import static com.thomashan.coup.action.MainActionType.COUP;
+import static com.thomashan.coup.player.PlayerBuilder.newBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -31,11 +34,12 @@ public class WaitingMainTurnStateToWaitingRevealCardStateTest extends WaitingMai
     }
 
     @Test
-    public void testPerformAction_Coup_ReturnsActionablePlayers() {
+    public void testPerformAction_GivenCoup_ReturnsAllowableActions() {
         Player target = newBuilder().build();
         TurnState turnState = createWaitingMainActionState().performAction(MainAction.of(getPlayer(), COUP, target));
 
-        assertEquals(1, turnState.getActionablePlayers().size());
-        assertTrue(turnState.getActionablePlayers().contains(target));
+        List<Action> actions = turnState.getAllowableActions();
+
+        assertEquals(1, turnState.getAllowableActions().size());
     }
 }

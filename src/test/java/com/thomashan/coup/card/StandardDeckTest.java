@@ -1,12 +1,12 @@
-package com.thomashan.coup;
+package com.thomashan.coup.card;
 
 import org.junit.jupiter.api.Test;
 
-import static com.thomashan.coup.Card.AMBASSADOR;
-import static com.thomashan.coup.Card.ASSASSIN;
-import static com.thomashan.coup.Card.CAPTAIN;
-import static com.thomashan.coup.Card.CONTESSA;
-import static com.thomashan.coup.Card.DUKE;
+import static com.thomashan.coup.card.Card.AMBASSADOR;
+import static com.thomashan.coup.card.Card.ASSASSIN;
+import static com.thomashan.coup.card.Card.CAPTAIN;
+import static com.thomashan.coup.card.Card.CONTESSA;
+import static com.thomashan.coup.card.Card.DUKE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 

@@ -6,6 +6,6 @@ import static java.util.Collections.emptyList;
 
 public class WaitingChallengeMainActionStateTestCase extends TurnStateTestCase {
     protected WaitingChallengeMainActionState createWaitingChallengeMainActionState(MainAction mainAction) {
-        return WaitingChallengeMainActionState.of(getPlayers(), getPlayer(), mainAction, emptyList());
+        return WaitingChallengeMainActionState.of(getPlayers(), getPlayer(), getDeck(), mainAction, emptyList(), null, getPlayers().others(getPlayer()).get());
     }
 }

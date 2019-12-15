@@ -33,12 +33,19 @@ final class ImmutableListImpl<E> implements ImmutableList<E> {
     @VisibleForTesting
     static <E> ImmutableListImpl<E> of(List<E> list) {
         if (list instanceof ImmutableListImpl) {
-            ImmutableListImpl<E> l = (ImmutableListImpl<E>) list;
-
-            return new ImmutableListImpl<>(l.getBackingList());
+            return new ImmutableListImpl<>(((ImmutableListImpl<E>) list).getBackingList());
         }
 
         return new ImmutableListImpl<>(unmodifiableList(list));
+    }
+
+    @VisibleForTesting
+    static <E> ImmutableListImpl<E> of(Collection<E> collection) {
+        if (collection instanceof ImmutableListImpl) {
+            return new ImmutableListImpl<>(((ImmutableListImpl<E>) collection).getBackingList());
+        }
+
+        return new ImmutableListImpl<>(unmodifiableList(new ArrayList<>(collection)));
     }
 
     @Override
@@ -49,7 +56,8 @@ final class ImmutableListImpl<E> implements ImmutableList<E> {
         return of(newList);
     }
 
-    private List<E> getBackingList() {
+    @VisibleForTesting
+    List<E> getBackingList() {
         return list;
     }
 

@@ -1,11 +1,10 @@
-package com.thomashan.coup;
+package com.thomashan.coup.player;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
 
-import static com.thomashan.coup.PlayerBuilder.newBuilder;
 import static com.thomashan.coup.action.MainActionType.ASSASSINATE;
 import static com.thomashan.coup.action.MainActionType.COUP;
 import static com.thomashan.coup.action.MainActionType.EXCHANGE;
@@ -13,6 +12,7 @@ import static com.thomashan.coup.action.MainActionType.FOREIGN_AID;
 import static com.thomashan.coup.action.MainActionType.INCOME;
 import static com.thomashan.coup.action.MainActionType.STEAL;
 import static com.thomashan.coup.action.MainActionType.TAX;
+import static com.thomashan.coup.player.PlayerBuilder.newBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;

@@ -1,5 +1,8 @@
-package com.thomashan.coup;
+package com.thomashan.coup.card;
 
+import lombok.EqualsAndHashCode;
+
+@EqualsAndHashCode
 public final class PlayerCard {
     private final Card card;
     private final boolean revealed;
@@ -40,21 +43,5 @@ public final class PlayerCard {
         if (isRevealed()) {
             throw new IllegalStateException("Card is already revealed");
         }
-    }
-
-    @Override
-    public int hashCode() {
-        return card.hashCode() + 2 * Boolean.hashCode(revealed);
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (!(obj instanceof PlayerCard)) {
-            return false;
-        }
-
-        PlayerCard other = (PlayerCard) obj;
-        return card.equals(other.getCard())
-                && revealed == other.isRevealed();
     }
 }

@@ -1,8 +1,8 @@
-package com.thomashan.coup;
+package com.thomashan.coup.player;
 
 import org.junit.jupiter.api.Test;
 
-import static com.thomashan.coup.Card.AMBASSADOR;
+import static com.thomashan.coup.card.Card.AMBASSADOR;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class StandardPlayersTest {

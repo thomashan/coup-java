@@ -1,31 +1,24 @@
 package com.thomashan.coup.turn.state;
 
-import com.thomashan.coup.Player;
-import com.thomashan.coup.Players;
 import com.thomashan.coup.action.Action;
 import com.thomashan.coup.action.ActionType;
+import com.thomashan.coup.player.Player;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.Collections;
 import java.util.Optional;
 
-import static com.thomashan.coup.PlayerBuilder.newBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CompletedStateTest extends TurnStateTestCase {
     private CompletedState completedState;
-    private Player player;
-    private Players players;
 
     @BeforeEach
     public void setUp() {
-        player = newBuilder().build();
-        players = Players.create(player);
-
-        completedState = CompletedState.of(players, player, anyMainMethod(), Collections.emptyList());
+        completedState = CompletedState.of(getPlayers(), getPlayer(), getDeck(), anyMainMethod(), Collections.emptyList(), null);
     }
 
     @Test
@@ -35,17 +28,12 @@ public class CompletedStateTest extends TurnStateTestCase {
 
     @Test
     public void testGetPlayers() {
-        assertEquals(players, completedState.getPlayers());
+        assertEquals(getPlayers(), completedState.getPlayers());
     }
 
     @Test
     public void testGetPlayer() {
-        assertEquals(player, completedState.getPlayer());
-    }
-
-    @Test
-    public void testGetActionablePlayers() {
-        assertTrue(completedState.getActionablePlayers().isEmpty());
+        assertEquals(getPlayer(), completedState.getPlayer());
     }
 
     @Test
@@ -54,8 +42,8 @@ public class CompletedStateTest extends TurnStateTestCase {
     }
 
     @Test
-    public void testGetAllowableActionTypes() {
-        assertTrue(completedState.getAllowableActionTypes().isEmpty());
+    public void testGetAllowableActions() {
+        assertTrue(completedState.getAllowableActions().isEmpty());
     }
 
     @Test
@@ -76,13 +64,13 @@ public class CompletedStateTest extends TurnStateTestCase {
         }
 
         @Override
-        public Class getActionTypeClass() {
-            return null;
+        public Optional<Player> getTarget() {
+            return Optional.empty();
         }
 
         @Override
-        public Optional<Player> getTarget() {
-            return Optional.empty();
+        public boolean isCheckForActivePlayer() {
+            return true;
         }
     }
 }

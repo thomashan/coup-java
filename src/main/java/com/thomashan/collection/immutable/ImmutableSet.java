@@ -1,5 +1,6 @@
 package com.thomashan.collection.immutable;
 
+import java.util.Collection;
 import java.util.Set;
 
 public interface ImmutableSet<E> extends Set<E> {
@@ -9,6 +10,10 @@ public interface ImmutableSet<E> extends Set<E> {
 
     static <E> ImmutableSet<E> of(Set<E> set) {
         return ImmutableSetImpl.of(set);
+    }
+
+    static <E> ImmutableSet<E> of(Collection<E> collection) {
+        return ImmutableSetImpl.of(collection);
     }
 
     /**

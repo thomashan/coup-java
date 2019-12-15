@@ -1,7 +1,8 @@
-package com.thomashan.coup;
+package com.thomashan.coup.game;
 
 import com.thomashan.coup.action.Action;
 import com.thomashan.coup.action.MainAction;
+import com.thomashan.coup.player.Players;
 import org.junit.jupiter.api.Test;
 
 import static com.thomashan.coup.action.MainActionType.INCOME;
@@ -35,7 +36,7 @@ class StandardGameTest {
         Game game = StandardGame.create(2);
         Players players = game.getPlayers();
 
-        assertEquals(players.get().get(0), game.getCurrentPlayer());
+        assertEquals(players.get(0), game.getCurrentPlayer());
     }
 
     @Test
@@ -44,7 +45,7 @@ class StandardGameTest {
         game = game.action(MainAction.of(game.getCurrentPlayer(), INCOME));
         Players players = game.getPlayers();
 
-        assertEquals(players.get().get(1), game.getCurrentPlayer());
+        assertEquals(players.get(1), game.getCurrentPlayer());
     }
 
     @Test

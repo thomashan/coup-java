@@ -1,4 +1,4 @@
-package com.thomashan.coup;
+package com.thomashan.coup.card;
 
 public enum Card {
     DUKE,

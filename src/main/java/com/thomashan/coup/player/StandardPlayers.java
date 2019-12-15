@@ -1,4 +1,4 @@
-package com.thomashan.coup;
+package com.thomashan.coup.player;
 
 import com.thomashan.collection.immutable.ImmutableList;
 
@@ -42,6 +42,11 @@ public final class StandardPlayers implements Players {
     }
 
     @Override
+    public Player get(int index) {
+        return players.get(index);
+    }
+
+    @Override
     public List<Player> getActivePlayers() {
         return players.stream()
                 .filter(p -> p.isActive())
@@ -55,9 +60,25 @@ public final class StandardPlayers implements Players {
 
     @Override
     public Players updatePlayer(Player oldPlayer, Player newPlayer) {
+        if(oldPlayer.equals(newPlayer)) {
+            return this;
+        }
+
         int index = players.indexOf(oldPlayer);
+        if (index < 0) {
+            throw new IllegalArgumentException("The player " + oldPlayer.toString() + " doesn't exist");
+        }
         ImmutableList<Player> newPlayers = players.addOrSet(index, newPlayer);
 
         return new StandardPlayers(newPlayers);
+    }
+
+    @Override
+    public Players others(Player player) {
+        if (!players.contains(player)) {
+            throw new IllegalArgumentException("The player to omit doesn't exist");
+        }
+
+        return new StandardPlayers(players.minus(player));
     }
 }

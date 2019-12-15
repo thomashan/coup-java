@@ -1,37 +1,36 @@
 package com.thomashan.coup.turn.state;
 
 import com.thomashan.collection.immutable.ImmutableList;
-import com.thomashan.coup.Deck;
-import com.thomashan.coup.Player;
-import com.thomashan.coup.Players;
 import com.thomashan.coup.action.Action;
-import com.thomashan.coup.action.ActionType;
-import com.thomashan.coup.action.BlockActionType;
-import com.thomashan.coup.action.ChallengeActionType;
 import com.thomashan.coup.action.MainAction;
 import com.thomashan.coup.action.MainActionType;
+import com.thomashan.coup.card.Deck;
+import com.thomashan.coup.player.Player;
+import com.thomashan.coup.player.Players;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static java.util.Optional.empty;
 
 public final class WaitingMainActionState implements TurnState<MainAction> {
     private final Players players;
     private final Player player;
+    private final Deck deck;
     private final ImmutableList<Action> actionHistory;
 
-    private WaitingMainActionState(Players players, Player player) {
+    private WaitingMainActionState(Players players, Player player, Deck deck) {
         this.players = players;
         this.player = player;
+        this.deck = deck;
         this.actionHistory = ImmutableList.of();
     }
 
-    public static WaitingMainActionState of(Players players, Player player) {
-        return new WaitingMainActionState(players, player);
+    public static WaitingMainActionState of(Players players, Player player, Deck deck) {
+        return new WaitingMainActionState(players, player, deck);
     }
 
     @Override
@@ -46,7 +45,7 @@ public final class WaitingMainActionState implements TurnState<MainAction> {
 
     @Override
     public Deck getDeck() {
-        return null;
+        return deck;
     }
 
     @Override
@@ -60,37 +59,7 @@ public final class WaitingMainActionState implements TurnState<MainAction> {
     }
 
     @Override
-    public List<Player> getActionablePlayers() {
-        return Collections.singletonList(player);
-    }
-
-    @Override
     public Optional<Player> getTarget() {
-        return empty();
-    }
-
-    @Override
-    public Optional<ChallengeActionType> getChallengeActionType() {
-        return empty();
-    }
-
-    @Override
-    public Optional<BlockActionType> getBlockAction() {
-        return empty();
-    }
-
-    @Override
-    public Optional<ChallengeActionType> getBlockChallengeActionType() {
-        return empty();
-    }
-
-    @Override
-    public Optional<Player> getMainActionChallengedBy() {
-        return empty();
-    }
-
-    @Override
-    public Optional<Player> getBlockActionChallengedBy() {
         return empty();
     }
 
@@ -100,40 +69,36 @@ public final class WaitingMainActionState implements TurnState<MainAction> {
     }
 
     @Override
+    public boolean isCheckAllowableActions() {
+        return true;
+    }
+
+    @Override
     public TurnState performAction(MainAction action) {
         checkActionPlayerIsSameAsStatePlayer(action);
-        checkActionAllowable(action);
 
         ImmutableList<Action> newActionHistory = actionHistory.plus(action);
         MainActionType mainActionType = action.getActionType();
 
         if (!mainActionType.isChallengeable()) {
             switch (mainActionType) {
-                case INCOME: {
-                    Player newPlayer = player.income();
-                    Players newPlayers = players.updatePlayer(player, newPlayer);
+                case INCOME:
+                    Player newPlayer = getPlayer().income();
+                    Players newPlayers = getPlayers().updatePlayer(getPlayer(), newPlayer);
 
-                    return CompletedState.of(newPlayers, newPlayer, action, newActionHistory);
-                }
+                    return CompletedState.of(newPlayers, newPlayer, getDeck(), action, newActionHistory, null);
+                case FOREIGN_AID:
+                    return WaitingBlockActionState.of(getPlayers(), getPlayer(), getDeck(), action, newActionHistory, getTarget().orElse(null));
                 case COUP:
                     return action.getTarget()
-                            .map(target -> WaitingRevealCardState.of(players, player, action, newActionHistory, target, target))
+                            .map(target -> WaitingRevealCardState.of(getPlayers(), getPlayer(), getDeck(), action, newActionHistory, action, target, target))
                             .orElseThrow(() -> new IllegalArgumentException("Coup must specify target"));
-                case FOREIGN_AID:
-                    return WaitingBlockActionState.of(players, player, action, newActionHistory);
-
                 default:
                     throw new IllegalArgumentException("Unexpected non-challengeable acton");
             }
         }
 
-        return WaitingChallengeMainActionState.of(players, player, action, newActionHistory, action.getTarget().orElse(null));
-    }
-
-    private void checkActionAllowable(MainAction action) {
-        if (!action.getActionType().isAllowable(player.getCoins())) {
-            throw new IllegalArgumentException("This action is not allowable");
-        }
+        return WaitingChallengeMainActionState.of(getPlayers(), getPlayer(), getDeck(), action, newActionHistory, action.getTarget().orElse(null), getPlayers().others(getPlayer()).get());
     }
 
     private void checkActionPlayerIsSameAsStatePlayer(MainAction action) {
@@ -143,9 +108,17 @@ public final class WaitingMainActionState implements TurnState<MainAction> {
     }
 
     @Override
-    public List<ActionType> getAllowableActionTypes() {
+    public List<MainAction> getAllowableActions() {
         return Arrays.stream(MainActionType.values())
                 .filter(mainActionType -> mainActionType.isAllowable(player.getCoins()))
+                .flatMap(a -> {
+                    if (a.isRequiresTarget()) {
+                        return players.others(player).get().stream()
+                                .map(t -> MainAction.of(player, a, t));
+                    }
+
+                    return Stream.of(MainAction.of(player, a));
+                })
                 .collect(Collectors.toList());
     }
 }

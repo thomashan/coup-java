@@ -3,11 +3,11 @@ package com.thomashan.coup.turn.state;
 import com.thomashan.coup.action.MainAction;
 import org.junit.jupiter.api.Test;
 
-import static com.thomashan.coup.PlayerBuilder.newBuilder;
 import static com.thomashan.coup.action.MainActionType.ASSASSINATE;
 import static com.thomashan.coup.action.MainActionType.EXCHANGE;
 import static com.thomashan.coup.action.MainActionType.STEAL;
 import static com.thomashan.coup.action.MainActionType.TAX;
+import static com.thomashan.coup.player.PlayerBuilder.newBuilder;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class WaitingMainActionStateToWaitingChallengeMainActionStateTest extends WaitingMainActionStateTestCase {

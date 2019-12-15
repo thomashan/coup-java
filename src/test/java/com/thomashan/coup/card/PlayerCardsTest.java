@@ -1,12 +1,12 @@
-package com.thomashan.coup;
+package com.thomashan.coup.card;
 
 import com.thomashan.collection.immutable.ImmutableList;
 import org.junit.jupiter.api.Test;
 
-import static com.thomashan.coup.Card.AMBASSADOR;
-import static com.thomashan.coup.Card.ASSASSIN;
-import static com.thomashan.coup.Card.CAPTAIN;
-import static com.thomashan.coup.Card.DUKE;
+import static com.thomashan.coup.card.Card.AMBASSADOR;
+import static com.thomashan.coup.card.Card.ASSASSIN;
+import static com.thomashan.coup.card.Card.CAPTAIN;
+import static com.thomashan.coup.card.Card.DUKE;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
 import static org.junit.jupiter.api.Assertions.assertNotSame;
@@ -19,13 +19,13 @@ public class PlayerCardsTest {
     }
 
     @Test
-    public void testGetActivePlayerCards_GivenSameCard_ReturnSingleElement() {
-        assertEquals(1, PlayerCards.of(AMBASSADOR, AMBASSADOR).getActivePlayerCards().size());
+    public void testGetActiveCardSet_GivenSameCard_ReturnSingleElement() {
+        assertEquals(1, PlayerCards.of(AMBASSADOR, AMBASSADOR).getActiveCardSet().size());
     }
 
     @Test
-    public void testGetActivePlayerCards_GivenDifferentCards_ReturnAllElement() {
-        assertEquals(2, PlayerCards.of(AMBASSADOR, ASSASSIN).getActivePlayerCards().size());
+    public void testGetActiveCardSet_GivenDifferentCards_ReturnAllElement() {
+        assertEquals(2, PlayerCards.of(AMBASSADOR, ASSASSIN).getActiveCardSet().size());
     }
 
     @Test
@@ -35,24 +35,16 @@ public class PlayerCardsTest {
 
     @Test
     public void testReveal_GivenPlayerDoesNotHaveTheCard_ThrowsAnException() {
-        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> PlayerCards.of(AMBASSADOR, AMBASSADOR).reveal(PlayerCard.of(ASSASSIN)));
-        assertEquals("Player does not have the card", throwable.getMessage());
-    }
-
-    @Test
-    public void testReveal_GivenPlayerHasTheCardButDifferentRevealState_ThrowsAnException() {
-        PlayerCards playerCards = PlayerCards.of(AMBASSADOR, ASSASSIN).reveal(PlayerCard.of(ASSASSIN));
-
-        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> playerCards.reveal(PlayerCard.of(ASSASSIN)));
-        assertEquals("Player does not have the card", throwable.getMessage());
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> PlayerCards.of(AMBASSADOR, AMBASSADOR).reveal(ASSASSIN));
+        assertEquals(String.format("Player does not have the card %s which is active", ASSASSIN.toString()), throwable.getMessage());
     }
 
     @Test
     public void testReveal_GivenCardIsAlreadyRevealed_ThrowsAnException() {
-        PlayerCards playerCards = PlayerCards.of(AMBASSADOR, ASSASSIN).reveal(PlayerCard.of(ASSASSIN));
+        PlayerCards playerCards = PlayerCards.of(AMBASSADOR, ASSASSIN).reveal(ASSASSIN);
 
-        Throwable throwable = assertThrows(IllegalStateException.class, () -> playerCards.reveal(PlayerCard.of(ASSASSIN).reveal()));
-        assertEquals("Card is already revealed", throwable.getMessage());
+        Throwable throwable = assertThrows(IllegalArgumentException.class, () -> playerCards.reveal(ASSASSIN));
+        assertEquals(String.format("Player does not have the card %s which is active", ASSASSIN.toString()), throwable.getMessage());
     }
 
     @Test
@@ -75,15 +67,15 @@ public class PlayerCardsTest {
     @Test
     public void testMinus_GivenPlayerDoesNotHaveTheCard_ThrowsAnException() {
         Throwable throwable = assertThrows(IllegalArgumentException.class, () -> PlayerCards.of(AMBASSADOR, AMBASSADOR).minus(PlayerCard.of(ASSASSIN)));
-        assertEquals("Player does not have the card", throwable.getMessage());
+        assertEquals(String.format("Player does not have the card %s which is active", ASSASSIN.toString()), throwable.getMessage());
     }
 
     @Test
     public void testMinus_GivenPlayerHasTheCardButDifferentRevealState_ThrowsAnException() {
-        PlayerCards playerCards = PlayerCards.of(AMBASSADOR, ASSASSIN).reveal(PlayerCard.of(ASSASSIN));
+        PlayerCards playerCards = PlayerCards.of(AMBASSADOR, ASSASSIN).reveal(ASSASSIN);
 
         Throwable throwable = assertThrows(IllegalArgumentException.class, () -> playerCards.minus(PlayerCard.of(ASSASSIN)));
-        assertEquals("Player does not have the card", throwable.getMessage());
+        assertEquals(String.format("Player does not have the card %s which is active", ASSASSIN.toString()), throwable.getMessage());
     }
 
     @Test

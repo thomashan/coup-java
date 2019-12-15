@@ -1,17 +1,18 @@
-package com.thomashan.coup;
+package com.thomashan.coup.card;
 
 import com.thomashan.collection.immutable.ImmutableList;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 
-import static com.thomashan.coup.Card.AMBASSADOR;
-import static com.thomashan.coup.Card.ASSASSIN;
-import static com.thomashan.coup.Card.CAPTAIN;
-import static com.thomashan.coup.Card.CONTESSA;
-import static com.thomashan.coup.Card.DUKE;
+import static com.thomashan.coup.card.Card.AMBASSADOR;
+import static com.thomashan.coup.card.Card.ASSASSIN;
+import static com.thomashan.coup.card.Card.CAPTAIN;
+import static com.thomashan.coup.card.Card.CONTESSA;
+import static com.thomashan.coup.card.Card.DUKE;
 
 public final class StandardDeck implements Deck {
     private final ImmutableList<Card> cards;
@@ -47,7 +48,7 @@ public final class StandardDeck implements Deck {
         cards = ImmutableList.of(shuffledCards);
     }
 
-    public static Deck create() {
+    public static StandardDeck create() {
         return new StandardDeck();
     }
 
@@ -62,7 +63,7 @@ public final class StandardDeck implements Deck {
 
     @Override
     public Card getTopOfDeck() {
-        return cards.get(cards.size() - 1);
+        return cards.get(getLastCardIndex());
     }
 
     @Override
@@ -77,14 +78,33 @@ public final class StandardDeck implements Deck {
 
     @Override
     public DrawnCard draw() {
-        Card removedCard = cards.get(getLastCardIndex());
-        ImmutableList<Card> newCards = cards.minus(removedCard);
+        Card removedCard = getTopOfDeck();
+        ImmutableList<Card> newCards = ImmutableList.of(new LinkedList(cards.minus(removedCard)));
 
         return DrawnCard.of(removedCard, new StandardDeck(newCards));
     }
 
     @Override
+    public DrawnCard draw(Card card) {
+        return DrawnCard.of(card, minus(card));
+    }
+
+
+    @Override
     public Deck plus(Card card) {
         return new StandardDeck(cards.plus(card));
+    }
+
+    @Override
+    public Deck minus(Card card) {
+        checkCardExistsInDeck(card);
+
+        return new StandardDeck(ImmutableList.of(new LinkedList(cards.minus(card))));
+    }
+
+    private void checkCardExistsInDeck(Card card) {
+        if (!getCards().contains(card)) {
+            throw new IllegalArgumentException("The card " + card + " doesn't exist");
+        }
     }
 }

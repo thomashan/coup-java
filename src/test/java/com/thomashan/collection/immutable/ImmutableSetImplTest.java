@@ -75,12 +75,12 @@ public class ImmutableSetImplTest {
     public void testContainsAll_GivenAllObjectAreInTheList_ReturnsTrue() {
         Object object = new Object();
 
-        assertTrue(of(object).containsAll(Collections.singleton(object)));
+        assertTrue(of(object).contains(object));
     }
 
     @Test
     public void testContainsAll_GivenAllObjectNotInTheList_ReturnsFalse() {
-        assertFalse(of(new Object()).containsAll(Collections.singleton(new Object())));
+        assertFalse(of(new Object()).contains(new Object()));
     }
 
     @Test

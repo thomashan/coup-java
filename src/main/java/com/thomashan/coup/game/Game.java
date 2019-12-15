@@ -1,6 +1,9 @@
-package com.thomashan.coup;
+package com.thomashan.coup.game;
 
 import com.thomashan.coup.action.Action;
+import com.thomashan.coup.card.Deck;
+import com.thomashan.coup.player.Player;
+import com.thomashan.coup.player.Players;
 import com.thomashan.coup.turn.Turn;
 
 import java.util.List;
@@ -25,4 +28,6 @@ public interface Game {
     Game action(Action action);
 
     Player getCurrentPlayer();
+
+    List<Action> getAllowableActions();
 }

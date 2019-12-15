@@ -1,12 +1,17 @@
-package com.thomashan.coup;
+package com.thomashan.coup.player;
 
 import com.thomashan.coup.action.MainActionType;
+import com.thomashan.coup.card.Card;
+import com.thomashan.coup.card.PlayerCard;
+import com.thomashan.coup.card.PlayerCards;
+import lombok.ToString;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@ToString
 public final class Player {
     private final int coins;
     private final PlayerCards playerCards;
@@ -25,8 +30,16 @@ public final class Player {
         return new Player(2, card1, card2);
     }
 
-    public Player revealCard(PlayerCard playerCard) {
-        return new Player(coins, playerCards.reveal(playerCard));
+    public Player revealCard(Card card) {
+        return new Player(getCoins(), playerCards.reveal(card));
+    }
+
+    public Player minus(Card card) {
+        return new Player(getCoins(), getPlayerCards().minus(PlayerCard.of(card)));
+    }
+
+    public Player plus(Card card) {
+        return new Player(getCoins(), playerCards.plus(PlayerCard.of(card)));
     }
 
     public boolean isActive() {
@@ -41,16 +54,28 @@ public final class Player {
         return playerCards;
     }
 
-    public Set<PlayerCard> getActivePlayerCards() {
-        return playerCards.getActivePlayerCards();
+    public List<Card> getActiveCards() {
+        return playerCards.getActiveCards();
+    }
+
+    public Set<Card> getActiveCardSet() {
+        return playerCards.getActiveCardSet();
     }
 
     public Player income() {
-        return new Player(this.coins + 1, playerCards);
+        return new Player(getCoins() + 1, playerCards);
+    }
+
+    public Player foreignAid() {
+        return new Player(getCoins() + 2, playerCards);
     }
 
     public Player tax() {
-        return new Player(this.coins + 3, playerCards);
+        return new Player(getCoins() + 3, playerCards);
+    }
+
+    public Player useCoinsForAssassination() {
+        return new Player(getCoins() - 3, playerCards);
     }
 
     public Player stealFromOtherPlayer(int otherPlayerCoins) {
@@ -59,10 +84,10 @@ public final class Player {
                 throw new IllegalArgumentException("Stealing from a player with no coins");
             }
 
-            return new Player(this.coins + otherPlayerCoins, playerCards);
+            return new Player(getCoins() + otherPlayerCoins, playerCards);
         }
 
-        return new Player(this.coins + 2, playerCards);
+        return new Player(getCoins() + 2, playerCards);
     }
 
     public Player stolenToOtherPlayer() {
@@ -71,10 +96,10 @@ public final class Player {
                 throw new IllegalArgumentException("Someone is trying to steal from you but you have no coins");
             }
 
-            return new Player(this.coins - getCoins(), playerCards);
+            return new Player(getCoins() - getCoins(), playerCards);
         }
 
-        return new Player(this.coins - 2, playerCards);
+        return new Player(getCoins() - 2, playerCards);
     }
 
     public List<MainActionType> getAllowableMainActions() {

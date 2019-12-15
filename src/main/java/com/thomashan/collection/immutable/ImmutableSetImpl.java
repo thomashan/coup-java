@@ -2,12 +2,14 @@ package com.thomashan.collection.immutable;
 
 import com.google.common.annotations.VisibleForTesting;
 
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
+
+import static java.util.Arrays.asList;
+import static java.util.Collections.unmodifiableSet;
 
 /* default */
 @SuppressWarnings("PMD.TooManyMethods")
@@ -19,21 +21,35 @@ final class ImmutableSetImpl<E> implements ImmutableSet<E> {
     }
 
     @VisibleForTesting
-    static <E> ImmutableSetImpl<E> of(E... e) {
-        if (0 == e.length) {
-            return new ImmutableSetImpl<>(Collections.unmodifiableSet(Collections.emptySet()));
+    static <E> ImmutableSetImpl<E> of(E... elements) {
+        if (0 == elements.length) {
+            return new ImmutableSetImpl<>(unmodifiableSet(Collections.emptySet()));
         }
 
-        return new ImmutableSetImpl(Collections.unmodifiableSet(new HashSet<>(Arrays.asList(e))));
+        return new ImmutableSetImpl(unmodifiableSet(new HashSet<>(asList(elements))));
     }
 
     @VisibleForTesting
     static <E> ImmutableSetImpl<E> of(Set<E> set) {
-        if (set instanceof ImmutableSet) {
+        if (set instanceof ImmutableSetImpl) {
             return new ImmutableSetImpl<>(set);
         }
 
-        return new ImmutableSetImpl<>(Collections.unmodifiableSet(set));
+        return new ImmutableSetImpl<>(unmodifiableSet(set));
+    }
+
+    @VisibleForTesting
+    static <E> ImmutableSetImpl<E> of(Collection<E> collection) {
+        if (collection instanceof ImmutableSet) {
+            return new ImmutableSetImpl<>((ImmutableSet) collection);
+        }
+
+        return new ImmutableSetImpl<>(unmodifiableSet(new HashSet<>(collection)));
+    }
+
+    @VisibleForTesting
+    Set<E> getBackingSet() {
+        return set;
     }
 
     @Override

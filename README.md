@@ -29,3 +29,26 @@ The following tools are used to improve the project
 | Code analysis | Codecov    | <https://codecov.io>     |
 | Code analysis | Coveralls  | <https://coveralls.io>   |
 | Codacy        | Codacy     | <https://www.codacy.com> |
+
+
+## Turn state transitions
+Here are some scenarios for turn state transitions: (where P1 denotes player 1, P2 player 2, etc)
+
+*Scenario 1*
+
+`P1 assassinate P2 -> P2 challenge -> P2 lost -> P2 reveal card -> P2 no block -> P2 reveal card`
+
+`WaitingMainActionState -> WaitChallengeMainActionState -> WaitingRevealCardState -> WaitingBlockActionState -> WaitingRevealCardState -> CompleteState`
+
+*Scenario 2*
+
+`P1 steal P2 -> P3 challenge -> P3 lost -> P3 reveal card -> P2 block -> P1 challenge -> P1 reveal card`
+
+`WaitingMainActionState -> WaitChallengeMainActionState -> WaitingRevealCardState -> WaitingBlockActionState -> WaitingChallengeBlockActionState -> WaitingRevealCardState -> CompleteState`
+
+*Scenario 3*
+
+`P1 exchange -> P2 challenge -> P2 lost -> P2 reveal card -> P1 pick cards from deck -> P1 put back cards to deck`
+
+`WaitingMainActionState -> WaitChallengeMainActionState -> WaitingRevealCardState -> WaitingPutBackCardsActionState -> CompleteState`
+
